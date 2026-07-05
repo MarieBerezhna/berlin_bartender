@@ -76,19 +76,19 @@ export const Q_META = {
   category:     "Categoría",
   name:         "Nombre",
 };
-export const MENU_SPIRIT_HINTS = new Set(['Tequila','Tequila Don Julio','Gin','Gin Tanqueray','Gin Mare','Vodka','Moskovskaya','Vodka Smirnoff Tamarindo','Ron','Ron blanco','Ron jamaicano','Bumbu','Diplomático Planas','Jack Daniels Fire','Jack Daniels Triple Mash','Monkey Shoulder','Whisky','Whiskey','Fino']);
+export const MENU_SPIRIT_HINTS = new Set(['Tequila','Tequila Don Julio','Gin','Gin Tanqueray','Gin Mare','Vodka','Moskovskaya','Vodka Smirnoff Tamarindo','Ron','Ron blanco','Ron jamaicano','Bumbu','Diplomático Planas','Jack Daniels Fire','Jack Daniels Triple Mash','Monkey Shoulder','Whisky','Whiskey','Fino','Cognac']);
 export const INGR_GROUP: Record<string, string> = {
   "Tequila":"spirit","Tequila Don Julio":"spirit","Gin":"spirit","Gin Tanqueray":"spirit",
   "Gin Mare":"spirit","Vodka":"spirit","Moskovskaya":"spirit","Vodka Smirnoff Tamarindo":"spirit",
   "Ron":"spirit","Ron blanco":"spirit","Ron jamaicano":"spirit","Bumbu":"spirit","Diplomático Planas":"spirit",
   "Jack Daniels Fire":"spirit","Jack Daniels Triple Mash":"spirit","Monkey Shoulder":"spirit",
-  "Whisky":"spirit","Whiskey":"spirit","Fino":"spirit","Tanqueray 0.0":"spirit",
+  "Whisky":"spirit","Whiskey":"spirit","Fino":"spirit","Tanqueray 0.0":"spirit","Cognac":"spirit",
   "Triple Sec Bols":"liqueur","Licor Bols Blue Curaçao":"liqueur","Licor yuzu":"liqueur",
   "Cerveza":"beer","Guinness":"beer","Paulaner":"beer","Águila":"beer","Heineken":"beer",
   "Licor Midori":"liqueur","Licor de café Bols":"liqueur",
   "Licor de humo":"liqueur","Licor Bols Vainilla":"liqueur","Licor mandarina MB":"liqueur",
   "Licor Bols Chocolate":"liqueur","Licor Bols Butterscotch":"liqueur","Licor Bols Yogurt":"liqueur",
-  "Chambord":"liqueur","Bénédictine DOM":"liqueur",
+  "Chambord":"liqueur","Bénédictine DOM":"liqueur","Drambuie":"liqueur",
   "Aperol":"liqueur","Campari":"liqueur","Sarti Rosa":"liqueur","Bols Saúco":"liqueur","Terry":"liqueur",
   "Vino tinto":"wine","Vermut":"wine","Vermut tinto":"wine",
   "7UP":"filler","Cava":"filler","Soda":"filler","Soda de pomelo":"filler","Ginger Ale":"filler",
