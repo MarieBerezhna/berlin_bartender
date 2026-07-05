@@ -63,6 +63,15 @@ function ratioStr(item: MenuItem): string {
     .join(", ");
 }
 
+function ingredientsHint(item: MenuItem): string {
+  return (item.ingr || [])
+    .map((ingredient) => {
+      const dose = item.doses && item.doses[ingredient];
+      return dose ? `${ingredient} (${dose})` : ingredient;
+    })
+    .join(", ");
+}
+
 export function makeQs({
   pool,
   activeFilters,
@@ -85,7 +94,7 @@ export function makeQs({
           opts: sh([c1, ...w1]),
           answer: c1,
           cat: item.cat,
-          hint: `${item.name}: ${item.ingr.join(", ")}`,
+          hint: `${item.name}: ${ingredientsHint(item)}`,
         });
       }
 
@@ -102,7 +111,7 @@ export function makeQs({
             opts: sh([c2, ...w2]),
             answer: c2,
             cat: item.cat,
-            hint: `${item.name}: ${item.ingr.join(", ")}`,
+            hint: `${item.name}: ${ingredientsHint(item)}`,
           });
         }
       }
@@ -118,7 +127,7 @@ export function makeQs({
             opts: sh([intruder, ...decoys]),
             answer: intruder,
             cat: item.cat,
-            hint: `${item.name} lleva: ${item.ingr.join(", ")}`,
+            hint: `${item.name} lleva: ${ingredientsHint(item)}`,
           });
         }
       }
@@ -287,7 +296,7 @@ export function genIngrQ(item: MenuItem): QuizQuestion | null {
           opts: sh([correct, ...wrongs]),
           answer: correct,
           cat: item.cat,
-          hint: `${item.name}: ${item.ingr.join(", ")}`,
+          hint: `${item.name}: ${ingredientsHint(item)}`,
         };
       }
     }
@@ -314,7 +323,7 @@ export function genIngrQ(item: MenuItem): QuizQuestion | null {
           opts: sh([c2, ...wrongs]),
           answer: c2,
           cat: item.cat,
-          hint: `${item.name}: ${item.ingr.join(", ")}`,
+          hint: `${item.name}: ${ingredientsHint(item)}`,
         };
       }
     }
@@ -330,7 +339,7 @@ export function genIngrQ(item: MenuItem): QuizQuestion | null {
           opts: sh([intruder, ...decoys]),
           answer: intruder,
           cat: item.cat,
-          hint: `${item.name} lleva: ${item.ingr.join(", ")}`,
+          hint: `${item.name} lleva: ${ingredientsHint(item)}`,
         };
       }
     }

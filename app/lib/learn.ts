@@ -145,12 +145,19 @@ function buildIngredientQuestion(item: MenuItem): LearnQuestion | null {
 
   if (wrongs.length < 3) return null;
 
+  const ingredientsWithDoses = (item.ingr || [])
+    .map((ingredient) => {
+      const dose = item.doses && item.doses[ingredient];
+      return dose ? `${ingredient} (${dose})` : ingredient;
+    })
+    .join(", ");
+
   return {
     qtype: "ingredients",
     question: `¿Cuál de estos ingredientes lleva el ${item.name}?`,
     options: shuffleArray([correct, ...wrongs]),
     answer: correct,
-    hint: `${item.name}: ${item.ingr?.join(", ")}`,
+    hint: `${item.name}: ${ingredientsWithDoses}`,
   };
 }
 
