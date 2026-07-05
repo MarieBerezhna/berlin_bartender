@@ -172,6 +172,7 @@ const IMAGES: Record<string, string> = {
   "Leche": "./ingredientes/leche.webp",
   "Mix casero": "./ingredientes/mix_casero.webp",
   "Salsa Inglesa": "./ingredientes/salsa_inglesa.webp",
+  "Coco": "./ingredientes/coco.webp",
   "Jamón": "./comida/jamon.webp",
 };
 
