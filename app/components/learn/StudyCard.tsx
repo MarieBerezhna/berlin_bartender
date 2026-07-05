@@ -14,7 +14,7 @@ type StudyCardProps = {
 
 const ROW_GROUPS = [
 	["spirit", "liqueur"],
-	["filler", "bitter", "sweet", "other"],
+	["beer", "filler", "bitter", "sweet", "other"],
 ];
 
 function toPublicPath(path: string | null | undefined): string | null {

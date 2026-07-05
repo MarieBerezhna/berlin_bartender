@@ -1,8 +1,15 @@
 import { Q_META, type MenuItem } from "../../data/constants";
-import type { QuizQuestion } from "../../lib/quiz";
 import { useActivateOnKeys } from "../../lib/utils";
 import QuizFeedback from "../quiz/QuizFeedback";
 import QuizOptions from "../quiz/QuizOptions";
+
+type LearnQuestion = {
+	qtype: string;
+	q: string;
+	opts: string[];
+	answer: string;
+	hint: string;
+};
 
 type LearnQuizProps = {
 	item: MenuItem;
@@ -10,7 +17,7 @@ type LearnQuizProps = {
 	total: number;
 	queueIndex: number;
 	queueTotal: number;
-	question: QuizQuestion;
+	question: LearnQuestion;
 	selectedOption: string | null;
 	answered: boolean;
 	onChoose: (option: string) => void;

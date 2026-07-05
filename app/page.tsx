@@ -15,8 +15,9 @@ import QuizCard from "./components/quiz/QuizCard";
 import QuizEnd from "./components/quiz/QuizEnd";
 import RAW from "./data/menu";
 import type { MenuItem } from "./data/constants";
-import { buildLearnQueue, getLearnableItems } from "./lib/learn";
+import { buildLearnQueue, createLearnQuizQueue, getLearnableItems } from "./lib/learn";
 import { makeQs } from "./lib/quiz";
+import LearnQuiz from "./components/learn/LearnQuiz";
 
 const DESTILADOS_CATS = new Set(["Ron", "Whisky", "Gin", "Tequila", "Vodka"]);
 
@@ -113,10 +114,31 @@ type LearnModePanelProps = {
 
 function LearnModePanel({ pool, activeTab, activeFamily }: LearnModePanelProps) {
   const [started, setStarted] = useState(false);
-  const [index, setIndex] = useState(0);
+  const [itemIndex, setItemIndex] = useState(0);
+  const [questionIndex, setQuestionIndex] = useState(0);
+  const [quizMode, setQuizMode] = useState(false);
+  const [answered, setAnswered] = useState(false);
+  const [selectedOption, setSelectedOption] = useState<string | null>(null);
 
   const learnableItems = useMemo(() => getLearnableItems(pool), [pool]);
   const queue = useMemo(() => buildLearnQueue(learnableItems), [learnableItems]);
+  const quizQueues = useMemo(
+    () =>
+      queue.map((item) =>
+        createLearnQuizQueue(item).map((question) => ({
+          qtype: question.qtype,
+          q: question.question,
+          opts: question.options.map((option) => String(option)),
+          answer: String(question.answer),
+          hint: question.hint,
+        })),
+      ),
+    [queue],
+  );
+
+  const currentItem = queue[itemIndex];
+  const currentQuestions = quizQueues[itemIndex] || [];
+  const currentQuestion = currentQuestions[questionIndex];
 
   if (learnableItems.length === 0) {
     return <div className="text-sm text-zinc-600 dark:text-zinc-400">No hay elementos disponibles para este filtro.</div>;
@@ -130,34 +152,91 @@ function LearnModePanel({ pool, activeTab, activeFamily }: LearnModePanelProps) 
         activeTab={activeTab}
         onStart={() => {
           setStarted(true);
-          setIndex(0);
+          setItemIndex(0);
+          setQuestionIndex(0);
+          setQuizMode(false);
+          setAnswered(false);
+          setSelectedOption(null);
         }}
       />
     );
   }
 
-  if (index < queue.length) {
+  if (itemIndex >= queue.length) {
     return (
-      <StudyCard
-        item={queue[index]}
-        index={index}
-        total={queue.length}
-        onPrimaryAction={() => setIndex((prev) => prev + 1)}
+      <LearnEnd
+        totalReviewed={queue.length}
+        hadRecipes={queue.some((item) => Boolean(item.hasIngr && item.ingr && item.ingr.length > 1))}
+        recallStats={{ hits: 0, total: 0, perfect: 0, items: 0 }}
+        onRestart={() => {
+          setStarted(false);
+          setItemIndex(0);
+          setQuestionIndex(0);
+          setQuizMode(false);
+          setAnswered(false);
+          setSelectedOption(null);
+        }}
       />
     );
   }
 
-  return (
-    <LearnEnd
-      totalReviewed={queue.length}
-      hadRecipes={queue.some((item) => Boolean(item.hasIngr && item.ingr && item.ingr.length > 1))}
-      recallStats={{ hits: 0, total: 0, perfect: 0, items: 0 }}
-      onRestart={() => {
-        setStarted(false);
-        setIndex(0);
-      }}
-    />
-  );
+  if (quizMode && currentItem && currentQuestion) {
+    return (
+      <LearnQuiz
+        item={currentItem}
+        index={itemIndex}
+        total={queue.length}
+        queueIndex={questionIndex}
+        queueTotal={currentQuestions.length}
+        question={currentQuestion}
+        selectedOption={selectedOption}
+        answered={answered}
+        onChoose={(option) => {
+          if (answered) return;
+          setSelectedOption(option);
+          setAnswered(true);
+        }}
+        onNext={() => {
+          if (questionIndex < currentQuestions.length - 1) {
+            setQuestionIndex((prev) => prev + 1);
+            setAnswered(false);
+            setSelectedOption(null);
+            return;
+          }
+
+          setQuizMode(false);
+          setItemIndex((prev) => prev + 1);
+          setQuestionIndex(0);
+          setAnswered(false);
+          setSelectedOption(null);
+        }}
+        isLastInSession={itemIndex === queue.length - 1 && questionIndex === currentQuestions.length - 1}
+      />
+    );
+  }
+
+  if (currentItem) {
+    return (
+      <StudyCard
+        item={currentItem}
+        index={itemIndex}
+        total={queue.length}
+        onPrimaryAction={() => {
+          if (currentQuestions.length > 0) {
+            setQuizMode(true);
+            setQuestionIndex(0);
+            setAnswered(false);
+            setSelectedOption(null);
+            return;
+          }
+
+          setItemIndex((prev) => prev + 1);
+        }}
+      />
+    );
+  }
+
+  return null;
 }
 
 type TestModePanelProps = {

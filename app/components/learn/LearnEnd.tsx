@@ -15,9 +15,7 @@ type LearnEndProps = {
 };
 
 export default function LearnEnd({ totalReviewed, hadRecipes, recallStats, onRestart }: LearnEndProps) {
-	const reviewedLine = hadRecipes
-		? `Repasaste ${totalReviewed} cócteles.`
-		: `Repasaste ${totalReviewed} bebidas.`;
+	const reviewedLine = `Repasaste ${totalReviewed} bebidas.`;
 
 	const recallPct = recallStats.total > 0 ? Math.round((recallStats.hits / recallStats.total) * 100) : 0;
 	useActivateOnKeys(true, onRestart);
@@ -32,7 +30,7 @@ export default function LearnEnd({ totalReviewed, hadRecipes, recallStats, onRes
 				{reviewedLine}
 				<br />
 				<em>
-					You reviewed {totalReviewed} {hadRecipes ? "cocktails" : "drinks"}.
+					You reviewed {totalReviewed} drinks.
 				</em>
 				{hadRecipes && recallStats.total > 0 ? (
 					<>
