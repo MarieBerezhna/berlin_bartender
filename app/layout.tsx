@@ -5,6 +5,9 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "Café Berlín",
   description: "Carta interactiva de Café Berlín",
+  icons: {
+    icon: "/favicon.png",
+  },
 };
 
 export default function RootLayout({
