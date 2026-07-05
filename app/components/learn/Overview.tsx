@@ -55,16 +55,16 @@ export default function Overview({ items, categoryLabel, activeTab, onStart }: O
 				<div style={{ flex: 1, minWidth: 0, display: "flex", flexDirection: "column", gap: 10, minHeight: 112 }}>
 					<div style={{ fontSize: 22, fontWeight: 700, color: "#e8e6e1", marginBottom: 4 }}>
 						{categoryLabel}
-						{description ? (
-							<span className="tab-info" style={{ marginLeft: 4 }}>
-								ⓘ
-								<span className="tab-tooltip" dangerouslySetInnerHTML={{ __html: description }} />
-							</span>
-						) : null}
 					</div>
 					<div style={{ fontSize: 13, color: "#9a9793" }}>
 						{sortedItems.length} {sortedItems.length === 1 ? "ítem" : "ítems"} en esta sección
 					</div>
+					{description ? (
+						<div
+							style={{ fontSize: 13, color: "#c8c5bf", lineHeight: 1.55 }}
+							dangerouslySetInnerHTML={{ __html: description }}
+						/>
+					) : null}
 					<button
 						className="pri overview-start-btn"
 						style={{

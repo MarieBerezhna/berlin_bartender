@@ -38,6 +38,7 @@ export const DESTILADOS_TAB = "Destilados";
 export const DESTILADOS_CATS = ["Ron","Whisky","Gin","Tequila","Vodka"];
 export const DESTILADOS_SUBGROUPS = ["Tequila","Gin","Vodka","Ron","Whisky"];
 export const CAT_DESCRIPTIONS = {
+  "Old Fashioned": "<strong>Fórmula común</strong><br><br>• <strong>2 oz (60 ml)</strong> de destilado base<br>• <strong>1/4 oz (7,5 ml/1.5 cucharaditas)</strong> de endulzante<br>• <strong>2-3 golpes</strong> de bitters<br>• Remover con hielo<br>• Servir sobre un cubo grande de hielo<br>• Una piel de naranja (o de limón, según la receta)",
   "Spritz": "Un spritz es un famoso y refrescante cóctel de origen italiano que se sirve principalmente como aperitivo. Su receta clásica combina tres elementos fundamentales: vino blanco espumoso (generalmente Prosecco), un licor amargo (bitter) y un chorrito de agua con gas (soda). La regla de oro del cóctel italiano clásico sigue la proporción 3-2-1: tres partes de prosecco o cava, 2 partes de bitter y 1 de soda.",
   "Licores": "Un licor es una bebida alcohólica elaborada a partir de un destilado al que se le añaden azúcar y aromas o sabores, como frutas, hierbas, especias, café o frutos secos. Suele tener un sabor dulce e intenso y puede consumirse solo o utilizarse como ingrediente para aportar sabor y color a los cócteles.",
   "Vodka": "El vodka es una bebida alcohólica destilada elaborada principalmente a partir de cereales o patatas. Se caracteriza por su sabor limpio y neutro, ya que suele filtrarse varias veces para eliminar impurezas. Gracias a su perfil discreto, es una de las bases más versátiles de la coctelería y se utiliza en cócteles como el Moscow Mule, Bloody Mary, Cosmopolitan y Espresso Martini.",
@@ -53,12 +54,17 @@ export const AUTOR_FAMILIES: string[] = [
       .filter((family): family is string => Boolean(family)),
   ),
 ];
-export const CLASICA_FAMILIES: string[] = [
+const CLASICA_FAMILY_ORDER = ["Old Fashioned", "Martini", "Sidecar", "Daiquiri", "Highball", "Flip"];
+const CLASICA_FAMILIES_FOUND: string[] = [
   ...new Set(
     MENU.filter((x) => x.cat === CLASICA_CAT && x.family)
       .map((x) => x.family)
       .filter((family): family is string => Boolean(family)),
   ),
+];
+export const CLASICA_FAMILIES: string[] = [
+  ...CLASICA_FAMILY_ORDER.filter((family) => CLASICA_FAMILIES_FOUND.includes(family)),
+  ...CLASICA_FAMILIES_FOUND.filter((family) => !CLASICA_FAMILY_ORDER.includes(family)),
 ];
 // badge colors per section type
 export const AUTOR_COLOR  = "rgba(240,149,149,0.15)";  // pinkish
@@ -96,6 +102,7 @@ export const INGR_GROUP: Record<string, string> = {
   "Zumo de naranja":"filler","Zumo de piña":"filler","Zumo de arándanos":"filler",
   "Zumo de limón":"filler","Zumo de lima":"filler",
   "Bitter":"bitter","Bitter caffè":"bitter","Bitter de cacao":"bitter","Bitter de naranja":"bitter",
+  "Angostura Bitters":"bitter",
   "Bitter habanero":"bitter","Salsa inglesa":"bitter","Tabasco":"bitter",
   "Sirope":"sweet","Sirope amarena":"sweet","Sirope de agave":"sweet",
   "Azúcar líquido":"sweet","Sirope de vainilla":"sweet","Sirope falernum":"sweet",
