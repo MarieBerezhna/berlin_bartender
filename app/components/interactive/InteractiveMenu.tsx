@@ -144,18 +144,20 @@ function getInteractivePool(activeTab: string, activeFamily: string | null, incl
 
 	if (activeTab === COMBINADOS_TAB) {
 		pool = (RAW as MenuItem[]).filter((item) => DESTILADOS_CATS.includes(item.cat));
-		if (activeFamily) pool = pool.filter((item) => item.cat === activeFamily);
-		return pool;
+	} else {
+		const allowedCats = new Set(["Cócteles de autor", "Coctelería clásica", "Micheladas", "Spritz"]);
+		pool = (RAW as MenuItem[]).filter(
+			(item) => allowedCats.has(item.cat) && item.hasIngr && Array.isArray(item.ingr) && item.ingr.length,
+		);
 	}
 
-	const allowedCats = new Set(["Cócteles de autor", "Coctelería clásica", "Micheladas", "Spritz"]);
-	pool = (RAW as MenuItem[]).filter(
-		(item) => allowedCats.has(item.cat) && item.hasIngr && Array.isArray(item.ingr) && item.ingr.length,
-	);
-
-	if (!includeAll) {
-		if (activeTab !== "Todo") pool = pool.filter((item) => item.cat === activeTab);
-		if (activeFamily) pool = pool.filter((item) => item.family === activeFamily);
+	if (activeTab !== "Todo") {
+		if (activeTab === COMBINADOS_TAB) {
+			pool = pool.filter((item) => item.cat === activeFamily || !activeFamily);
+		} else {
+			pool = pool.filter((item) => item.cat === activeTab);
+			if (activeFamily) pool = pool.filter((item) => item.family === activeFamily);
+		}
 	}
 
 	return pool;
