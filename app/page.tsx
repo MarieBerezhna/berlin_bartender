@@ -18,6 +18,8 @@ import type { MenuItem } from "./data/constants";
 import { buildLearnQueue, getLearnableItems } from "./lib/learn";
 import { makeQs } from "./lib/quiz";
 
+const DESTILADOS_CATS = new Set(["Ron", "Whisky", "Gin", "Tequila", "Vodka"]);
+
 export default function Home() {
   const [mode, setMode] = useState<AppMode>("learn");
   const [activeTab, setActiveTab] = useState<string>("Todo");
@@ -26,11 +28,16 @@ export default function Home() {
 
   const filteredMenu = useMemo(() => {
     let pool = [...RAW];
-    if (activeTab !== "Todo") {
+    if (activeTab === "Destilados") {
+      pool = pool.filter((item) => DESTILADOS_CATS.has(item.cat));
+      if (activeFamily) {
+        pool = pool.filter((item) => item.cat === activeFamily);
+      }
+    } else if (activeTab !== "Todo") {
       pool = pool.filter((item) => item.cat === activeTab);
-    }
-    if (activeFamily) {
-      pool = pool.filter((item) => item.family === activeFamily);
+      if (activeFamily) {
+        pool = pool.filter((item) => item.family === activeFamily);
+      }
     }
     return pool;
   }, [activeFamily, activeTab]);
