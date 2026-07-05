@@ -1,3 +1,5 @@
+import { useActivateOnKeys } from "../../lib/utils";
+
 type RecallStats = {
 	hits: number;
 	total: number;
@@ -18,6 +20,7 @@ export default function LearnEnd({ totalReviewed, hadRecipes, recallStats, onRes
 		: `Repasaste ${totalReviewed} bebidas.`;
 
 	const recallPct = recallStats.total > 0 ? Math.round((recallStats.hits / recallStats.total) * 100) : 0;
+	useActivateOnKeys(true, onRestart);
 
 	return (
 		<div className="learn-card end">

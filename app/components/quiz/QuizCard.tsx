@@ -2,6 +2,7 @@ import Image from "next/image";
 
 import { Q_META } from "../../data/constants";
 import type { QuizQuestion } from "../../lib/quiz";
+import { useActivateOnKeys } from "../../lib/utils";
 import QuizFeedback from "./QuizFeedback";
 import QuizOptions from "./QuizOptions";
 
@@ -27,6 +28,7 @@ export default function QuizCard({
 	const qTypeLabel = Q_META[question.qtype as keyof typeof Q_META] || question.qtype;
 	const questionImageSrc =
 		question.img && question.img.startsWith("./") ? question.img.replace("./", "/") : question.img;
+	useActivateOnKeys(answered, onNext);
 
 	return (
 		<>

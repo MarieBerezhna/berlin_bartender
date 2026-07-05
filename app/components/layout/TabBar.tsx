@@ -1,12 +1,9 @@
 "use client";
 
-import { useState } from "react";
-
 import {
 	AUTOR_CAT,
 	AUTOR_FAMILIES,
 	CATS,
-	CAT_DESCRIPTIONS,
 	CLASICA_CAT,
 	CLASICA_FAMILIES,
 	DESTILADOS_SUBGROUPS,
@@ -51,7 +48,6 @@ export default function TabBar({
 	onTabChange,
 	onFamilyChange,
 }: TabBarProps) {
-	const [openTooltipFor, setOpenTooltipFor] = useState<string | null>(null);
 	const hasSubtabs =
 		activeTab === AUTOR_CAT || activeTab === CLASICA_CAT || activeTab === DESTILADOS_TAB;
 	const subtabFamilies =
@@ -74,18 +70,6 @@ export default function TabBar({
 							onClick={() => onTabChange(tab)}
 						>
 							{tab}
-							{CAT_DESCRIPTIONS[tab as keyof typeof CAT_DESCRIPTIONS] ? (
-								<span
-									className={`tab-info${openTooltipFor === tab ? " open" : ""}`}
-									onClick={(event) => {
-										event.stopPropagation();
-										setOpenTooltipFor((prev) => (prev === tab ? null : tab));
-									}}
-								>
-									ⓘ
-									<span className="tab-tooltip">{CAT_DESCRIPTIONS[tab as keyof typeof CAT_DESCRIPTIONS]}</span>
-								</span>
-							) : null}
 						</button>
 					))}
 				</div>

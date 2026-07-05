@@ -1,5 +1,6 @@
 import { Q_META, type MenuItem } from "../../data/constants";
 import type { QuizQuestion } from "../../lib/quiz";
+import { useActivateOnKeys } from "../../lib/utils";
 import QuizFeedback from "../quiz/QuizFeedback";
 import QuizOptions from "../quiz/QuizOptions";
 
@@ -33,6 +34,7 @@ export default function LearnQuiz({
 	const isCorrect = selectedOption === question.answer;
 	const nextLabel = isLastInSession ? "Ver resultados / Results →" : "Siguiente / Next →";
 	const qTypeLabel = Q_META[question.qtype as keyof typeof Q_META] || question.qtype;
+	useActivateOnKeys(answered, onNext);
 
 	return (
 		<>

@@ -3,6 +3,7 @@ import Image from "next/image";
 import type { MenuItem } from "../../data/constants";
 import IMAGES from "../../data/images";
 import { formatPrice, getIngredientGroup, getIngredientGroupLabel } from "../../lib/learn";
+import { useActivateOnKeys } from "../../lib/utils";
 
 type StudyCardProps = {
 	item: MenuItem;
@@ -24,6 +25,7 @@ function toPublicPath(path: string | null | undefined): string | null {
 export default function StudyCard({ item, index, total, onPrimaryAction }: StudyCardProps) {
 	const image = toPublicPath(IMAGES[item.name]);
 	const hasRecipe = Boolean(item.hasIngr && item.ingr && item.ingr.length > 1);
+	useActivateOnKeys(true, onPrimaryAction);
 
 	const byGroup: Record<string, string[]> = {};
 	(item.ingr || []).forEach((ingredient) => {

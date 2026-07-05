@@ -1,3 +1,5 @@
+import { useActivateOnKeys } from "../../lib/utils";
+
 type QuizEndProps = {
 	score: number;
 	total: number;
@@ -14,6 +16,7 @@ export default function QuizEnd({ score, total, onRestart }: QuizEndProps) {
 			: pct >= 50
 				? "Buen trabajo, sigue practicando."
 				: "Hay que estudiar más la carta.";
+		useActivateOnKeys(true, onRestart);
 
 	return (
 		<div className="qcard end">

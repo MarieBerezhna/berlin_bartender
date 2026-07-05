@@ -36,48 +36,55 @@ export default function Overview({ items, categoryLabel, activeTab, onStart }: O
 					borderRadius: 16,
 					padding: 20,
 					marginBottom: 16,
-					textAlign: "center",
+					display: "flex",
+					alignItems: "stretch",
+					gap: 16,
+					textAlign: "left",
 				}}
 			>
 				{categoryImage ? (
 					<Image
 						src={categoryImage}
 						alt={categoryLabel}
-						width={80}
-						height={80}
+						width={112}
+						height={112}
 						unoptimized
-						style={{ width: 80, height: 80, objectFit: "cover", borderRadius: 12, marginBottom: 12 }}
+						style={{ width: 112, height: 112, objectFit: "cover", borderRadius: 12, flexShrink: 0 }}
 					/>
 				) : null}
-				<div style={{ fontSize: 22, fontWeight: 700, color: "#e8e6e1", marginBottom: 4 }}>
-					{categoryLabel}
-					{description ? (
-						<span className="tab-info" style={{ marginLeft: 4 }}>
-							ⓘ
-							<span className="tab-tooltip" dangerouslySetInnerHTML={{ __html: description }} />
-						</span>
-					) : null}
+				<div style={{ flex: 1, minWidth: 0, display: "flex", flexDirection: "column", gap: 10, minHeight: 112 }}>
+					<div style={{ fontSize: 22, fontWeight: 700, color: "#e8e6e1", marginBottom: 4 }}>
+						{categoryLabel}
+						{description ? (
+							<span className="tab-info" style={{ marginLeft: 4 }}>
+								ⓘ
+								<span className="tab-tooltip" dangerouslySetInnerHTML={{ __html: description }} />
+							</span>
+						) : null}
+					</div>
+					<div style={{ fontSize: 13, color: "#9a9793" }}>
+						{sortedItems.length} {sortedItems.length === 1 ? "ítem" : "ítems"} en esta sección
+					</div>
+					<button
+						className="pri"
+						style={{
+							width: "fit-content",
+							padding: "12px 16px",
+							border: "none",
+							borderRadius: 10,
+							background: "#e8e6e1",
+							color: "#0f0e0c",
+							fontSize: 16,
+							fontWeight: 700,
+							cursor: "pointer",
+							alignSelf: "flex-end",
+							marginTop: "auto",
+						}}
+						onClick={onStart}
+					>
+						¡Empezar repaso! →
+					</button>
 				</div>
-				<div style={{ fontSize: 13, color: "#9a9793", marginBottom: 14 }}>
-					{sortedItems.length} {sortedItems.length === 1 ? "ítem" : "ítems"} en esta sección
-				</div>
-				<button
-					className="pri"
-					style={{
-						width: "100%",
-						padding: 14,
-						border: "none",
-						borderRadius: 10,
-						background: "#e8e6e1",
-						color: "#0f0e0c",
-						fontSize: 16,
-						fontWeight: 700,
-						cursor: "pointer",
-					}}
-					onClick={onStart}
-				>
-					¡Empezar repaso! →
-				</button>
 			</div>
 
 			<div
