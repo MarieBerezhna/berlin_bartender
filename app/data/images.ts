@@ -174,6 +174,7 @@ const IMAGES: Record<string, string> = {
   "Salsa Inglesa": "./ingredientes/salsa_inglesa.webp",
   "Coco": "./ingredientes/coco.webp",
   "Jamón": "./comida/jamon.webp",
+  "Drambuie": "./liqueurs/drambuie.webp",
 };
 
 export default IMAGES;
