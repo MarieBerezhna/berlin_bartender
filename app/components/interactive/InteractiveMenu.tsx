@@ -9,7 +9,6 @@ import {
 	CLASICA_FAMILIES,
 	DESTILADOS_CATS,
 	DESTILADOS_SUBGROUPS,
-	DESTILADOS_TAB,
 	INGR_GROUP,
 	MENU_SPIRIT_HINTS,
 	type MenuItem,
@@ -33,6 +32,7 @@ type AccordionState = Record<InteractiveFilterKey, boolean>;
 type InteractiveItem = {
 	name: string;
 	price: number;
+	priceLabel: string;
 	section: string;
 	spiritBrand: string;
 	spirits: string[];
@@ -45,6 +45,14 @@ type InteractiveItem = {
 	siropes: string[];
 	otros: string[];
 };
+
+const SPIRIT_FAMILY_PATTERNS: Array<[RegExp, string]> = [
+	[/vodka|moskovskaya|smirnoff/i, "Vodka"],
+	[/tequila|don julio/i, "Tequila"],
+	[/ron|bumbu|diplom[aá]tico|zacapa|barcel[oó]/i, "Ron"],
+	[/whisky|whiskey|jack daniels|tullamore|bulleit|monkey shoulder|macallan|bushmills|toki/i, "Whisky"],
+	[/gin|tanqueray|hendrick/i, "Gin"],
+];
 
 const EMPTY_STATE: InteractiveState = {
 	spirits: [],
@@ -70,7 +78,8 @@ const DEFAULT_ACCORDION: AccordionState = {
 	otros: false,
 };
 
-const interactiveCats = ["Todo", DESTILADOS_TAB, "Cócteles de autor", "Coctelería clásica", "Micheladas", "Spritz"];
+const COMBINADOS_TAB = "Combinados";
+const interactiveCats = ["Todo", COMBINADOS_TAB, "Cócteles de autor", "Coctelería clásica", "Micheladas", "Spritz"];
 
 function fmt(price: number): string {
 	return `${price.toFixed(2).replace(".", ",")} €`;
@@ -80,9 +89,22 @@ function ingrGroup(name: string): string {
 	return INGR_GROUP[name] || "other";
 }
 
+function getSpiritFamily(label: string): string {
+	const normalized = String(label || "").trim();
+	if (!normalized) return "Otros";
+	if (DESTILADOS_CATS.includes(normalized)) return normalized;
+	if (normalized === "Whiskey") return "Whisky";
+
+	for (const [pattern, family] of SPIRIT_FAMILY_PATTERNS) {
+		if (pattern.test(normalized)) return family;
+	}
+
+	return normalized;
+}
+
 function getMainSpirit(item: MenuItem): string {
 	const cat = String(item?.cat || "").trim();
-	if (DESTILADOS_CATS.includes(cat)) return cat;
+	if (DESTILADOS_CATS.includes(cat)) return getSpiritFamily(cat);
 
 	const ingr = Array.isArray(item?.ingr) ? item.ingr : [];
 	if (!ingr.length) return "Otros";
@@ -98,27 +120,29 @@ function getMainSpirit(item: MenuItem): string {
 		return group === "spirit" && !excludedSpirits.has(ing) && (MENU_SPIRIT_HINTS.has(ing) || ordered.includes(ing));
 	});
 
-	if (spiritCandidates.length) return spiritCandidates[0];
+	if (spiritCandidates.length) return getSpiritFamily(spiritCandidates[0]);
 	return "Otros";
 }
 
 function getInteractiveSpiritGroup(item: MenuItem): string {
 	const cat = String(item?.cat || "").trim();
-	if (DESTILADOS_CATS.includes(cat)) return cat;
-	if (["Tequila", "Tequila Don Julio"].includes(cat)) return "Tequila";
-	if (["Gin", "Gin Tanqueray", "Gin Mare"].includes(cat)) return "Gin";
-	if (["Vodka", "Moskovskaya", "Vodka Smirnoff Tamarindo"].includes(cat)) return "Vodka";
-	if (["Ron", "Ron blanco", "Ron jamaicano", "Bumbu", "Diplomático Planas"].includes(cat)) return "Ron";
-	if (["Whisky", "Whiskey", "Jack Daniels Fire", "Jack Daniels Triple Mash", "Monkey Shoulder"].includes(cat)) {
-		return "Whisky";
+	if (DESTILADOS_CATS.includes(cat)) return getSpiritFamily(cat);
+
+	const ingr = Array.isArray(item?.ingr) ? item.ingr : [];
+	for (const ingredient of ingr) {
+		if (ingrGroup(ingredient) === "spirit") {
+			const family = getSpiritFamily(ingredient);
+			if (family !== "Otros") return family;
+		}
 	}
+
 	return "Otros";
 }
 
 function getInteractivePool(activeTab: string, activeFamily: string | null, includeAll = false): MenuItem[] {
 	let pool: MenuItem[];
 
-	if (activeTab === DESTILADOS_TAB) {
+	if (activeTab === COMBINADOS_TAB) {
 		pool = (RAW as MenuItem[]).filter((item) => DESTILADOS_CATS.includes(item.cat));
 		if (activeFamily) pool = pool.filter((item) => item.cat === activeFamily);
 		return pool;
@@ -137,14 +161,21 @@ function getInteractivePool(activeTab: string, activeFamily: string | null, incl
 	return pool;
 }
 
-function buildInteractiveMenuData(items: MenuItem[]): InteractiveItem[] {
+function buildInteractiveMenuData(items: MenuItem[], preferCombinedPrice: boolean): InteractiveItem[] {
 	return items.map((item) => {
 		const ingr = Array.isArray(item?.ingr) ? item.ingr : [];
 		const section = item?.family || item?.cat || "Otros";
 		const spiritGroup = getInteractiveSpiritGroup(item);
 		const spirit = spiritGroup === "Otros" ? getMainSpirit(item) : spiritGroup;
 		const excludedSpirits = new Set(["Cerveza", "Vino tinto", "Vermut", "Vermut tinto", "Cava"]);
-		const spirits = ingr.filter((ing) => ingrGroup(ing) === "spirit" && !excludedSpirits.has(ing));
+		const spirits = uniqueSorted(
+			DESTILADOS_CATS.includes(item.cat)
+				? [getSpiritFamily(item.cat)]
+				: ingr
+					.filter((ing) => ingrGroup(ing) === "spirit" && !excludedSpirits.has(ing))
+					.map((ing) => getSpiritFamily(ing))
+					.filter((ing) => ing !== "Otros"),
+		);
 		const licores = ingr.filter((ing) => ingrGroup(ing) === "liqueur");
 		const cervezas = ingr.filter((ing) => ingrGroup(ing) === "beer");
 		const vinosVermuts = ingr.filter((ing) => ingrGroup(ing) === "wine");
@@ -166,11 +197,12 @@ function buildInteractiveMenuData(items: MenuItem[]): InteractiveItem[] {
 				!frutas.includes(ing) &&
 				!siropes.includes(ing),
 		);
-		const price = item?.prices?.length ? Math.min(...item.prices.map((p) => p.p)) : 0;
+		const displayPrice = getDisplayPrice(item, preferCombinedPrice);
 
 		return {
 			name: item.name,
-			price,
+			price: displayPrice.price,
+			priceLabel: displayPrice.priceLabel,
 			section,
 			spiritBrand: spirit,
 			spirits,
@@ -207,27 +239,42 @@ function countMatches(source: InteractiveItem[], key: InteractiveFilterKey, valu
 	return source.filter((item) => item[key].includes(value)).length;
 }
 
+function getDisplayPrice(item: MenuItem, preferCombined: boolean): { price: number; priceLabel: string } {
+	const prices = Array.isArray(item.prices) ? item.prices : [];
+	if (!prices.length) return { price: 0, priceLabel: "" };
+
+	if (preferCombined) {
+		const preferred = prices.find((entry) => entry.label === "combinado") || prices.find((entry) => entry.label === "copa") || prices[0];
+		return { price: preferred.p, priceLabel: preferred.label };
+	}
+
+	const cheapest = prices.reduce((lowest, entry) => (entry.p < lowest.p ? entry : lowest), prices[0]);
+	return { price: cheapest.p, priceLabel: cheapest.label };
+}
+
 export default function InteractiveMenu() {
 	const [activeTab, setActiveTab] = useState<string>("Todo");
 	const [activeFamily, setActiveFamily] = useState<string | null>(null);
 	const [interactiveState, setInteractiveState] = useState<InteractiveState>(EMPTY_STATE);
 	const [accordionState, setAccordionState] = useState<AccordionState>(DEFAULT_ACCORDION);
 
+	const preferCombinedPrice = activeTab === COMBINADOS_TAB;
+
 	const data = useMemo(
-		() => buildInteractiveMenuData(getInteractivePool(activeTab, activeFamily, false)),
-		[activeFamily, activeTab],
+		() => buildInteractiveMenuData(getInteractivePool(activeTab, activeFamily, false), preferCombinedPrice),
+		[activeFamily, activeTab, preferCombinedPrice],
 	);
 
 	const source = useMemo(
-		() => buildInteractiveMenuData(getInteractivePool(activeTab, activeFamily, true)),
-		[activeFamily, activeTab],
+		() => buildInteractiveMenuData(getInteractivePool(activeTab, activeFamily, true), preferCombinedPrice),
+		[activeFamily, activeTab, preferCombinedPrice],
 	);
 
 	const list = useMemo(() => data.filter((item) => matchesInteractiveFilters(item, interactiveState)), [data, interactiveState]);
 
-	const hasSubtabs = activeTab === AUTOR_CAT || activeTab === CLASICA_CAT || activeTab === DESTILADOS_TAB;
+	const hasSubtabs = activeTab === AUTOR_CAT || activeTab === CLASICA_CAT || activeTab === COMBINADOS_TAB;
 	const subtabFamilies =
-		activeTab === DESTILADOS_TAB
+		activeTab === COMBINADOS_TAB
 			? DESTILADOS_SUBGROUPS
 			: activeTab === AUTOR_CAT
 				? AUTOR_FAMILIES
@@ -383,7 +430,10 @@ export default function InteractiveMenu() {
 							<div className="interactive-card" key={`${item.section}-${item.name}`}>
 								<div className="interactive-card-top">
 									<div className="interactive-card-name">{item.name}</div>
-									<div className="interactive-card-price">{fmt(item.price)}</div>
+									<div className="interactive-card-price">
+										{item.priceLabel ? <span style={{ textTransform: "capitalize" }}>{item.priceLabel} </span> : null}
+										{fmt(item.price)}
+									</div>
 								</div>
 								<div className="interactive-card-badges">
 									<span className="interactive-badge interactive-badge-section">{item.section}</span>
