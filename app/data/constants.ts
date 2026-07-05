@@ -114,6 +114,6 @@ export const GARNISHMENTS = new Set([
 ]);
 export const GROUP_ORDER = ["spirit","liqueur","filler","bitter","sweet","other"];
 export const GROUP_LABELS: Record<string, string> = {
-  spirit:"Alcohol / Spirit", liqueur:"Licores / Liqueurs", filler:"Mixers / Sodas",
-  bitter:"Bitters", sweet:"Endulzantes / Sweeteners", other:"Otros / Other"
+  spirit:"Alcohol", liqueur:"Licores", filler:"Mezcladores",
+  bitter:"Amargos", sweet:"Endulzantes", other:"Otros"
 };

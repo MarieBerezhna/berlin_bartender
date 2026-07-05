@@ -28,15 +28,11 @@ export default function LearnEnd({ totalReviewed, hadRecipes, recallStats, onRes
 			</div>
 			<p style={{ color: "#9a9793", fontSize: 14 }}>
 				{reviewedLine}
-				<br />
-				<em>
-					You reviewed {totalReviewed} drinks.
-				</em>
 				{hadRecipes && recallStats.total > 0 ? (
 					<>
 						<br />
 						<br />
-						<strong style={{ color: "#e8e6e1" }}>Repaso final / Final recall</strong>
+						<strong style={{ color: "#e8e6e1" }}>Repaso final</strong>
 						<br />
 						{recallStats.hits}/{recallStats.total} ingredientes ({recallPct}%) · {recallStats.perfect}/
 						{recallStats.items} perfectos
@@ -45,7 +41,7 @@ export default function LearnEnd({ totalReviewed, hadRecipes, recallStats, onRes
 			</p>
 			<div className="nav" style={{ marginTop: "1.5rem", display: "flex" }}>
 				<button className="pri" onClick={onRestart}>
-					Repetir / Again
+					Repetir
 				</button>
 			</div>
 		</div>

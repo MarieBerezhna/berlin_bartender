@@ -27,7 +27,7 @@ export default function QuizEnd({ score, total, onRestart }: QuizEndProps) {
 			<p>{message}</p>
 			<div className="nav" style={{ marginTop: "1.5rem", display: "flex" }}>
 				<button className="pri" onClick={onRestart}>
-					Jugar de nuevo / Play again
+					Jugar de nuevo
 				</button>
 			</div>
 		</div>

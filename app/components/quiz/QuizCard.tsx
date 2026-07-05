@@ -24,7 +24,7 @@ export default function QuizCard({
 	isLastQuestion,
 }: QuizCardProps) {
 	const isCorrect = selectedOption === question.answer;
-	const nextLabel = isLastQuestion ? "Resultados / Results →" : "Siguiente / Next →";
+	const nextLabel = isLastQuestion ? "Resultados →" : "Siguiente →";
 	const qTypeLabel = Q_META[question.qtype as keyof typeof Q_META] || question.qtype;
 	const questionImageSrc =
 		question.img && question.img.startsWith("./") ? question.img.replace("./", "/") : question.img;

@@ -241,7 +241,7 @@ export function scoreRecallSelection(item: MenuItem, selectedValues: string[] = 
   const required = (item.ingr || []).filter((ingredient) => !optional.has(ingredient)).length;
   const perfect = misses === 0 && wrongs === 0;
   const message = perfect
-    ? "✓ ¡Perfecto! / Perfect!"
+    ? "✓ ¡Perfecto!"
     : `${hits}/${required} ingredientes — ${misses} olvidados, ${wrongs} incorrectos`;
 
   return {
@@ -255,7 +255,7 @@ export function scoreRecallSelection(item: MenuItem, selectedValues: string[] = 
 }
 
 export function getIngredientGroupLabel(group: string): string {
-  return GROUP_LABELS[group] || "Otros / Other";
+  return GROUP_LABELS[group] || "Otros";
 }
 
 export function getIngredientGroup(ingredient: string): string {

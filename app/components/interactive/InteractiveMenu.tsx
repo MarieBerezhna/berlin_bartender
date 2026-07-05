@@ -374,7 +374,7 @@ export default function InteractiveMenu() {
 	return (
 		<div className="interactive-shell">
 			<div className="interactive-header">
-				<div className="interactive-wordmark">Café Berlín · Interactive Menu</div>
+				<div className="interactive-wordmark">Café Berlín · Menú interactivo</div>
 				<div className="interactive-tabs">
 					{interactiveCats.map((tab) => (
 						<button

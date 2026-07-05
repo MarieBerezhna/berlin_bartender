@@ -139,7 +139,7 @@ export default function StudyCard({ item, index, total, onPrimaryAction }: Study
 						);
 					})
 				) : (
-					<div className="learn-hint">Sin receta — solo precio / No recipe — price only</div>
+					<div className="learn-hint">Sin receta — solo precio</div>
 				)}
 			</div>
 

@@ -58,7 +58,7 @@ export default function RecallCard({
 				<div className="learn-name">
 					{item.name} <span className="learn-price">{formatPrice(item)}</span>
 				</div>
-				<div className="learn-hint">Selecciona todos los ingredientes / Select all ingredients</div>
+				<div className="learn-hint">Selecciona todos los ingredientes</div>
 
 				<div className="learn-ingr-grid" id="recallGrid">
 					{options.map((option) => {
@@ -104,7 +104,7 @@ export default function RecallCard({
 			<div className="nav" id="nav" data-checked={checked ? "1" : undefined}>
 				{!checked ? (
 					<button className="pri" onClick={onCheck}>
-						Comprobar / Check ✓
+						Comprobar ✓
 					</button>
 				) : (
 					<div style={{ display: "flex", flexDirection: "column", gap: 8, width: "100%" }}>
@@ -120,7 +120,7 @@ export default function RecallCard({
 						</div>
 						{onNext ? (
 							<button className="pri" style={{ width: "100%" }} onClick={onNext}>
-								{nextLabel || "Siguiente / Next →"}
+								{nextLabel || "Siguiente →"}
 							</button>
 						) : null}
 					</div>

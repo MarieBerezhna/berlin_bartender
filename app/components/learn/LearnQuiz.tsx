@@ -39,7 +39,7 @@ export default function LearnQuiz({
 	isLastInSession,
 }: LearnQuizProps) {
 	const isCorrect = selectedOption === question.answer;
-	const nextLabel = isLastInSession ? "Ver resultados / Results →" : "Siguiente / Next →";
+	const nextLabel = isLastInSession ? "Ver resultados →" : "Siguiente →";
 	const qTypeLabel = Q_META[question.qtype as keyof typeof Q_META] || question.qtype;
 	useActivateOnKeys(answered, onNext);
 
