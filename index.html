@@ -1,0 +1,1630 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Café Berlín Quiz</title>
+<link rel="icon" href="./favicon.png" sizes="192x192">
+</head>
+<body>
+<div class="wrap">
+  <div style="margin-bottom:1rem">
+    <h1 style="margin-bottom:0.5rem">🍸 Café Berlín</h1>
+    <div class="mode-switch" id="modeSwitch">
+      <button class="mode-btn" id="btnTest" onclick="setMode('test')">🎯 Test</button>
+      <button class="mode-btn active" id="btnLearn" onclick="setMode('learn')">📖 Aprender</button>
+      <button class="mode-btn" id="btnMenu" onclick="setMode('interactive')">🧭 Interactive Menú</button>
+    </div>
+  </div>
+  <div class="tabs-scroll"><div class="tabs" id="tabs"></div></div>
+  <div class="tabs-scroll" id="subtabsWrap" style="display:none"><div class="tabs" id="subtabs"></div></div>
+  <div class="filters" id="filters"></div>
+  <div class="pbar"><div class="pfill" id="prog" style="width:0%"></div></div>
+  <div class="meta" id="metaBar">
+    <div class="mc"><div class="ml">Question</div><div class="mv" id="qnum">–</div></div>
+    <div class="mc"><div class="ml">Correct</div><div class="mv" id="qok">0</div></div>
+    <div class="mc"><div class="ml">Score</div><div class="mv" id="qpct">–</div></div>
+  </div>
+  <div id="area"></div>
+</div>
+<script>
+// prices: array of {label_es, label_en, price} — one entry per serving format
+const RAW = [
+  {cat:"Coctelería clásica",name:"Mojito",family:"Daiquiri",hasIngr:true,
+   ingr:["Hierbabuena","Ron blanco","Zumo de lima","Azúcar líquido","Soda"],
+   doses:{"Ron blanco":"1 oz","Zumo de lima":"1 oz","Azúcar líquido":"1 oz"},
+   method:"Removido",
+   glass:"Collins (tubo)",
+   prices:[{label:"cóctel",p:11}]},
+  {cat:"Coctelería clásica",name:"Whiskey Highball",family:"Highball",hasIngr:true,
+   ingr:["Whisky","Soda", "Bitter"],
+   optional:["Bitter"],
+   doses:{"Whisky":"2 oz","Soda":"top"},
+   method:"Removido",
+   glass:"Vaso largo",
+   prices:[{label:"cóctel",p:11}]},
+  {cat:"Coctelería clásica",name:"Screwdriver (Destornillador)",family:"Highball",hasIngr:true,
+   ingr:["Vodka","Zumo de naranja"],
+   doses:{"Vodka":"2 oz","Zumo de naranja":"top"},
+   method:"Removido",
+   glass:"Vaso largo",
+   prices:[{label:"cóctel",p:11}]},
+  {cat:"Coctelería clásica",name:"Harvey Wallbanger (Rompetechos)",family:"Highball",hasIngr:true,
+   ingr:["Vodka","Licor Galliano","Zumo de naranja"],
+   doses:{"Vodka":"1 oz","Licor Galliano":"0.5 oz","Zumo de naranja":"top"},
+   method:"Removido",
+   glass:"Vaso largo",
+   prices:[{label:"cóctel",p:11}]},
+  {cat:"Cócteles de autor",family:"Acid Times",name:"Blue Margarita",hasIngr:true,ingr:["Tequila","Licor Bols Blue Curaçao","Sirope de agave","Zumo de lima"],
+   prices:[{label:"cóctel",p:12}]},
+  {cat:"Cócteles de autor",family:"Acid Times",name:"Brote Primera",hasIngr:true,ingr:["Gin Tanqueray","Licor yuzu","Azúcar líquido","Lima","Albahaca"],
+   prices:[{label:"cóctel",p:12}]},
+  {cat:"Cócteles de autor",family:"Acid Times",name:"Berlin Lemonade",hasIngr:true,ingr:["Jack Daniels Triple Mash","Triple Sec Bols","7UP","Jalea de naranja","Lima"],
+   prices:[{label:"cóctel",p:12}]},
+  {cat:"Cócteles de autor",family:"Acid Times",name:"Corazón de Luna",hasIngr:true,ingr:["Tequila","Triple Sec Bols","Lima","Lichee"],
+   prices:[{label:"cóctel",p:12}]},
+  {cat:"Cócteles de autor",family:"Acid Times",name:"Berlín Green",hasIngr:true,ingr:["Vodka","Licor Midori","Albahaca","Manzana verde","Fruta de la pasión"],
+   prices:[{label:"cóctel",p:13}]},
+  {cat:"Cócteles de autor",family:"Sweet Times",name:"Porn Star Martini",hasIngr:true,ingr:["Moskovskaya","Licor Bols Vainilla","Puré de fruta de la pasión","Zumo de lima","Foam"],
+   prices:[{label:"cóctel",p:12}]},
+  {cat:"Cócteles de autor",family:"Sweet Times",name:"Éxodo",hasIngr:true,ingr:["Bumbu","Bitter caffè","Sirope pandán","Coco","Café"],
+   prices:[{label:"cóctel",p:12}]},
+  {cat:"Cócteles de autor",family:"Sweet Times",name:"Rubedo",hasIngr:true,ingr:["Gin","Vermut","Sirope de agave","Lima","Arándanos","Fresa"],
+   prices:[{label:"cóctel",p:12}]},
+  {cat:"Cócteles de autor",family:"Sweet Times",name:"Génesis",hasIngr:true,ingr:["Ron","Ginger Ale","Azúcar líquido","Lima","Calabaza asada","Naranja"],
+   prices:[{label:"cóctel",p:12}]},
+  {cat:"Cócteles de autor",family:"Sweet Times",name:"Ámbar con cacao",hasIngr:true,ingr:["Ron","Licor Bols Chocolate","Licor Bols Butterscotch","Sirope de vainilla"],
+   prices:[{label:"cóctel",p:12}]},
+  {cat:"Cócteles de autor",family:"Sweet Times",name:"Diego",hasIngr:true,ingr:["Jack Daniels Fire","Licor Bols Yogurt","Licor Bols Butterscotch","Sirope amarena","Zumo de arándanos"],
+   prices:[{label:"cóctel",p:12}]},
+  {cat:"Cócteles de autor",family:"Spicy Times",name:"Bloody Mary",hasIngr:true,ingr:["Moskovskaya","Zumo de tomate","Mix casero"],
+   prices:[{label:"cóctel",p:11}]},
+  {cat:"Cócteles de autor",family:"Spicy Times",name:"Moscow Mule",hasIngr:true,ingr:["Moskovskaya","Ginger beer","Zumo de lima"],
+   prices:[{label:"cóctel",p:11}]},
+  {cat:"Cócteles de autor",family:"Spicy Times",name:"Paloma Don Julio",hasIngr:true,ingr:["Tequila Don Julio","Soda de pomelo","Sirope de agave","Lima"],
+   prices:[{label:"cóctel",p:12}]},
+  {cat:"Cócteles de autor",family:"Spicy Times",name:"Matarreyes",hasIngr:true,ingr:["Vodka Smirnoff Tamarindo","Licor de humo","Triple Sec Bols","Sirope de agave","Lima","Maracuyá"],
+   prices:[{label:"cóctel",p:12}]},
+  {cat:"Cócteles de autor",family:"Hard Times",name:"Hombro al sol",hasIngr:true,ingr:["Monkey Shoulder","Fino","Bitter de naranja"],
+   prices:[{label:"cóctel",p:12}]},
+  {cat:"Cócteles de autor",family:"Hard Times",name:"Polvo de calima",hasIngr:true,ingr:["Diplomático Planas","Ron jamaicano","Chambord","Zumo de naranja","Zumo de piña","Sirope falernum","Zumo de lima"],
+   prices:[{label:"cóctel",p:12}]},
+  {cat:"Cócteles de autor",family:"Hard Times",name:"Berlin Sling",hasIngr:true,ingr:["Gin Mare","Chambord","Bénédictine DOM","Triple Sec Bols","Piña","Lima"],
+   prices:[{label:"cóctel",p:12},{label:"cóctel con chupito de vodka",p:13}]},
+  {cat:"Coctelería clásica",family:"Flip",name:"Espresso Martini",hasIngr:true,ingr:["Moskovskaya","Licor de café Bols","Bitter de cacao","Sirope de vainilla","Café"],
+   prices:[{label:"cóctel",p:11}]},
+  {cat:"Coctelería clásica",family:"Flip",name:"White Russian",hasIngr:true,ingr:["Vodka","Licor de café Bols","Leche","Nata"],
+   prices:[{label:"cóctel",p:11}]},
+  {cat:"Sin Alcohol",name:"Virgin Mai Tai",hasIngr:true,ingr:["Sirope","Frutas tropicales"],
+   prices:[{label:"sin alcohol",p:8},{label:"con alcohol",p:12}]},
+  {cat:"Sin Alcohol",name:"Gin Fizz 0.0",hasIngr:true,ingr:["Tanqueray 0.0","Soda","Lima"],
+   prices:[{label:"cóctel",p:9}]},
+  {cat:"Sin Alcohol",name:"Virgin Lady",hasIngr:true,ingr:["Tanqueray 0.0","Frutos rojos","Lima"],
+   prices:[{label:"cóctel",p:9}]},
+  {cat:"Spritz",name:"Hugo Spritz",hasIngr:true,doses:{"Bols Saúco":"2 oz","Cava":"3 oz","Soda":"1 oz"},ingr:["Bols Saúco","Cava","Soda","Hierbabuena"],
+   prices:[{label:"copa",p:10}]},
+  {cat:"Spritz",name:"Aperol Spritz",hasIngr:true,doses:{"Aperol":"2 oz","Cava":"3 oz","Soda":"1 oz"},ingr:["Aperol","Cava","Soda"],
+   prices:[{label:"copa",p:8}]},
+  {cat:"Spritz",name:"Yuzu Spritz",hasIngr:true,doses:{"Licor yuzu":"2 oz","Cava":"3 oz","Soda":"1 oz"},ingr:["Licor yuzu","Cava","Soda"],
+   prices:[{label:"copa",p:8}]},
+  {cat:"Spritz",name:"Chambord Spritz",hasIngr:true,doses:{"Chambord":"2 oz","Cava":"3 oz","Soda":"1 oz"},ingr:["Chambord","Cava","Soda"],
+   prices:[{label:"copa",p:8}]},
+  {cat:"Spritz",name:"Campari Spritz",hasIngr:true,doses:{"Campari":"2 oz","Cava":"3 oz","Soda":"1 oz"},ingr:["Campari","Cava","Soda"],
+   prices:[{label:"copa",p:8}]},
+  {cat:"Spritz",name:"Sarti Rosa Spritz",hasIngr:true,doses:{"Sarti Rosa":"2 oz","Cava":"3 oz","Soda":"1 oz"},ingr:["Sarti Rosa","Cava","Soda"],
+   prices:[{label:"copa",p:8}]},
+  {cat:"Jarras",name:"Agua de Valencia",hasIngr:true,ingr:["Vodka","Gin Tanqueray","Zumo de naranja","Cava","Triple Sec Bols","Licor mandarina MB","Azúcar líquido"],
+   doses:{"Vodka":"1 oz","Gin Tanqueray":"1 oz","Zumo de naranja":"2 oz","Cava":"2 oz"},
+   prices:[{label:"copa",p:7}]},
+  {cat:"Jarras",name:"Sangría",hasIngr:true,ingr:["Diplomático Planas","Vino tinto","Triple Sec Bols","Terry","Vermut tinto","Zumo de naranja","Azúcar líquido"],
+   prices:[{label:"copa",p:7}]},
+  {cat:"Jarras",name:"Tinto de verano",hasIngr:true,ingr:["Vino tinto","Schweppes limón","Zumo de limón"],
+   prices:[{label:"copa",p:5}]},
+  {cat:"Ron",name:"Barceló Añejo",hasIngr:false,
+   prices:[{label:"combinado",p:9.5},{label:"chupito",p:3}]},
+  {cat:"Ron",name:"Barceló Imperial",hasIngr:false,
+   prices:[{label:"combinado",p:12},{label:"chupito",p:6}]},
+  {cat:"Ron",name:"Diplomático Planas",hasIngr:false,
+   prices:[{label:"combinado",p:10},{label:"chupito",p:6}]},
+  {cat:"Ron",name:"Zacapa Centenario 23",hasIngr:false,
+   prices:[{label:"combinado",p:16},{label:"chupito",p:8}]},
+  {cat:"Whisky",name:"Johnnie Walker Red Label",hasIngr:false,
+   prices:[{label:"combinado",p:9.5},{label:"doble",p:12},{label:"chupito",p:3}]},
+  {cat:"Whisky",name:"Johnnie Walker Black Label 12Y",hasIngr:false,
+   prices:[{label:"combinado",p:12},{label:"doble",p:16},{label:"chupito",p:6}]},
+  {cat:"Whisky",name:"Tullamore Dew",hasIngr:false,
+   prices:[{label:"combinado",p:9},{label:"doble",p:12},{label:"chupito",p:4}]},
+  {cat:"Whisky",name:"Jack Daniels Old Nº7",hasIngr:false,
+   prices:[{label:"combinado",p:9},{label:"doble",p:14},{label:"chupito",p:5}]},
+  {cat:"Whisky",name:"Bulleit Frontier Bourbon",hasIngr:false,
+   prices:[{label:"combinado",p:12},{label:"doble",p:16},{label:"chupito",p:6}]},
+  {cat:"Whisky",name:"Monkey Shoulder",hasIngr:false,
+   prices:[{label:"combinado",p:12},{label:"doble",p:16},{label:"chupito",p:6}]},
+  {cat:"Whisky",name:"Toki",hasIngr:false,
+   prices:[{label:"combinado",p:10},{label:"doble",p:18},{label:"chupito",p:5}]},
+  {cat:"Whisky",name:"Bushmills",hasIngr:false,
+   prices:[{label:"combinado",p:10},{label:"doble",p:18},{label:"chupito",p:5}]},
+  {cat:"Whisky",name:"Tomatin",hasIngr:false,
+   prices:[{label:"solo",p:12},{label:"doble",p:20},{label:"chupito",p:6}]},
+  {cat:"Whisky",name:"Macallan",hasIngr:false,
+   prices:[{label:"copa",p:16}]},
+  {cat:"Gin",name:"Tanqueray London Dry",hasIngr:false,
+   prices:[{label:"solo",p:9.5}]},
+  {cat:"Gin",name:"Tanqueray Nº Ten",hasIngr:false,
+   prices:[{label:"solo",p:14}]},
+  {cat:"Gin",name:"Tanqueray 0.0",hasIngr:false,
+   prices:[{label:"solo",p:10}]},
+  {cat:"Gin",name:"Gin Mare",hasIngr:false,
+   prices:[{label:"solo",p:12}]},
+  {cat:"Gin",name:"Fords",hasIngr:false,
+   prices:[{label:"solo",p:12}]},
+  {cat:"Gin",name:"Larios 12",hasIngr:false,
+   prices:[{label:"solo",p:12}]},
+  {cat:"Gin",name:"Larios Rose",hasIngr:false,
+   prices:[{label:"solo",p:10}]},
+  {cat:"Gin",name:"Roku",hasIngr:false,
+   prices:[{label:"solo",p:12}]},
+  {cat:"Gin",name:"Hendrick's",hasIngr:false,
+   prices:[{label:"solo",p:13}]},
+  {cat:"Gin",name:"Macaronesia",hasIngr:false,
+   prices:[{label:"solo",p:9.5}]},
+  {cat:"Tequila",name:"Rooster Rojo White",hasIngr:false,
+   prices:[{label:"combinado",p:10},{label:"chupito",p:4}]},
+  {cat:"Tequila",name:"Mezcal Union",hasIngr:false,
+   prices:[{label:"combinado",p:12},{label:"chupito",p:5}]},
+  {cat:"Tequila",name:"Don Julio Silver",hasIngr:false,
+   prices:[{label:"combinado",p:18},{label:"chupito",p:10}]},
+  {cat:"Tequila",name:"Don Julio Reposado",hasIngr:false,
+   prices:[{label:"combinado",p:18},{label:"chupito",p:10}]},
+  {cat:"Vodka",name:"Moskovskaya",hasIngr:false,
+   prices:[{label:"combinado",p:9.5},{label:"chupito",p:3}]},
+  {cat:"Vodka",name:"Cîroc",hasIngr:false,
+   prices:[{label:"combinado",p:14},{label:"chupito",p:7}]},
+  {cat:"Vodka",name:"Beluga",hasIngr:false,
+   prices:[{label:"combinado",p:16},{label:"chupito",p:9}]},
+  {cat:"Licores",name:"Jack Fire",hasIngr:false,
+   prices:[{label:"copa",p:9},{label:"chupito",p:5}]},
+  {cat:"Licores",name:"Jägermeister",hasIngr:false,
+   prices:[{label:"combinado",p:10},{label:"copa",p:8},{label:"chupito",p:3}]},
+  {cat:"Licores",name:"Licor de arroz",hasIngr:false,
+   prices:[{label:"copa",p:6},{label:"chupito",p:3}]},
+  {cat:"Licores",name:"Limoncello",hasIngr:false,
+   prices:[{label:"copa",p:6},{label:"chupito",p:3}]},
+  {cat:"Licores",name:"Cazalla",hasIngr:false,
+   prices:[{label:"copa",p:6},{label:"chupito",p:3}]},
+  {cat:"Licores",name:"Amaretto",hasIngr:false,
+   prices:[{label:"combinado",p:10},{label:"copa",p:8},{label:"chupito",p:3}]},
+  {cat:"Licores",name:"Baileys",hasIngr:false,
+   prices:[{label:"copa",p:6},{label:"chupito",p:3}]},
+  {cat:"Vermut",name:"Vittore Rojo",hasIngr:false,
+   prices:[{label:"copa",p:4}]},
+  {cat:"Vermut",name:"Vittore Blanco",hasIngr:false,
+   prices:[{label:"copa",p:4}]},
+  {cat:"Vermut",name:"Martini Reserva Ambrato",hasIngr:false,
+   prices:[{label:"copa",p:5}]},
+  {cat:"Vermut",name:"Martini Reserva Rubino",hasIngr:false,
+   prices:[{label:"copa",p:5}]},
+  {cat:"Vermut",name:"Noilly Prat Blanco Seco",hasIngr:false,
+   prices:[{label:"copa",p:5}]},
+  {cat:"Vino",name:"Ovejita verde Verdejo",hasIngr:false,
+   prices:[{label:"copa",p:4},{label:"botella",p:20}]},
+  {cat:"Vino",name:"Ladrón de Lunas Blanco",hasIngr:false,
+   prices:[{label:"copa",p:4},{label:"botella",p:20}]},
+  {cat:"Vino",name:"Ovejita Tinto",hasIngr:false,
+   prices:[{label:"copa",p:4},{label:"botella",p:20}]},
+  {cat:"Vino",name:"Brut Cava",hasIngr:false,
+   prices:[{label:"copa",p:5},{label:"botella",p:25}]},
+  {cat:"Vino",name:"Bollinger Spécial Cuvée",hasIngr:false,
+   prices:[{label:"botella",p:100}]},
+  {cat:"Vino",name:"Ramón Bilbao Rioja",hasIngr:false,
+   prices:[{label:"copa",p:5},{label:"botella",p:25}]},
+  {cat:"Vino",name:"Vento n°1",hasIngr:false,
+   prices:[{label:"copa",p:4.5},{label:"botella",p:25}]},
+  {cat:"Cerveza",name:"Águila",hasIngr:false,
+   prices:[{label:"pinta",p:5.3},{label:"doble",p:3.7}]},
+  {cat:"Cerveza",name:"Águila Sin Filtrar",hasIngr:false,
+   prices:[{label:"pinta",p:5.5},{label:"doble",p:4}]},
+  {cat:"Cerveza",name:"18/70",hasIngr:false,
+   prices:[{label:"tercio",p:3.7}]},
+  {cat:"Cerveza",name:"Amstel 0.0",hasIngr:false,
+   prices:[{label:"tercio",p:3.5}]},
+  {cat:"Cerveza",name:"Amstel Radler",hasIngr:false,
+   prices:[{label:"tercio",p:3.5}]},
+  {cat:"Cerveza",name:"Cruzcampo Sin Gluten",hasIngr:false,
+   prices:[{label:"tercio",p:4}]},
+  {cat:"Cerveza",name:"Paulaner",hasIngr:false,
+   prices:[{label:"pinta",p:5.5},{label:"doble",p:4}]},
+  {cat:"Cerveza",name:"IPA Lagunitas",hasIngr:false,
+   prices:[{label:"botella",p:5.5}]},
+  {cat:"Cerveza",name:"Guinness",hasIngr:false,
+   prices:[{label:"pinta",p:5.5}]},
+  {cat:"Cerveza",name:"Heineken",hasIngr:false,
+   prices:[{label:"tercio",p:3.5}]},
+  {cat:"Micheladas",name:"Michelada Berlín",hasIngr:true,ingr:["Cerveza","Zumo de limón","Sal","Salsa inglesa","Tabasco"],
+   prices:[{label:"500 ml",p:8}]},
+  {cat:"Micheladas",name:"Michelada de Tequila",hasIngr:true,ingr:["Cerveza","Tequila","Bitter habanero","Zumo de limón","Sal"],
+   prices:[{label:"500 ml",p:9}]},
+  {cat:"Comida",name:"Patatas bolsa",hasIngr:false,
+   prices:[{label:"ración",p:1.5}]},
+  {cat:"Comida",name:"Aceitunas",hasIngr:false,
+   prices:[{label:"ración",p:2}]},
+  {cat:"Comida",name:"Tabla de jamón Gargallo",hasIngr:false,
+   prices:[{label:"tabla",p:12}]},
+  {cat:"Refrescos",name:"Pepsi",hasIngr:false,
+   prices:[{label:"lata/botella",p:3}]},
+  {cat:"Refrescos",name:"Pepsi Zero",hasIngr:false,
+   prices:[{label:"lata/botella",p:3}]},
+  {cat:"Refrescos",name:"Schweppes Limón",hasIngr:false,
+   prices:[{label:"lata/botella",p:3}]},
+  {cat:"Refrescos",name:"Tónica Schweppes",hasIngr:false,
+   prices:[{label:"lata/botella",p:3}]},
+  {cat:"Refrescos",name:"Ginger Beer",hasIngr:false,
+   prices:[{label:"botella",p:3.5}]},
+  {cat:"Refrescos",name:"Red Bull",hasIngr:false,
+   prices:[{label:"lata",p:3.5}]},
+  {cat:"Refrescos",name:"Agua Lanjarón",hasIngr:false,
+   prices:[{label:"botella",p:2.5}]},
+  {cat:"Refrescos",name:"Agua con gas Perrier",hasIngr:false,
+   prices:[{label:"botella",p:3}]},
+];
+
+const IMAGES = {
+  "Micheladas":          "./micheladas/micheladas.webp",
+  "Michelada Berlín":    "./micheladas/michelada.webp",
+  "Michelada de Tequila":"./micheladas/michelada_tequila.webp",
+  "Jarras":           "./jarras/jarras.webp",
+  "Agua de Valencia": "./jarras/agua_de_valencia.webp",
+  "Sangría":          "./jarras/sangria.webp",
+  "Tinto de verano":  "./jarras/tinto_de_verano.webp",
+  "Whisky":                        "./whisky/johnnie_walker_red_label.webp",
+  "Bulleit Frontier Bourbon":       "./whisky/bulleit_bourbon_frontier.webp",
+  "Bushmills":                      "./whisky/bushmills.webp",
+  "Jack Daniels Old Nº7":           "./whisky/jack_daniels_old7.webp",
+  "Johnnie Walker Black Label 12Y":"./whisky/johnnie_walker_black_label12.webp",
+  "Johnnie Walker Red Label":       "./whisky/johnnie_walker_red_label.webp",
+  "Macallan":                       "./whisky/macallan.webp",
+  "Monkey Shoulder":                "./whisky/monkey_shoulder.webp",
+  "Toki":                           "./whisky/toki.webp",
+  "Tomatin":                        "./whisky/tomatin.webp",
+  "Ron":                "./ron/barcelo_anejo.webp",
+  "Barceló Añejo":      "./ron/barcelo_anejo.webp",
+  "Barceló Imperial":   "./ron/barcelo_imperial.webp",
+  "Diplomático Planas": "./ron/diplomatico_planas.webp",
+  "Ron blanco": "./ron/diplomatico_planas.webp",
+  "Zacapa Centenario 23":"./ron/zacapa23.webp",
+  "Gin":                "./gin/gin.webp",
+  "Fords":              "./gin/fords_london_dry.webp",
+  "Gin Mare":           "./gin/gin_mare.webp",
+  "Hendrick's":         "./gin/hendricks.webp",
+  "Larios 12":          "./gin/larios12.webp",
+  "Larios Rose":        "./gin/larios_rose.webp",
+  "Macaronesia":        "./gin/macaronesian.webp",
+  "Roku":               "./gin/roku.webp",
+  "Tanqueray 0.0":      "./gin/tangueray00.webp",
+  "Tanqueray London Dry":"./gin/tanqueray_london_dry.webp",
+  "Tanqueray Nº Ten":   "./gin/tanqueray_number_ten.webp",
+  "Don Julio Reposado": "./tequila/don_julio_reposado.webp",
+  "Don Julio Silver":   "./tequila/don_julio_silver.webp",
+  "Tequila Don Julio":  "./tequila/don_julio_silver.webp",
+  "Mezcal Union":        "./tequila/mezcalunion.webp",
+  "Rooster Rojo White": "./tequila/rooster_rojo_white.webp",
+  "Tequila":             "./tequila/rooster_rojo_white.webp",
+  "Beluga": "./vodka/belugagold.webp",
+  "Cîroc": "./vodka/ciroc.webp",
+  "Moskovskaya": "./vodka/moskovskaya.webp",
+  "Vodka": "./vodka/moskovskaya.webp",
+  "Licores": "./liqueurs/licores.webp",
+  "Licor de arroz": "./liqueurs/licor_de_arroz.webp",
+  "Jägermeister": "./liqueurs/jagermeister.webp",
+  "Jack Fire": "./liqueurs/jack_fire.webp",
+  "Cazalla": "./liqueurs/cazalla.webp",
+  "Baileys": "./liqueurs/baileys.webp",
+  "Amaretto": "./liqueurs/amaretto.webp",
+  "Limoncello": "./liqueurs/Limoncello.webp",
+  "Licor Galliano": "./ingredientes/alcohol/licor_galliano.webp",
+  "Licor Bols Blue Curaçao": "./ingredientes/alcohol/bols_bluecuracao.webp",
+  "Licor Bols Butterscotch": "./ingredientes/alcohol/bols_butterscotch.webp",
+  "Licor de café Bols": "./ingredientes/alcohol/licor_cafe.webp",
+  "Aperol": "./ingredientes/alcohol/aperol.webp",
+  "Bols Saúco": "./ingredientes/alcohol/bols_saúco.webp",
+  "Campari": "./ingredientes/alcohol/campari.webp",
+  "Jack Daniels Triple Mash": "./ingredientes/alcohol/jd_triplemash.webp",
+  "Licor mandarina MB": "./ingredientes/alcohol/licor_mandarina_mb.webp",
+  "Sarti Rosa": "./ingredientes/alcohol/sarti_rosa.webp",
+  "Tanqueray": "./ingredientes/alcohol/tanqueray.webp",
+  "Gin Tanqueray": "./ingredientes/alcohol/tanqueray.webp",
+  "Triple Sec Bols": "./ingredientes/alcohol/triple_sec_bols.webp",
+  "Licor yuzu": "./ingredientes/alcohol/yuzu.webp",
+  "Licor Bols Vainilla": "./ingredientes/alcohol/bols_vainilla.webp",
+  "Licor Bols Yogurt": "./ingredientes/alcohol/bols_yogurt.webp",
+  "Bumbu": "./ingredientes/alcohol/bumbu.webp",
+  "Chambord": "./ingredientes/alcohol/chambord.webp",
+  "Fino": "./ingredientes/alcohol/fino.webp",
+  "Jack Daniels Fire": "./ingredientes/alcohol/jd_fire.webp",
+  "Licor de humo": "./ingredientes/alcohol/licor_humo.webp",
+  "Licor Midori": "./ingredientes/alcohol/midori.webp",
+  "Vodka Smirnoff Tamarindo": "./ingredientes/alcohol/vodka_smirnoff_tamarind.webp",
+  "Bitter": "./ingredientes/bitters/bitters.webp",
+  "Bitters": "./ingredientes/bitters/bitters.webp",
+  "Bitter habanero": "./ingredientes/bitters/habanero.webp",
+  "Bitter de cacao": "./ingredientes/bitters/cacao.webp",
+  "Bitter caffè": "./ingredientes/bitters/cafe.webp",
+  "Bitter de naranja": "./ingredientes/bitters/orange.webp",
+  "Cava": "./ingredientes/alcohol/cava.webp",
+  "Calabaza asada": "./ingredientes/huerto/calabaza_asada.webp",
+  "Hierbabuena": "./ingredientes/huerto/hierbabuena.webp",
+  "Albahaca": "./ingredientes/huerto/albahaca.webp",
+  "Fresa": "./ingredientes/huerto/fresa.webp",
+  "Arándanos": "./ingredientes/huerto/blueberries.webp",
+  "Frutas tropicales": "./ingredientes/huerto/frutas_tropicales.webp",
+  "Frutos rojos": "./ingredientes/huerto/frutos_rojos.webp",
+  "Lichee": "./ingredientes/huerto/lichee.webp",
+  "Lima": "./ingredientes/huerto/lima.webp",
+  "Limón": "./ingredientes/huerto/limon.webp",
+  "Limon": "./ingredientes/huerto/limon.webp",
+  "Manzana verde": "./ingredientes/huerto/manzana_verde.webp",
+  "Naranja": "./ingredientes/huerto/naranja.webp",
+  "Fruta de la pasión": "./ingredientes/huerto/pasion.webp",
+  "Puré de fruta de la pasión": "./ingredientes/huerto/pasion.webp",
+  "Zumo de lima": "./ingredientes/zumos/zumo_lima.png",
+  "Zumo de limón": "./ingredientes/zumos/zumo_limon.webp",
+  "Zumo de limon": "./ingredientes/zumos/zumo_limon.webp",
+  "Zumo de naranja": "./ingredientes/zumos/zumo_naranja.png",
+  "7UP": "./ingredientes/fillers/7up.webp",
+  "Soda": "./ingredientes/fillers/soda.webp",
+  "Soda de pomelo": "./ingredientes/fillers/soda_pomelo.webp",
+  "Zumo de arándanos": "./ingredientes/fillers/zumo_arandonos.webp",
+  "Zumo de piña": "./ingredientes/fillers/zumo_piña.webp",
+  "Zumo de tomate": "./ingredientes/fillers/zumo_tomate.webp",
+  "Sirope de agave": "./ingredientes/sweeteners/agave.webp",
+  "Azúcar líquido": "./ingredientes/sweeteners/azucar_liquido.webp",
+  "Sirope falernum": "./ingredientes/sweeteners/falernum.webp",
+  "Jalea de naranja": "./ingredientes/sweeteners/jalea_naranja.webp",
+  "Sirope pandán": "./ingredientes/sweeteners/pandan.webp",
+  "Sirope amarena": "./ingredientes/sweeteners/sirope_amarena.webp",
+  "Sirope de vainilla": "./ingredientes/sweeteners/sirope_vainilla.webp",
+  "Vittore Rojo": "./vermouth/vittore_rojo.webp",
+  "Vermut tinto": "./vermouth/vittore_rojo.webp",
+  "Vittore Blanco": "./vermouth/vittore_blanco.webp",
+  "Vermut": "./vermouth/vermut.webp",
+  "Noilly Prat Blanco Seco": "./vermouth/nolly_prat_blanco_seco.webp",
+  "Martini Reserva Rubino": "./vermouth/martini_reserva_rubino.webp",
+  "Martini Reserva Ambrato": "./vermouth/martini_reserva_ambrato.webp",
+  "Mojito": "./classic_coctails/mojito.webp",
+  "Whiskey Highball": "./classic_coctails/whisky_highball.webp",
+  "Screwdriver (Destornillador)": "./classic_coctails/screwdriver.webp",
+  "Harvey Wallbanger (Rompetechos)": "./classic_coctails/harvey_wallbanger.webp",
+  "Spritz": "./spritz/campari_spritz.webp",
+  "Aperol Spritz": "./spritz/aperol_spritz.webp",
+  "Campari Spritz": "./spritz/campari_spritz.webp",
+  "Chambord Spritz": "./spritz/chambord_spritz.webp",
+  "Hugo Spritz": "./spritz/hugo_spritz.webp",
+  "Sarti Rosa Spritz": "./spritz/sarti_rosa_spritz.webp",
+  "Yuzu Spritz": "./spritz/yuzu_spritz.webp",
+  "Agua con gas Perrier": "./refrescos/perrier.webp",
+  "Vino blanco": "./wine/vino_blanco.webp",
+  "Vino": "./wine/vinos.webp",
+  "Ramón Bilbao Rioja": "./wine/ramon_bilbao_rioja.webp",
+  "Bollinger Spécial Cuvée": "./wine/bollinger_special_cuvee.webp",
+  "Pepsi": "./refrescos/pepsi.webp",
+  "Pepsi Zero": "./refrescos/pepsi_zero.webp",
+  "Red Bull": "./refrescos/red_bull.webp",
+  "Tónica Schweppes": "./refrescos/tonica_schweppes.webp",
+  "Agua Lanjarón": "./refrescos/lanjaron.webp",
+  "Schweppes Limón": "./refrescos/schweppes_limon.webp",
+  "Schweppes limón": "./refrescos/schweppes_limon.webp",
+  "Vino tinto": "./wine/vino_tinto.webp",
+  "Guinness": "./beer/guinness.webp",
+  "Cerveza": "./beer/beer.webp",
+  "Paulaner": "./beer/paulaner.webp",
+  "Águila": "./beer/aguila.webp",
+  "Águila Sin Filtrar": "./beer/aquila_sin_filtrar.webp",
+  "18/70": "./beer/1870.webp",
+  "Amstel 0.0": "./beer/amstel00.webp",
+  "Amstel Radler": "./beer/amstel_radler.webp",
+  "Cruzcampo Sin Gluten": "./beer/cruzcampo_sin_gluten.webp",
+  "IPA Lagunitas": "./beer/ipa_lagunitas.webp",
+  "Heineken": "./beer/heineken.webp",
+  "Brut Cava": "./wine/cava_brut.webp",
+  "Ladrón de Lunas Blanco": "./wine/ladron_de_lunas.webp",
+  "Ovejita Tinto": "./wine/obejita_tinto.webp",
+  "Ginger Beer": "./refrescos/ginger_beer_schweppes.webp",
+  "Ginger beer": "./refrescos/ginger_beer_schweppes.webp",
+  "Ginger Ale": "./refrescos/ginger_beer_schweppes.webp",
+  "Ovejita verde Verdejo": "./wine/obejita_blanco_verde.webp",
+  "Sal": "./ingredientes/sal.webp",
+  "Salsa inglesa": "./ingredientes/salsa_inglesa.webp",
+  "Tabasco": "./ingredientes/tabasco.webp",
+  "Café": "./ingredientes/cafe.webp",
+  "Tullamore Dew": "./whisky/tullamore_dew.webp",
+  "Foam": "./ingredientes/foam.webp",
+  "Nata": "./ingredientes/nata.webp",
+  "Leche": "./ingredientes/leche.webp",
+  "Mix casero": "./ingredientes/mix_casero.webp",
+  "Salsa Inglesa": "./ingredientes/salsa_inglesa.webp",
+  "Salsa inglesa": "./ingredientes/salsa_inglesa.webp",
+  "Tabasco": "./ingredientes/tabasco.webp",
+  "Jamón": "./comida/jamon.webp",
+};
+
+
+const ALL_INGRS = [...new Set(RAW.filter(x=>x.hasIngr&&x.ingr).flatMap(x=>x.ingr))];
+// Flat list of all {name, serving_es, serving_en, price} for wrong-answer pool
+const ALL_PRICES_FLAT = RAW.flatMap(x=>(x.prices||[]).map(s=>s.p));
+const UNIQUE_PRICES = [...new Set(ALL_PRICES_FLAT)];
+
+const CATS = ["Todo",...[...new Set(RAW.map(x=>x.cat))]];
+const AUTOR_CAT    = "Cócteles de autor";
+const CLASICA_CAT  = "Coctelería clásica";
+const DESTILADOS_TAB = "Destilados";
+const DESTILADOS_CATS = ["Ron","Whisky","Gin","Tequila","Vodka"];
+const DESTILADOS_SUBGROUPS = ["Tequila","Gin","Vodka","Ron","Whisky"];
+const CAT_DESCRIPTIONS = {
+  "Spritz": "Un spritz es un famoso y refrescante cóctel de origen italiano que se sirve principalmente como aperitivo. Su receta clásica combina tres elementos fundamentales: vino blanco espumoso (generalmente Prosecco), un licor amargo (bitter) y un chorrito de agua con gas (soda). La regla de oro del cóctel italiano clásico sigue la proporción 3-2-1: tres partes de prosecco o cava, 2 partes de bitter y 1 de soda.",
+  "Licores": "Un licor es una bebida alcohólica elaborada a partir de un destilado al que se le añaden azúcar y aromas o sabores, como frutas, hierbas, especias, café o frutos secos. Suele tener un sabor dulce e intenso y puede consumirse solo o utilizarse como ingrediente para aportar sabor y color a los cócteles.",
+  "Vodka": "El vodka es una bebida alcohólica destilada elaborada principalmente a partir de cereales o patatas. Se caracteriza por su sabor limpio y neutro, ya que suele filtrarse varias veces para eliminar impurezas. Gracias a su perfil discreto, es una de las bases más versátiles de la coctelería y se utiliza en cócteles como el Moscow Mule, Bloody Mary, Cosmopolitan y Espresso Martini.",
+  "Tequila": "El tequila es una bebida alcohólica destilada elaborada exclusivamente a partir del agave azul. Se produce en determinadas regiones de México y puede ser transparente o envejecida en barricas, según el tipo. Destaca por sus notas herbales, vegetales y ligeramente dulces, y es una base fundamental de cócteles como la Margarita y el Paloma.",
+  "Gin": "El gin (ginebra) es una bebida alcohólica destilada elaborada a partir de alcohol neutro y aromatizada principalmente con bayas de enebro, que le aportan su sabor característico. También puede contener otros botánicos, como cilantro, cítricos, raíz de angélica o cardamomo. Se utiliza ampliamente en la coctelería clásica por su perfil fresco, seco y herbal.",
+  "Whisky": "El whisky es una bebida alcohólica destilada elaborada a partir de cereales, como cebada, maíz, centeno o trigo. Tras la destilación se envejece en barricas de roble durante varios años, lo que le aporta su color, aroma y sabores característicos, como vainilla, caramelo, especias o madera. Es una de las bases más importantes de la coctelería clásica y también se consume solo o con hielo.",
+  "Ron": "El ron es una bebida alcohólica destilada que se elabora principalmente a partir de la caña de azúcar, ya sea del jugo de caña o de la melaza (un subproducto de la producción de azúcar). Su proceso incluye fermentar los azúcares de la caña, destilar el líquido fermentado y, en muchos casos, envejecer el destilado en barricas de madera.<br><br><strong>Tipos de ron:</strong><br>• <em>Ron blanco</em> — ligero y transparente, muy usado en cócteles.<br>• <em>Ron dorado</em> — envejecido por un tiempo moderado, sabor más intenso.<br>• <em>Ron añejo</em> — envejecido varios años, sabores más complejos.<br>• <em>Ron especiado</em> — con especias y otros aromas añadidos.<br><br>Se consume solo, con hielo o en cócteles como el mojito, la piña colada o el daiquiri.",
+};
+const AUTOR_FAMILIES  = [...new Set(RAW.filter(x=>x.cat===AUTOR_CAT  && x.family).map(x=>x.family))];
+const CLASICA_FAMILIES = [...new Set(RAW.filter(x=>x.cat===CLASICA_CAT && x.family).map(x=>x.family))];
+// badge colors per section type
+const AUTOR_COLOR  = "rgba(240,149,149,0.15)";  // pinkish
+const CLASICA_COLOR = "rgba(138,180,248,0.15)"; // blue-ish
+const AUTOR_TEXT   = "#F09595";
+const CLASICA_TEXT = "#8AB4F8";
+let activeFamily = null; // null = all families
+const FILTER_TYPES = ["ingredients","price","category","name"];
+const FILTER_LABELS    = {ingredients:"Ingredientes",price:"Precio",category:"Categoría",name:"Nombre"};
+const Q_META = {
+  ingredients:  "¿Qué lleva?",
+  ingredients2: "¿Cuál más?",
+  ingredients3: "¿Cuál NO lleva?",
+  price:        "Precio exacto",
+  ratio:        "Ratio",
+  category:     "Categoría",
+  name:         "Nombre",
+};
+
+let activeTab="Todo", activeFilters=new Set(FILTER_TYPES);
+let questions=[], cur=0, score=0, answered=false;
+
+const sh   = a=>[...a].sort(()=>Math.random()-.5);
+const pick = (a,n)=>sh(a).slice(0,n);
+const fmt  = p=>`${p.toFixed(2).replace(".",",")} €`;
+
+const MENU_SPIRIT_HINTS = new Set(['Tequila','Tequila Don Julio','Gin','Gin Tanqueray','Gin Mare','Vodka','Moskovskaya','Vodka Smirnoff Tamarindo','Ron','Ron blanco','Ron jamaicano','Bumbu','Diplomático Planas','Jack Daniels Fire','Jack Daniels Triple Mash','Monkey Shoulder','Whisky','Whiskey','Fino']);
+function escHtml(v){ return String(v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
+function getMainSpirit(item){
+  const cat = String(item?.cat || '').trim();
+  if(DESTILADOS_CATS.includes(cat)) return cat;
+  const ingr = Array.isArray(item?.ingr) ? item.ingr : [];
+  if(!ingr.length) return 'Otros';
+  const ordered = ['Tequila','Gin','Vodka','Ron','Whisky','Whiskey','Fino'];
+  for(const known of ordered){ if(ingr.includes(known)) return known; }
+  const excludedSpirits = new Set(['Cerveza','Vino tinto']);
+  const spiritCandidates = ingr.filter(ing => {
+    const group = ingrGroup(ing);
+    return group === 'spirit' && !excludedSpirits.has(ing) && (MENU_SPIRIT_HINTS.has(ing) || ordered.includes(ing));
+  });
+  if(spiritCandidates.length) return spiritCandidates[0];
+  return 'Otros';
+}
+function getInteractiveSpiritGroup(item){
+  const cat = String(item?.cat || '').trim();
+  if(DESTILADOS_CATS.includes(cat)) return cat;
+  if(['Tequila','Tequila Don Julio'].includes(cat)) return 'Tequila';
+  if(['Gin','Gin Tanqueray','Gin Mare'].includes(cat)) return 'Gin';
+  if(['Vodka','Moskovskaya','Vodka Smirnoff Tamarindo'].includes(cat)) return 'Vodka';
+  if(['Ron','Ron blanco','Ron jamaicano','Bumbu','Diplomático Planas'].includes(cat)) return 'Ron';
+  if(['Whisky','Whiskey','Jack Daniels Fire','Jack Daniels Triple Mash','Monkey Shoulder'].includes(cat)) return 'Whisky';
+  return 'Otros';
+}
+function getInteractivePool(includeAll=false){
+  let pool;
+  if(activeTab === DESTILADOS_TAB){
+    pool = RAW.filter(x => DESTILADOS_CATS.includes(x.cat));
+    if(activeFamily) pool = pool.filter(x => x.cat === activeFamily);
+    return pool;
+  }
+  const allowedCats = new Set(['Cócteles de autor','Coctelería clásica','Micheladas','Spritz']);
+  pool = RAW.filter(x => allowedCats.has(x.cat) && x?.hasIngr && Array.isArray(x?.ingr) && x.ingr.length);
+  if(!includeAll){
+    if(activeTab !== 'Todo') pool = pool.filter(x => x.cat === activeTab);
+    if(activeFamily) pool = pool.filter(x => x.family === activeFamily);
+  }
+  return pool;
+}
+function buildInteractiveMenuData(pool = getInteractivePool()){
+  return pool.map(item=>{
+    const ingr = Array.isArray(item?.ingr) ? item.ingr : [];
+    const section = item?.family || item?.cat || 'Otros';
+    const spiritGroup = getInteractiveSpiritGroup(item);
+    const spirit = spiritGroup === 'Otros' ? getMainSpirit(item) : spiritGroup;
+    const excludedSpirits = new Set(['Cerveza','Vino tinto','Vermut','Vermut tinto','Cava']);
+    const spirits = ingr.filter(ing => {
+      const group = ingrGroup(ing);
+      return group === 'spirit' && !excludedSpirits.has(ing);
+    });
+    const licores = ingr.filter(ing => ingrGroup(ing) === 'liqueur');
+    const cervezas = ingr.filter(ing => ingrGroup(ing) === 'beer');
+    const vinosVermuts = ingr.filter(ing => ingrGroup(ing) === 'wine');
+    const bitters = ingr.filter(ing => ingrGroup(ing) === 'bitter');
+    const zumosRefrescos = ingr.filter(ing => {
+      const group = ingrGroup(ing);
+      return group === 'juice' || group === 'filler';
+    });
+    const frutas = ingr.filter(ing => ingrGroup(ing) === 'fruit');
+    const siropes = ingr.filter(ing => ingrGroup(ing) === 'sweet');
+    const otros = ingr.filter(ing => !spirits.includes(ing) && !licores.includes(ing) && !cervezas.includes(ing) && !vinosVermuts.includes(ing) && !bitters.includes(ing) && !zumosRefrescos.includes(ing) && !frutas.includes(ing) && !siropes.includes(ing));
+    const price = item?.prices && item.prices.length ? Math.min(...item.prices.map(p=>p.p)) : 0;
+    return { name:item?.name, price, section, spirit, spiritBrand:spirit, spirits, licores, cervezas, vinosVermuts, bitters, zumosRefrescos, frutas, siropes, otros, image:IMAGES[item?.name]||null };
+  });
+}
+let interactiveState = { spirits:[], licores:[], cervezas:[], vinosVermuts:[], bitters:[], zumosRefrescos:[], frutas:[], siropes:[], otros:[] };
+let interactiveAccordionState = { spirits:true, licores:false, cervezas:false, vinosVermuts:false, bitters:false, zumosRefrescos:false, frutas:false, siropes:false, otros:false };
+function interactiveFiltered(data){
+  return data.filter(c=>{
+    if(interactiveState.spirits.length && !interactiveState.spirits.some(s=>c.spirits.includes(s))) return false;
+    if(interactiveState.licores.length && !interactiveState.licores.some(a=>c.licores.includes(a))) return false;
+    if(interactiveState.cervezas.length && !interactiveState.cervezas.some(a=>c.cervezas.includes(a))) return false;
+    if(interactiveState.vinosVermuts.length && !interactiveState.vinosVermuts.some(a=>c.vinosVermuts.includes(a))) return false;
+    if(interactiveState.bitters.length && !interactiveState.bitters.some(b=>c.bitters.includes(b))) return false;
+    if(interactiveState.zumosRefrescos.length && !interactiveState.zumosRefrescos.some(z=>c.zumosRefrescos.includes(z))) return false;
+    if(interactiveState.frutas.length && !interactiveState.frutas.some(f=>c.frutas.includes(f))) return false;
+    if(interactiveState.siropes.length && !interactiveState.siropes.some(s=>c.siropes.includes(s))) return false;
+    if(interactiveState.otros.length && !interactiveState.otros.some(o=>c.otros.includes(o))) return false;
+    return true;
+  });
+}
+function toggleList(arr,val){ const i=arr.indexOf(val); if(i===-1) arr.push(val); else arr.splice(i,1); }
+function renderInteractiveMenu(){
+  const data = buildInteractiveMenuData(getInteractivePool());
+  const source = buildInteractiveMenuData(getInteractivePool(true));
+  const availSpirits = [...new Set(source.flatMap(c=>c.spirits))].sort();
+  const availLicores = [...new Set(source.flatMap(c=>c.licores))].sort();
+  const availCervezas = [...new Set(source.flatMap(c=>c.cervezas))].sort();
+  const availVinos = [...new Set(source.flatMap(c=>c.vinosVermuts))].sort();
+  const availBit = [...new Set(source.flatMap(c=>c.bitters))].sort();
+  const availZumosRefrescos = [...new Set(source.flatMap(c=>c.zumosRefrescos))].sort();
+  const availFrutas = [...new Set(source.flatMap(c=>c.frutas))].sort();
+  const availSiropes = [...new Set(source.flatMap(c=>c.siropes))].sort();
+  const availOtr = [...new Set(source.flatMap(c=>c.otros))].sort();
+  const list = interactiveFiltered(data);
+  const interactiveCats = ['Todo', DESTILADOS_TAB, 'Cócteles de autor', 'Coctelería clásica', 'Micheladas', 'Spritz'];
+  const tabsHtml = interactiveCats.map(c=>`<button class="interactive-tab${activeTab===c?' active':''}" onclick="setInteractiveTab('${c.replace(/'/g, "\\'")}')">${c}</button>`).join('');
+  const hasSubtabs = activeTab===AUTOR_CAT || activeTab===CLASICA_CAT || activeTab===DESTILADOS_TAB;
+  const subtabFamilies = activeTab===DESTILADOS_TAB ? DESTILADOS_SUBGROUPS : activeTab===AUTOR_CAT ? AUTOR_FAMILIES : activeTab===CLASICA_CAT ? CLASICA_FAMILIES : [];
+  const familyTabsHtml = hasSubtabs ? [`<button class="interactive-tab${activeFamily===null?' active':''}" onclick="setInteractiveFamily(null)">Todos</button>`, ...subtabFamilies.map(f=>`<button class="interactive-tab${activeFamily===f?' active':''}" onclick="setInteractiveFamily('${f.replace(/'/g, "\\'")}')">${f}</button>`)].join('') : '';
+  const renderGroup = (label, values, stateArr, key, showCounts)=>{
+    if(!values.length) return '';
+    const buttons = values.map(v=>{
+      const active = stateArr.includes(v);
+      const count = showCounts ? ` <span class="count">(${source.filter(c=>key==='spirits'?c.spirits.includes(v):(key==='licores'?c.licores.includes(v):(key==='cervezas'?c.cervezas.includes(v):(key==='vinosVermuts'?c.vinosVermuts.includes(v):(key==='bitters'?c.bitters.includes(v):(key==='zumosRefrescos'?c.zumosRefrescos.includes(v):(key==='frutas'?c.frutas.includes(v):(key==='siropes'?c.siropes.includes(v):c.otros.includes(v))))))))).length})</span>` : '';
+      return `<button class="interactive-filter-btn${active?' active':''}" onclick="toggleInteractiveFilter('${key}','${escHtml(v).replace(/'/g, "\\'") }')"><span>${active?'✓ ':''}${escHtml(v)}</span>${count}</button>`;
+    }).join('');
+    const isOpen = interactiveAccordionState[key] ?? (stateArr.length > 0 || key === 'spirits');
+    return `<div class="interactive-filter-section${isOpen?' open':''}" data-key="${key}">
+      <button class="interactive-filter-toggle" onclick="toggleInteractiveAccordion('${key}')">
+        <span>${label}</span>
+        <span>${isOpen ? '−' : '+'}</span>
+      </button>
+      <div class="interactive-filter-body">${buttons}${stateArr.length?`<button class="interactive-clear" onclick="clearInteractiveFilter('${key}')">limpiar</button>`:''}
+      </div>
+    </div>`;
+  };
+  const filtersHtml = renderGroup('Destilados', availSpirits, interactiveState.spirits, 'spirits', true) + renderGroup('Licores', availLicores, interactiveState.licores, 'licores', false) + renderGroup('Cervezas', availCervezas, interactiveState.cervezas, 'cervezas', false) + renderGroup('Vino & Vermuts', availVinos, interactiveState.vinosVermuts, 'vinosVermuts', false) + (availBit.length ? renderGroup('Bitters', availBit, interactiveState.bitters, 'bitters', false) : '') + renderGroup('Zumos & refrescos', availZumosRefrescos, interactiveState.zumosRefrescos, 'zumosRefrescos', false) + renderGroup('Frutas', availFrutas, interactiveState.frutas, 'frutas', false) + renderGroup('Sirope', availSiropes, interactiveState.siropes, 'siropes', false) + renderGroup('Otros ingredientes', availOtr, interactiveState.otros, 'otros', false);
+  const cardsHtml = list.length ? list.map(c=>`<div class="interactive-card">
+      <div class="interactive-card-top">
+        <div class="interactive-card-name">${escHtml(c.name)}</div>
+        <div class="interactive-card-price">${fmt(c.price)}</div>
+      </div>
+      <div class="interactive-card-badges">
+        <span class="interactive-badge interactive-badge-section">${escHtml(c.section)}</span>
+        <span class="interactive-badge interactive-badge-spirit">${escHtml(c.spiritBrand)}</span>
+      </div>
+      <div class="interactive-card-desc">${escHtml([...(c.licores||[]), ...(c.cervezas||[]), ...(c.vinosVermuts||[]), ...(c.bitters||[]), ...(c.zumosRefrescos||[]), ...(c.frutas||[]), ...(c.siropes||[]), ...(c.otros||[])].join(' · '))}</div>
+    </div>`).join('') : '<div class="interactive-empty">Ningún cóctel coincide con los filtros seleccionados.</div>';
+  document.getElementById('area').innerHTML = `<div class="interactive-shell">
+    <div class="interactive-header">
+      <div class="interactive-wordmark">Café Berlín · Interactive Menu</div>
+      <div class="interactive-tabs">${tabsHtml}</div>
+      ${familyTabsHtml ? `<div class="interactive-tabs" style="margin-top:4px">${familyTabsHtml}</div>` : ''}
+    </div>
+    <div class="interactive-count">${list.length} ${list.length===1?'cóctel':'cócteles'}</div>
+    <div class="interactive-layout">
+      <div class="interactive-filters">${filtersHtml}</div>
+      <div class="interactive-cards">${cardsHtml}</div>
+    </div>
+  </div>`;
+}
+window.setInteractiveTab = function(tab){ activeTab=tab; activeFamily=null; interactiveState={ spirits:[], licores:[], cervezas:[], vinosVermuts:[], bitters:[], zumosRefrescos:[], frutas:[], siropes:[], otros:[] }; renderInteractiveMenu(); };
+window.setInteractiveFamily = function(f){ activeFamily=f; interactiveState={ spirits:[], licores:[], cervezas:[], vinosVermuts:[], bitters:[], zumosRefrescos:[], frutas:[], siropes:[], otros:[] }; renderInteractiveMenu(); };
+window.toggleInteractiveFilter = function(key,val){ toggleList(interactiveState[key], val); renderInteractiveMenu(); };
+window.clearInteractiveFilter = function(key){ interactiveState[key]=[]; renderInteractiveMenu(); };
+window.toggleInteractiveAccordion = function(key){
+  const section = document.querySelector(`.interactive-filter-section[data-key="${key}"]`);
+  if(!section) return;
+  interactiveAccordionState[key] = !section.classList.contains('open');
+  section.classList.toggle('open');
+};
+
+const MENU_ONLY = x => x.cat !== "Coctelería clásica";
+function getPool(){
+  let pool;
+  if(activeTab==="Todo"){
+    pool = RAW.filter(MENU_ONLY);
+  } else if(activeTab===DESTILADOS_TAB){
+    pool = RAW.filter(x => DESTILADOS_CATS.includes(x.cat));
+    if(activeFamily) pool = pool.filter(x => x.cat === activeFamily);
+    return pool;
+  } else {
+    pool = RAW.filter(x=>x.cat===activeTab);
+  }
+  if(activeFamily) pool = pool.filter(x=>x.family===activeFamily);
+  return pool;
+}
+
+function makeQs(){
+  const pool=getPool();
+  const cocktails=pool.filter(x=>x.hasIngr&&x.ingr&&x.ingr.length>1);
+  const allCats=[...new Set(RAW.map(x=>x.cat))];
+  const res=[];
+
+  // --- Ingredient questions (cocktails only) ---
+  if(activeFilters.has("ingredients")){
+    cocktails.forEach(item=>{
+      // Type 1: which IS an ingredient
+      const c1=item.ingr[Math.floor(Math.random()*item.ingr.length)];
+      const w1=sh(ALL_INGRS.filter(i=>!item.ingr.includes(i))).slice(0,3);
+      if(w1.length>=3) res.push({qtype:"ingredients",img:IMAGES[item.name]||null,
+        q:`¿Cuál de estos ingredientes lleva el ${item.name}?`,
+        opts:sh([c1,...w1]),answer:c1,cat:item.cat,
+        hint:`${item.name}: ${item.ingr.join(", ")}`});
+      // Type 2: complete the recipe
+      if(item.ingr.length>=3){
+        const s=sh(item.ingr); const shown=s.slice(0,2),c2=s[2];
+        const w2=sh(ALL_INGRS.filter(i=>!item.ingr.includes(i))).slice(0,3);
+        if(w2.length>=3) res.push({qtype:"ingredients2",img:IMAGES[item.name]||null,
+          q:`El ${item.name} lleva ${shown.join(" y ")}… ¿cuál más?`,
+          opts:sh([c2,...w2]),answer:c2,cat:item.cat,
+          hint:`${item.name}: ${item.ingr.join(", ")}`});
+      }
+      // Type 3: which is NOT an ingredient
+      if(item.ingr.length>=3){
+        const intruder=sh(ALL_INGRS.filter(i=>!item.ingr.includes(i)))[0];
+        const decoys=sh(item.ingr).slice(0,3);
+        if(intruder&&decoys.length>=3) res.push({qtype:"ingredients3",img:IMAGES[item.name]||null,
+          q:`¿Cuál de estos NO lleva el ${item.name}?`,
+          opts:sh([intruder,...decoys]),answer:intruder,cat:item.cat,
+          hint:`${item.name} lleva: ${item.ingr.join(", ")}`});
+      }
+    });
+  }
+
+  // --- Price questions: one per serving format ---
+  if(activeFilters.has("price")){
+    pool.filter(item=>item.prices && item.prices.length && item.cat!==CLASICA_CAT).forEach(item=>{
+      item.prices.forEach(serving=>{
+        // Wrong options: other prices from the whole menu, excluding the correct value
+        const wrongPs=sh(UNIQUE_PRICES.filter(p=>p!==serving.p)).slice(0,3);
+        const allOpts=sh([serving.p,...wrongPs]).map(fmt);
+        const hint_parts=item.prices.map(s=>`${s.label}: ${fmt(s.p)}`).join(" · ");
+        res.push({qtype:"price",img:IMAGES[item.name]||null,
+          q:`¿Cuánto cuesta el ${item.name} (${serving.label})?`,
+          opts:allOpts, answer:fmt(serving.p), cat:item.cat,
+          hint:`${item.name} — ${hint_parts}`});
+      });
+    });
+  }
+
+
+  // --- Category questions (only in "Todo" tab) ---
+  if(activeFilters.has("category")&&activeTab==="Todo"){
+    pool.forEach(item=>{
+      const wrongCats=sh(allCats.filter(c=>c!==item.cat)).slice(0,3);
+      res.push({qtype:"category",img:IMAGES[item.name]||null,
+        q:`¿En qué sección está el ${item.name}?`,
+        opts:sh([item.cat,...wrongCats]),answer:item.cat,cat:item.cat,
+        hint:`${item.name} está en "${item.cat}"`});
+    });
+  }
+
+  // --- Ratio questions (only for items with doses) ---
+  if(activeFilters.has("ingredients")){
+    const itemsWithDoses = pool.filter(x=>x.doses && Object.keys(x.doses).length>0);
+    const allItemsWithDoses = RAW.filter(x=>x.doses && Object.keys(x.doses).length>0);
+
+    // Helper: build a ratio string for an item
+    function ratioStr(item){
+      return item.ingr.map(ing=>{
+        const dose = item.doses && item.doses[ing];
+        return dose ? `${dose} ${ing}` : ing;
+      }).join(", ");
+    }
+
+    itemsWithDoses.forEach(item=>{
+      const correct = ratioStr(item);
+      // Wrong options: ratio strings from other items with doses, or if not enough, shuffle doses of this item
+      const otherRatios = sh(allItemsWithDoses.filter(x=>x.name!==item.name)).slice(0,3).map(ratioStr);
+      // Pad with shuffled-dose variants if needed
+      while(otherRatios.length < 3){
+        const shuffledDoses = sh(Object.entries(item.doses||{}));
+        const fake = item.ingr.map(ing=>{
+          const dose = shuffledDoses.find(([k])=>k!==ing)?.[1];
+          return dose ? `${dose} ${ing}` : ing;
+        }).join(", ");
+        if(fake !== correct) otherRatios.push(fake);
+        else break;
+      }
+      if(otherRatios.length >= 1){
+        res.push({qtype:"ratio", img:IMAGES[item.name]||null,
+          q:`¿Cuál es el ratio del ${item.name}?`,
+          opts:sh([correct,...otherRatios.slice(0,3)]), answer:correct, cat:item.cat,
+          hint:`${item.name}: ${correct}`});
+      }
+    });
+  }
+
+  // --- Name questions (cocktails only — use ingredients as clue) ---
+  if(activeFilters.has("name")){
+    const cocktailItems = pool.filter(x=>x.hasIngr&&x.ingr);
+    cocktailItems.forEach(item=>{
+      // Try several random clue combos until we find one that uniquely
+      // identifies this item among the pool (no other item shares ALL clue ingredients)
+      let clue=null;
+      const maxTries=8;
+      for(let attempt=0; attempt<maxTries; attempt++){
+        const size = item.ingr.length>=3 ? (Math.random()<0.5?2:3) : Math.min(2,item.ingr.length);
+        const candidate = pick(item.ingr, size);
+        const ambiguous = cocktailItems.some(other=>
+          other.name!==item.name &&
+          candidate.every(c=>other.ingr.includes(c))
+        );
+        if(!ambiguous){ clue=candidate; break; }
+      }
+      if(!clue) return; // couldn't find a unique clue — skip this item
+
+      const wrongNames=sh(cocktailItems.filter(x=>x.name!==item.name)).slice(0,3).map(x=>x.name);
+      if(wrongNames.length>=3) res.push({qtype:"name",img:IMAGES[item.name]||null,
+        q:`¿Qué cóctel lleva ${clue.join(" y ")}?`,
+        opts:sh([item.name,...wrongNames]),answer:item.name,cat:item.cat,
+        hint:`${item.name}: ${item.ingr.join(", ")}`});
+    });
+  }
+
+  return sh(res).slice(0,15);
+}
+
+function updateMeta(){
+  document.getElementById("qnum").textContent=questions.length?`${cur+1}/${questions.length}`:"–";
+  document.getElementById("qok").textContent=score;
+  document.getElementById("qpct").textContent=cur===0?"0%":Math.round(score/cur*100)+"%";
+  document.getElementById("prog").style.width=questions.length?`${cur/questions.length*100}%`:"0%";
+}
+function buildTabs(){
+  const tabList = [
+    'Todo',
+    CLASICA_CAT,
+    AUTOR_CAT,
+    'Spritz',
+    'Sin Alcohol',
+    DESTILADOS_TAB,
+    ...CATS.filter(c=>!['Todo',CLASICA_CAT,AUTOR_CAT,'Spritz','Sin Alcohol',DESTILADOS_TAB,'Ron','Whisky','Gin','Tequila','Vodka'].includes(c))
+  ];
+  document.getElementById("tabs").innerHTML=tabList.map(c=>
+    `<button class="tab${c===activeTab?" active":""}" onclick="setTab('${c.replace(/'/g,"\\'")}')">${c}</button>`
+  ).join("");
+  const hasSubtabs = activeTab===AUTOR_CAT || activeTab===CLASICA_CAT || activeTab===DESTILADOS_TAB;
+  const subtabFamilies = activeTab===DESTILADOS_TAB ? DESTILADOS_SUBGROUPS : activeTab===AUTOR_CAT ? AUTOR_FAMILIES : activeTab===CLASICA_CAT ? CLASICA_FAMILIES : [];
+  document.getElementById("subtabsWrap").style.display = hasSubtabs ? '' : 'none';
+  if(hasSubtabs){
+    document.getElementById("subtabs").innerHTML=
+      [`<button class="tab${activeFamily===null?" active":""}" onclick="setFamily(null)">Todos</button>`,
+       ...subtabFamilies.map(f=>`<button class="tab${activeFamily===f?" active":""}" onclick="setFamily('${f.replace(/'/g,"\\'")}')">${f}</button>`)
+      ].join("");
+  }
+}
+function buildFilters(){
+  const btns=FILTER_TYPES.map(t=>
+    `<button class="filt${activeFilters.has(t)?" on":""}" onclick="toggleFilter('${t}')">${FILTER_LABELS[t]}</button>`
+  ).join("");
+  document.getElementById("filters").innerHTML=`<span class="filter-label">🔍 Tipo:</span>${btns}`;
+}
+function setFamily(f){ activeFamily=f; buildTabs(); if(appMode==='learn') startLearn(); else startQuiz(); }
+function familyBadgeHtml(item){
+  if(!item.family) return '';
+  const bg   = item.cat===CLASICA_CAT ? CLASICA_COLOR : AUTOR_COLOR;
+  const col  = item.cat===CLASICA_CAT ? CLASICA_TEXT  : AUTOR_TEXT;
+  return `<span style="display:inline-block;font-size:10px;font-weight:600;padding:2px 7px;border-radius:20px;background:${bg};color:${col};letter-spacing:.04em;text-transform:uppercase">${item.family}</span>`;
+}
+function setTab(c){ activeTab=c; activeFamily=null; buildTabs(); if(appMode==='learn')startLearn(); else startQuiz(); }
+function toggleFilter(t){
+  if(activeFilters.has(t)&&activeFilters.size===1)return;
+  activeFilters.has(t)?activeFilters.delete(t):activeFilters.add(t);
+  buildFilters();startQuiz();
+}
+function startQuiz(){
+  questions=makeQs();cur=0;score=0;answered=false;
+  if(!questions.length){
+    document.getElementById("area").innerHTML=`<div class="no-q">No hay suficientes preguntas para esta combinación.<br><em>Not enough questions for this combination.</em></div>`;
+    updateMeta();return;
+  }
+  render();
+}
+function render(){
+  if(cur>=questions.length){renderEnd();return;}
+  answered=false;updateMeta();
+  const q=questions[cur];
+  const m=Q_META[q.qtype];
+  const imgHtml = q.img ? ['<img class="qimg" src="', q.img, '" alt="">'].join('') : '';
+  document.getElementById("area").innerHTML=`
+    <div class="qcard">
+      <div class="qtype">${m}<span class="qtag">${q.cat}</span></div>
+      ${imgHtml}
+      <div class="qtext">${q.q}</div>
+      <div class="${q.opts.some(o=>IMAGES[o])?'opts-img':'opts'}" id="optsdiv">
+        ${q.opts.map(o=>{
+          const img=IMAGES[o];
+          const esc=o.replace(/'/g,"\\'");
+          const ans=q.answer.replace(/'/g,"\\'");
+          if(img) return '<button class="ob-img" onclick="choose(this,\''+esc+'\',\''+ans+'\')"><img src="'+img+'" alt="'+o+'"><span>'+o+'</span></button>';
+          return '<button class="ob" onclick="choose(this,\''+esc+'\',\''+ans+'\')">'+o+'</button>';
+        }).join("")}
+      </div>
+      <div class="fb" id="fb"></div>
+    </div>
+    <div class="nav" style="display:none" id="nav">
+      <button class="pri" onclick="nextQ()">${cur<questions.length-1?"Siguiente / Next →":"Resultados / Results →"}</button>
+    </div>`;
+}
+function choose(btn,chosen,correct){
+  if(answered)return;answered=true;
+  const ok=chosen===correct;
+  if(ok)score++;
+  document.querySelectorAll(".ob,.ob-img").forEach(b=>{
+    b.disabled=true;
+    if(b.textContent.trim()===correct)b.classList.add("ok");
+    else if(b===btn&&!ok)b.classList.add("bad");
+  });
+  const q=questions[cur];
+  const fb=document.getElementById("fb");
+  fb.style.display="block";
+  fb.innerHTML=ok
+    ?`<strong>✓ Correcto!</strong><br><span>${q.hint}</span>`
+    :`<strong>✗ Incorrecto</strong> — respuesta: <strong>${correct}</strong><br><span>${q.hint}</span>`;
+  document.getElementById("nav").style.display="flex";
+  updateMeta();
+}
+function nextQ(){cur++;render();}
+function renderEnd(){
+  document.getElementById("prog").style.width="100%";
+  document.getElementById("qnum").textContent=`${questions.length}/${questions.length}`;
+  document.getElementById("qpct").textContent=Math.round(score/questions.length*100)+"%";
+  const pct=Math.round(score/questions.length*100);
+  const e=pct>=80?"🏆":pct>=50?"👍":"📚";
+  const m_es=pct>=80?"¡Eres un experto de la carta!":pct>=50?"Buen trabajo, sigue practicando.":"Hay que estudiar más la carta.";
+  document.getElementById("area").innerHTML=`
+    <div class="qcard end">
+      <div class="big">${e}</div>
+      <div class="sc">${score} / ${questions.length}</div>
+      <p>${m_es}</p>
+      <div class="nav" style="margin-top:1.5rem;display:flex">
+        <button class="pri" onclick="startQuiz()">Jugar de nuevo / Play again</button>
+      </div>
+    </div>`;
+}
+// ── MODE ──────────────────────────────────────────────────
+let appMode = 'learn'; // 'test' | 'learn'
+
+function setMode(m){
+  appMode = m;
+  document.getElementById('btnTest').classList.toggle('active', m==='test');
+  document.getElementById('btnLearn').classList.toggle('active', m==='learn');
+  document.getElementById('btnMenu').classList.toggle('active', m==='interactive');
+  const tabsWrap = document.getElementById('tabs').parentElement;
+  const subWrap = document.getElementById('subtabsWrap');
+  tabsWrap.style.display = m==='interactive' ? 'none' : '';
+  subWrap.style.display = m==='interactive' ? 'none' : (activeTab===AUTOR_CAT || activeTab===CLASICA_CAT || activeTab===DESTILADOS_TAB ? '' : 'none');
+  document.getElementById('filters').style.display = m==='test' ? '' : 'none';
+  document.getElementById('metaBar').style.display = m==='test' ? '' : 'none';
+  if(m==='interactive'){
+    renderInteractiveMenu();
+    return;
+  }
+  buildTabs();
+  if(m==='test') startQuiz();
+  else startLearn();
+}
+
+// ── LEARN MODE ────────────────────────────────────────────
+let learnQueue = [], learnIdx = 0;
+let learnStage = 'main';   // 'main' (study+quiz per item) | 'recall' (final review of all)
+let learnPhase = 'study';  // for 'main': 'study' | 'quiz'
+let recallSelected = new Set();
+let recallStats = {hits:0, total:0, perfect:0, items:0};
+
+function getLearnPool(){
+  return getPool();
+}
+
+function startLearn(){
+  learnQueue = sh(getLearnPool());
+  learnIdx = 0;
+  learnStage = 'overview';
+  learnPhase = 'study';
+  recallStats = {hits:0, total:0, perfect:0, items:0};
+  document.getElementById('prog').style.width = '0%';
+  renderLearn();
+}
+
+function renderOverview(){
+  const cat = activeFamily ? activeFamily : (activeTab==='Todo' ? 'Todo el menú' : activeTab);
+  const getMinPrice = item => item.prices && item.prices.length ? Math.min(...item.prices.map(p=>p.p)) : 9999;
+  const items = [...learnQueue].sort((a,b) => {
+    const pa = getMinPrice(a), pb = getMinPrice(b);
+    if(pa !== pb) return pa - pb;
+    return a.name.localeCompare(b.name, 'es');
+  });
+  const catImg = IMAGES[cat];
+
+  const cardsHtml = items.map((item,i)=>{
+    const img = IMAGES[item.name];
+    const price = priceLabel(item);
+    const familyBadge = item.family ? familyBadgeHtml(item)+" " : '';
+    const catLabel = activeTab==='Todo' ? `<div style="margin-bottom:3px">${familyBadge}<span style="font-size:11px;color:#9a9793;text-transform:uppercase;letter-spacing:.04em">${item.family ? '' : item.cat}</span></div>` : (item.family ? `<div style="margin-bottom:4px">${familyBadge}</div>` : '');
+    const GRP_COLOR = {spirit:"#F09595",liqueur:"#E0AE6B",filler:"#8FC1E0",bitter:"#C9A0DC",sweet:"#9ECB7A",other:"#9a9793"};
+    const ingrLine = item.hasIngr && item.ingr && item.ingr.length
+      ? `<div style="font-size:14px;margin-top:5px;line-height:1.8">${(() => {
+          const sorted = [...item.ingr].sort((a, b) => {
+            const isGarnishA = GARNISHMENTS.has(a);
+            const isGarnishB = GARNISHMENTS.has(b);
+            if (isGarnishA !== isGarnishB) return isGarnishA ? 1 : -1;
+            const grpA = ingrGroup(a), grpB = ingrGroup(b);
+            const isAlcoholA = grpA === 'spirit' || grpA === 'liqueur';
+            const isAlcoholB = grpB === 'spirit' || grpB === 'liqueur';
+            const hasDoseA = item.doses && item.doses[a];
+            const hasDoseB = item.doses && item.doses[b];
+            if (isAlcoholA !== isAlcoholB) return isAlcoholB ? 1 : -1;
+            if (hasDoseA !== hasDoseB) return hasDoseB ? 1 : -1;
+            return 0;
+          });
+          return sorted.map(ing=>{
+            const dose = item.doses && item.doses[ing] ? `<span style="opacity:.7"> ${item.doses[ing]}</span>` : '';
+            const col = GRP_COLOR[ingrGroup(ing)] || GRP_COLOR.other;
+            const isOpt = item.optional && item.optional.includes(ing);
+            const optStyle = isOpt ? `style="color:${col};opacity:.55;font-style:italic"` : `style="color:${col}"`;
+            const optLabel = isOpt ? `<span style="font-size:9px;opacity:.7;font-style:normal;vertical-align:middle"> (opt)</span>` : '';
+            return `<span ${optStyle}>${ing}${dose}${optLabel}</span>`;
+          }).join('<span style="color:#3a3835"> · </span>');
+        })()}</div>` : '';
+    const methodLine = item.method
+      ? `<div style="font-size:12px;margin-top:6px;border-top:0.5px solid rgba(232,230,225,0.1);padding-top:6px">${"Método"} <span style="color:#8FC1E0;font-weight:600">${item.method||""}</span></div>` : '';
+    const glassName = item.glass || null;
+    const glassImg = glassName ? IMAGES[`glass:${item.glass}`] : null;
+    const glassHtml = glassName
+      ? `<div style="display:flex;flex-direction:column;align-items:center;gap:4px;flex-shrink:0;min-width:52px">
+          ${glassImg
+            ? `<img src="${glassImg}" alt="${glassName}" style="width:44px;height:60px;object-fit:contain">`
+            : `<div style="width:44px;height:60px;display:flex;align-items:center;justify-content:center;font-size:24px">🥛</div>`}
+          <span style="font-size:10px;color:#7a7875;text-align:center;line-height:1.2">${glassName}</span>
+        </div>` : '';
+    return `<div style="background:#1f1e1b;border:0.5px solid rgba(232,230,225,0.15);border-radius:12px;padding:14px;display:flex;align-items:flex-start;gap:14px">
+      ${img
+        ? `<img src="${img}" alt="${item.name}" style="width:64px;height:64px;object-fit:cover;border-radius:10px;flex-shrink:0">`
+        : `<div style="width:64px;height:64px;border-radius:10px;background:#2a2926;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:22px">🍹</div>`}
+      <div style="flex:1;min-width:0">
+        ${catLabel}
+        <div style="font-size:16px;font-weight:700;color:#e8e6e1;line-height:1.3">${item.name}</div>
+        ${price ? `<div style="font-size:14px;color:#E0AE6B;margin-top:4px;font-weight:500">${price}</div>` : ''}
+        ${ingrLine}
+        ${methodLine}
+      </div>
+      ${glassHtml}
+    </div>`;
+  }).join('');
+
+  document.getElementById('area').innerHTML = `
+    <div style="background:#1a1917;border:1px solid rgba(224,174,107,0.3);border-radius:16px;padding:20px;margin-bottom:16px;text-align:center">
+      ${catImg ? `<img src="${catImg}" alt="${cat}" style="width:80px;height:80px;object-fit:cover;border-radius:12px;margin-bottom:12px">` : ''}
+      <div style="font-size:22px;font-weight:700;color:#e8e6e1;margin-bottom:4px">${cat}${CAT_DESCRIPTIONS[cat] ? ` <span class="tab-info">ⓘ<span class="tab-tooltip">${CAT_DESCRIPTIONS[cat]}</span></span>` : ''}</div>
+      <div style="font-size:13px;color:#9a9793;margin-bottom:14px">${items.length} ${items.length===1?'ítem':'ítems'} en esta sección</div>
+      ${CAT_DESCRIPTIONS[cat] ? '' : ''}
+      <button class="pri" style="width:100%;padding:14px;border:none;border-radius:10px;background:#e8e6e1;color:#0f0e0c;font-size:16px;font-weight:700;cursor:pointer" onclick="startLearnMain()">¡Empezar repaso! →</button>
+    </div>
+    <div style="font-size:12px;color:#9a9793;text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;padding-left:2px">📋 Repasa antes de empezar</div>
+    <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:20px">${cardsHtml}</div>`;
+}
+
+function startLearnMain(){
+  learnStage = 'main';
+  learnIdx = 0;
+  learnPhase = 'study';
+  renderLearn();
+}
+
+function renderLearn(){
+  if(learnStage==='overview'){ renderOverview(); return; }
+  if(learnStage==='main'){
+    if(learnIdx >= learnQueue.length){
+      learnStage='recall';
+      learnIdx=0;
+      // Recall stage only makes sense for items with real recipes
+      if(!learnQueue.some(x=>x.hasIngr && x.ingr && x.ingr.length>1)){
+        renderLearnEnd(); return;
+      }
+      renderLearn();
+      return;
+    }
+    const item = learnQueue[learnIdx];
+    const pct = Math.round((learnIdx / learnQueue.length)*50);
+    document.getElementById('prog').style.width = pct+'%';
+    const hasRecipe = item.hasIngr && item.ingr && item.ingr.length>1;
+    if(learnPhase==='study') renderStudy(item);
+    else if(learnPhase==='recall' && hasRecipe) renderRecall(item);
+    else renderLearnQuiz(item);
+  } else {
+    // Final recall stage: skip items without real recipes
+    while(learnIdx < learnQueue.length && !(learnQueue[learnIdx].hasIngr && learnQueue[learnIdx].ingr && learnQueue[learnIdx].ingr.length>1)){
+      learnIdx++;
+    }
+    if(learnIdx >= learnQueue.length){ renderLearnEnd(); return; }
+    const item = learnQueue[learnIdx];
+    const pct = 50 + Math.round((learnIdx / learnQueue.length)*50);
+    document.getElementById('prog').style.width = pct+'%';
+    renderRecall(item);
+  }
+}
+
+function genIngrQ(item){
+  const types = sh(['ingredients','ingredients2','ingredients3']);
+  for(const t of types){
+    if(t==='ingredients'){
+      const required = item.ingr.filter(i=>!item.optional || !item.optional.includes(i));
+      if(required.length===0) continue;
+      const correct=required[Math.floor(Math.random()*required.length)];
+      const wrongs=sh(ALL_INGRS.filter(i=>!item.ingr.includes(i))).slice(0,3);
+      if(wrongs.length>=3) return {qtype:t,
+        q:`¿Cuál de estos ingredientes lleva el ${item.name}?`,
+        opts:sh([correct,...wrongs]),answer:correct,
+        hint:`${item.name}: ${item.ingr.join(", ")}`};
+    }
+    if(t==='ingredients2' && item.ingr.length>=3){
+      const required = item.ingr.filter(i=>!item.optional || !item.optional.includes(i));
+      if(required.length<3) continue;
+      const s=sh(required); const shown=s.slice(0,2),c2=s[2];
+      const wrongs=sh(ALL_INGRS.filter(i=>!item.ingr.includes(i))).slice(0,3);
+      if(wrongs.length>=3) return {qtype:t,
+        q:`El ${item.name} lleva ${shown.join(" y ")}… ¿cuál más?`,
+        opts:sh([c2,...wrongs]),answer:c2,
+        hint:`${item.name}: ${item.ingr.join(", ")}`};
+    }
+    if(t==='ingredients3' && item.ingr.length>=3){
+      const intruder=sh(ALL_INGRS.filter(i=>!item.ingr.includes(i)))[0];
+      const decoys=sh(item.ingr).slice(0,3);
+      if(intruder&&decoys.length>=3) return {qtype:t,
+        q:`¿Cuál de estos NO lleva el ${item.name}?`,
+        opts:sh([intruder,...decoys]),answer:intruder,
+        hint:`${item.name} lleva: ${item.ingr.join(", ")}`};
+    }
+  }
+  return null;
+}
+
+function genPriceQ(item){
+  if(!item.prices || !item.prices.length) return null;
+  const serving = item.prices[Math.floor(Math.random()*item.prices.length)];
+  const wrongPs = sh(UNIQUE_PRICES.filter(p=>p!==serving.p)).slice(0,3);
+  if(wrongPs.length<3) return null;
+  const hint_parts = item.prices.map(s=>`${s.label}: ${fmt(s.p)}`).join(" · ");
+  return {qtype:'price',
+    q:`¿Cuánto cuesta el ${item.name} (${serving.label})?`,
+    opts:sh([serving.p,...wrongPs]).map(fmt),answer:fmt(serving.p),
+    hint:`${item.name} — ${hint_parts}`};
+}
+
+function genRatioQ(item){
+  if(!item.doses || Object.keys(item.doses).length===0) return null;
+  const allWithDoses = RAW.filter(x=>x.doses && Object.keys(x.doses).length>0);
+  function ratioStr(x){ return x.ingr.map(i=>(x.doses&&x.doses[i])?`${x.doses[i]} ${i}`:i).join(', '); }
+  const correct = ratioStr(item);
+  const wrongs = sh(allWithDoses.filter(x=>x.name!==item.name)).slice(0,3).map(ratioStr);
+  if(wrongs.length<1) return null;
+  return {qtype:'ratio',
+    q:`¿Cuál es el ratio del ${item.name}?`,
+    opts:sh([correct,...wrongs.slice(0,3)]), answer:correct,
+    hint:`${item.name}: ${correct}`};
+}
+
+function genQuizQueue(item){
+  // Always include a price question; include an ingredient question if the item has a recipe.
+  const qs = [];
+  const hasRecipe = item.hasIngr && item.ingr && item.ingr.length>1;
+  if(hasRecipe){
+    const iq = genIngrQ(item);
+    if(iq) qs.push(iq);
+  }
+  const rq = genRatioQ(item);
+  if(rq) qs.push(rq);
+  const pq = item.cat !== CLASICA_CAT ? genPriceQ(item) : null;
+  if(pq) qs.push(pq);
+  return qs;
+}
+
+let currentLearnQ = null;
+let quizQueue = [];
+let quizQueueIdx = 0;
+let quizQueueItem = null;
+
+function renderLearnQuiz(item){
+  // Build the queue once per item (when we first enter quiz phase for it)
+  if(quizQueueItem !== item){
+    quizQueue = genQuizQueue(item);
+    quizQueueIdx = 0;
+    quizQueueItem = item;
+  }
+  if(quizQueueIdx >= quizQueue.length){
+    quizQueueItem = null;
+    nextLearn();
+    return;
+  }
+  currentLearnQ = quizQueue[quizQueueIdx];
+  const q = currentLearnQ;
+  const optsClass = q.opts.some(o=>IMAGES[o]) ? 'opts-img' : 'opts';
+  const optsHtml = q.opts.map(o=>{
+    const img=IMAGES[o];
+    const esc=o.replace(/'/g,"\\'");
+    const ans=q.answer.replace(/'/g,"\\'");
+    if(img) return `<button class="ob-img" onclick="chooseLearn(this,'${esc}','${ans}')"><img src="${img}" alt="${o}"><span>${o}</span></button>`;
+    return `<button class="ob" onclick="chooseLearn(this,'${esc}','${ans}')">${o}</button>`;
+  }).join('');
+
+  const isLastInItem = quizQueueIdx >= quizQueue.length - 1;
+  const isLastItem = learnIdx >= learnQueue.length - 1;
+  const nextLabel = (isLastInItem && isLastItem) ? 'Ver resultados / Results →' : 'Siguiente / Next →';
+
+  document.getElementById('area').innerHTML = `
+    <div class="learn-card">
+      <div class="learn-counter">Práctica · ${learnIdx+1} / ${learnQueue.length}${quizQueue.length>1?` · ${quizQueueIdx+1}/${quizQueue.length}`:''}</div>
+      <div class="qtype">${Q_META[q.qtype]}<span class="qtag">${item.name}</span></div>
+      <div class="qtext">${q.q}</div>
+      <div class="${optsClass}">${optsHtml}</div>
+      <div class="fb" id="fb"></div>
+    </div>
+    <div class="nav" style="display:none" id="nav">
+      <button class="pri" onclick="nextQuizStep()">${nextLabel}</button>
+    </div>`;
+}
+
+function nextQuizStep(){
+  quizQueueIdx++;
+  renderLearn();
+}
+
+function chooseLearn(btn, chosen, correct){
+  const q = currentLearnQ;
+  document.querySelectorAll('.ob,.ob-img').forEach(b=>{
+    b.disabled=true;
+    if(b.textContent.trim()===correct) b.classList.add('ok');
+    else if(b===btn && chosen!==correct) b.classList.add('bad');
+  });
+  const ok = chosen===correct;
+  const fb=document.getElementById('fb');
+  fb.style.display='block';
+  fb.innerHTML = ok
+    ? `<strong>✓ Correcto!</strong><br><span>${q.hint}</span>`
+    : `<strong>✗ Incorrecto</strong> — respuesta: <strong>${correct}</strong><br><span>${q.hint}</span>`;
+  document.getElementById('nav').style.display='flex';
+}
+
+const INGR_GROUP = {
+  "Tequila":"spirit","Tequila Don Julio":"spirit","Gin":"spirit","Gin Tanqueray":"spirit",
+  "Gin Mare":"spirit","Vodka":"spirit","Moskovskaya":"spirit","Vodka Smirnoff Tamarindo":"spirit",
+  "Ron":"spirit","Ron blanco":"spirit","Ron jamaicano":"spirit","Bumbu":"spirit","Diplomático Planas":"spirit",
+  "Jack Daniels Fire":"spirit","Jack Daniels Triple Mash":"spirit","Monkey Shoulder":"spirit",
+  "Whisky":"spirit","Whiskey":"spirit","Fino":"spirit","Cerveza":"spirit","Vino tinto":"spirit","Tanqueray 0.0":"spirit",
+  "Triple Sec Bols":"liqueur","Licor Bols Blue Curaçao":"liqueur","Licor yuzu":"liqueur",
+  "Cerveza":"beer","Guinness":"beer","Paulaner":"beer","Águila":"beer","Heineken":"beer",
+  "Licor Midori":"liqueur","Licor de café Bols":"liqueur",
+  "Licor de humo":"liqueur","Licor Bols Vainilla":"liqueur","Licor mandarina MB":"liqueur",
+  "Licor Bols Chocolate":"liqueur","Licor Bols Butterscotch":"liqueur","Licor Bols Yogurt":"liqueur",
+  "Chambord":"liqueur","Bénédictine DOM":"liqueur","Vermut":"liqueur","Vermut tinto":"liqueur",
+  "Aperol":"liqueur","Campari":"liqueur","Sarti Rosa":"liqueur","Bols Saúco":"liqueur","Terry":"liqueur",
+  "Vino tinto":"wine","Vermut":"wine","Vermut tinto":"wine","Cava":"wine",
+  "7UP":"filler","Cava":"filler","Soda":"filler","Soda de pomelo":"filler","Ginger Ale":"filler",
+  "Ginger beer":"filler","Schweppes limón":"filler","Zumo de tomate":"filler",
+  "Zumo de naranja":"filler","Zumo de piña":"filler","Zumo de arándanos":"filler",
+  "Zumo de limón":"filler","Zumo de lima":"filler",
+  "Bitter":"bitter","Bitter caffè":"bitter","Bitter de cacao":"bitter","Bitter de naranja":"bitter",
+  "Bitter habanero":"bitter","Salsa inglesa":"bitter","Tabasco":"bitter",
+  "Sirope":"sweet","Sirope amarena":"sweet","Sirope de agave":"sweet",
+  "Azúcar líquido":"sweet","Sirope de vainilla":"sweet","Sirope falernum":"sweet",
+  "Sirope pandán":"sweet","Jalea de naranja":"sweet",
+  "Arándanos":"fruit","Fresa":"fruit","Piña":"fruit","Fruta de la pasión":"fruit",
+  "Puré de fruta de la pasión":"fruit","Lichee":"fruit","Frutos rojos":"fruit",
+  "Manzana verde":"fruit","Calabaza asada":"fruit","Maracuyá":"fruit",
+  "Frutas tropicales":"fruit","Lima":"fruit","Naranja":"fruit",
+};
+const GARNISHMENTS = new Set([
+  "Hierbabuena","Albahaca","Menta","Romero","Tomillo","Perejil",
+  "Lima","Limón","Naranja","Limón verde","Rodajas de limón","Rodajas de lima",
+  "Coco","Café","Nata","Leche","Foam",
+  "Arándanos","Fresa","Piña","Fruta de la pasión","Lichee","Frutos rojos","Manzana verde",
+  "Calabaza asada","Maracuyá"
+]);
+const GROUP_ORDER = ["spirit","liqueur","filler","bitter","sweet","other"];
+const GROUP_LABELS = {
+  spirit:"Alcohol / Spirit", liqueur:"Licores / Liqueurs", filler:"Mixers / Sodas",
+  bitter:"Bitters", sweet:"Endulzantes / Sweeteners", other:"Otros / Other"
+};
+function ingrGroup(name){ return INGR_GROUP[name] || "other"; }
+
+const INTERACTIVE_MENU_DATA = buildInteractiveMenuData();
+
+function priceLabel(item){
+  if(!item.prices || !item.prices.length) return '';
+  if(item.prices.length===1) return fmt(item.prices[0].p);
+  return item.prices.map(s=>`${fmt(s.p)} (${s.label})`).join(' · ');
+}
+
+function renderStudy(item){
+  const hasRecipe = item.hasIngr && item.ingr && item.ingr.length>1;
+
+  let rowsHtml = '';
+  if(hasRecipe){
+    // Group this cocktail's ingredients by category, preserving GROUP_ORDER
+    const byGroup = {};
+    item.ingr.forEach(ing=>{
+      const g = ingrGroup(ing);
+      (byGroup[g] = byGroup[g] || []).push(ing);
+    });
+
+    // Row 1: spirit + liqueur share one row. Row 2: filler/bitter/sweet/other share another row.
+    const ROW_GROUPS = [["spirit","liqueur"], ["filler","bitter","sweet","other"]];
+
+    rowsHtml = ROW_GROUPS.map(rowGroups=>{
+      const present = rowGroups.filter(g=>byGroup[g]);
+      if(!present.length) return '';
+      const colsHtml = present.map(g=>{
+        const itemsHtml = byGroup[g].map(ing=>{
+          const isOpt = item.optional && item.optional.includes(ing);
+          const optMark = isOpt ? `<span style="font-size:9px;opacity:.6;font-style:italic"> (opt)</span>` : '';
+          const optStyle = isOpt ? ' style="opacity:.6"' : '';
+          const img = IMAGES[ing];
+          if(img) return `<div class="learn-ingr-item"${optStyle}><img src="${img}" alt="${ing}"><span>${ing}${optMark}</span></div>`;
+          return `<div class="learn-ingr-item no-img"${optStyle}><span>${ing}${optMark}</span></div>`;
+        }).join('');
+        return `<div class="ingr-group grp-${g}">
+          <div class="ingr-group-label">${GROUP_LABELS[g]}</div>
+          <div class="ingr-group-grid">${itemsHtml}</div>
+        </div>`;
+      }).join('');
+      return `<div class="ingr-row">${colsHtml}</div>`;
+    }).join('');
+  } else {
+    rowsHtml = `<div class="learn-hint">Sin receta — solo precio / No recipe — price only</div>`;
+  }
+
+  const btnAction = hasRecipe ? 'goRecall()' : 'goQuiz()';
+  const btnLabel = hasRecipe
+    ? 'Memorizado — a recordar →<br><small style="opacity:.6">o pulsa Espacio</small>'
+    : 'Memorizado — a practicar →<br><small style="opacity:.6">o pulsa Espacio</small>';
+
+  // Doses block - compact version
+  const dosesHtml = item.doses && Object.keys(item.doses).length
+    ? `<div style="font-size:12px;color:#E0AE6B;margin-top:6px;line-height:1.5">
+        ${Object.entries(item.doses).map(([ing,dose])=>
+          `<div style="display:flex;gap:4px"><span>${ing}</span><span style="opacity:.7">${dose}</span></div>`
+        ).join('')}
+      </div>` : '';
+
+  const methodHtml = item.method
+    ? `<div style="font-size:12px;color:#8FC1E0;margin-top:6px">${item.method}</div>` : '';
+
+  document.getElementById('area').innerHTML = `
+    <div class="learn-card">
+      <div class="learn-counter">Estudio · ${learnIdx+1} / ${learnQueue.length}</div>
+      <div style="display:flex;gap:12px;margin-bottom:12px">
+        ${IMAGES[item.name]?`<img style="width:100px;height:100px;object-fit:cover;border-radius:8px;flex-shrink:0" src="${IMAGES[item.name]}" alt="${item.name}">`:'<div style="width:100px;height:100px;background:#2a2926;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:32px;flex-shrink:0">🍹</div>'}
+        <div style="flex:1;min-width:0">
+          <div class="learn-name" style="margin:0;font-size:20px">${item.name} <span class="learn-price">${priceLabel(item)}</span></div>
+          ${familyBadgeHtml(item)}
+          ${dosesHtml}
+          ${methodHtml}
+        </div>
+      </div>
+      ${rowsHtml}
+    </div>
+    <div class="nav">
+      <button class="pri" onclick="${btnAction}">${btnLabel}</button>
+    </div>`;
+}
+
+function goRecall(){
+  learnPhase = 'recall';
+  renderLearn();
+}
+
+function renderRecall(item){
+  // Pool: correct ingrs + random wrong ones from all cocktails
+  const wrongPool = sh(ALL_INGRS.filter(i=>!item.ingr.includes(i)));
+  const distractors = wrongPool.slice(0, Math.min(item.ingr.length + 2, 8));
+  // Shuffle within each group, but keep groups in GROUP_ORDER
+  const byGroup = {};
+  [...item.ingr, ...distractors].forEach(o=>{
+    const g = ingrGroup(o);
+    (byGroup[g] = byGroup[g] || []).push(o);
+  });
+  const allOpts = GROUP_ORDER.flatMap(g => byGroup[g] ? sh(byGroup[g]) : []);
+  recallSelected = new Set();
+
+  const optsHtml = allOpts.map(o=>{
+    const img = IMAGES[o];
+    const grp = ingrGroup(o);
+    const cls = `recall-opt grp-${grp}`;
+    if(img) return `<button class="${cls}" data-opt="${o.replace(/"/g,'&quot;')}" onclick="toggleRecall(this,'${o.replace(/'/g,"\\'")}')"><img src="${img}" alt="${o}"><span>${o}</span></button>`;
+    return `<button class="${cls}" data-opt="${o.replace(/"/g,'&quot;')}" onclick="toggleRecall(this,'${o.replace(/'/g,"\\'")}')"><span>${o}</span></button>`;
+  }).join('');
+
+  document.getElementById('area').innerHTML = `
+    <div class="learn-card">
+      <div class="learn-counter">${learnStage==='main'?'Recordar':'Repaso final'} · ${learnIdx+1} / ${learnQueue.length}</div>
+      ${IMAGES[item.name]?`<img class="qimg" src="${IMAGES[item.name]}" alt="${item.name}">`:''}
+      <div class="learn-name">${item.name} <span class="learn-price">${priceLabel(item)}</span></div>
+      <div class="learn-hint">Selecciona todos los ingredientes / Select all ingredients</div>
+      <div class="learn-ingr-grid" id="recallGrid">${optsHtml}</div>
+    </div>
+    <div class="nav" id="nav">
+      <button class="pri" onclick="checkRecall('${item.name.replace(/'/g,"\\'")}')">Comprobar / Check ✓</button>
+    </div>`;
+}
+
+function toggleRecall(btn, val){
+  if(btn.dataset.locked) return;
+  if(recallSelected.has(val)){
+    recallSelected.delete(val);
+    btn.classList.remove('selected');
+  } else {
+    recallSelected.add(val);
+    btn.classList.add('selected');
+  }
+}
+
+function checkRecall(name){
+  const item = learnQueue.find(x=>x.name===name);
+  const correct = new Set(item.ingr);
+  const optional = new Set(item.optional || []);
+  const grid = document.getElementById('recallGrid');
+  let hits=0, misses=0, wrongs=0;
+
+  grid.querySelectorAll('.recall-opt').forEach(btn=>{
+    btn.dataset.locked = '1';
+    const val = btn.dataset.opt;
+    const isCorrect = correct.has(val);
+    const isOptional = optional.has(val);
+    const isSelected = recallSelected.has(val);
+    if(isCorrect && isSelected){ btn.classList.add('correct'); hits++; }
+    else if(isCorrect && !isSelected && !isOptional){ btn.classList.add('missed'); misses++; }
+    else if(!isCorrect && isSelected){ btn.classList.add('wrong'); wrongs++; }
+    else if(isOptional && isSelected){ btn.classList.add('correct'); hits++; }
+    btn.classList.remove('selected');
+  });
+
+  const required = item.ingr.filter(i => !optional.has(i)).length;
+  const perfect = misses===0 && wrongs===0;
+  const msg = perfect
+    ? '✓ ¡Perfecto! / Perfect!'
+    : `${hits}/${required} ingredientes — ${misses} olvidados, ${wrongs} incorrectos`;
+
+  let nextLabel, nextAction;
+  if(learnStage==='main'){
+    // Practice recall, before the quiz question — doesn't count toward final stats
+    nextLabel = 'Practicar / Practice →';
+    nextAction = 'goQuiz()';
+  } else {
+    // Final review recall — counts toward end-of-session stats
+    recallStats.total += required;
+    recallStats.hits += hits;
+    recallStats.items++;
+    if(perfect) recallStats.perfect++;
+    const isLast = learnIdx >= learnQueue.length - 1;
+    nextLabel = isLast ? 'Ver resultados / Results →' : 'Siguiente / Next →';
+    nextAction = 'nextLearn()';
+  }
+
+  // Replace check button with feedback + next
+  document.querySelector('.nav').innerHTML = `
+    <div style="display:flex;flex-direction:column;gap:8px;width:100%">
+      <div style="text-align:center;padding:8px 0;font-size:14px;color:${perfect?'#97C459':'#c87020'}">${msg}</div>
+      <button class="pri" style="width:100%" onclick="${nextAction}">${nextLabel}</button>
+    </div>`;
+  document.getElementById('nav').dataset.checked = '1';
+}
+
+function goQuiz(){
+  learnPhase = 'quiz';
+  renderLearn();
+}
+
+function nextLearn(){
+  learnIdx++;
+  if(learnStage==='main') learnPhase = 'study';
+  renderLearn();
+}
+
+function renderLearnEnd(){
+  document.getElementById('prog').style.width='100%';
+  const hadRecipes = learnQueue.some(x=>x.hasIngr && x.ingr && x.ingr.length>1);
+
+  const reviewedLine = hadRecipes
+    ? `Repasaste ${learnQueue.length} cócteles.<br><em>You reviewed ${learnQueue.length} cocktails.</em>`
+    : `Repasaste ${learnQueue.length} bebidas.<br><em>You reviewed ${learnQueue.length} drinks.</em>`;
+
+  let recallBlock = '';
+  if(hadRecipes && recallStats.total>0){
+    const pct = Math.round(recallStats.hits/recallStats.total*100);
+    recallBlock = `<br><br>
+        <strong style="color:#e8e6e1">Repaso final / Final recall</strong><br>
+        ${recallStats.hits}/${recallStats.total} ingredientes (${pct}%) · ${recallStats.perfect}/${recallStats.items} perfectos`;
+  }
+
+  document.getElementById('area').innerHTML=`
+    <div class="learn-card end">
+      <div class="big">🎓</div>
+      <div class="sc" style="font-size:22px;font-weight:500;margin-bottom:8px">¡Sesión completada!</div>
+      <p style="color:#9a9793;font-size:14px">
+        ${reviewedLine}${recallBlock}
+      </p>
+      <div class="nav" style="margin-top:1.5rem;display:flex">
+        <button class="pri" onclick="startLearn()">Repetir / Again</button>
+      </div>
+    </div>`;
+}
+
+// Override keydown to also work in learn mode
+// Tap handler for .tab-info tooltips on mobile
+document.addEventListener('click', function(e){
+  const info = e.target.closest('.tab-info');
+  if(info){ info.classList.toggle('open'); return; }
+  // Close any open tooltips when tapping elsewhere
+  document.querySelectorAll('.tab-info.open').forEach(el=>el.classList.remove('open'));
+});
+
+document.addEventListener('keydown', function(e) {
+  if(e.target.id === 'chat-input') return; // let chat textarea handle its own keys
+  if (e.code === 'Space' || e.key === ' ' || e.code === 'Enter' || e.key === 'Enter') {
+    e.preventDefault();
+    if(appMode==='test'){
+      const nav = document.getElementById('nav');
+      if (nav && nav.style.display !== 'none') nextQ();
+    } else if(learnStage==='main'){
+      const item = learnQueue[learnIdx];
+      const hasRecipe = item && item.hasIngr && item.ingr && item.ingr.length>1;
+      if(learnPhase==='study'){
+        if(hasRecipe) goRecall(); else goQuiz();
+      } else if(learnPhase==='recall' && hasRecipe){
+        const nav = document.getElementById('nav');
+        if(nav && nav.dataset.checked==='1') goQuiz();
+      } else {
+        const nav = document.getElementById('nav');
+        if (nav && nav.style.display !== 'none') nextQuizStep();
+      }
+    } else {
+      // final review stage: space/enter advances only after "Check" has been pressed
+      const nav = document.getElementById('nav');
+      if(nav && nav.dataset.checked==='1') nextLearn();
+    }
+  }
+});
+
+buildTabs();buildFilters();setMode('learn');
+// ── AI CHAT BOT ────────────────────────────────────────────
+const WORKER_URL = 'https://berlin-ai.marie-berezhna.workers.dev';
+const chatHistory = [];
+
+function buildSystemPrompt(){
+  const AI_CATS = new Set(['Cócteles de autor','Spritz','Jarras','Micheladas','Coctelería clásica']);
+  const menuSummary = RAW.filter(item => AI_CATS.has(item.cat)).map(item => {
+    const price = item.prices ? item.prices[0].p + '€' : '';
+    const ingrs = item.ingr ? item.ingr.slice(0,4).join(', ') : '';
+    return `${item.name}|${item.cat}|${price}${ingrs?' — '+ingrs:''}`;
+  }).join('\n');
+
+  return `Eres el asistente de barra del Café Berlín (Valencia). Recomienda bebidas del menú o cócteles clásicos preparables con nuestros ingredientes. Sé breve y directo. Usa **negrita** para nombres. Responde en español. Máximo 3-4 opciones.
+
+MENÚ (nombre|categoría|precio — ingredientes principales):
+${menuSummary}`;
+}
+
+function toggleChat(){
+  const panel = document.getElementById('chat-panel');
+  panel.classList.toggle('open');
+  if(panel.classList.contains('open'))
+    document.getElementById('chat-input').focus();
+}
+
+function chatKeydown(e){
+  if(e.key==='Enter' && !e.shiftKey){ e.preventDefault(); sendChat(); }
+}
+
+async function sendChat(){
+  const input = document.getElementById('chat-input');
+  const msg = input.value.trim();
+  if(!msg) return;
+
+  input.value = '';
+  document.getElementById('chat-send').disabled = true;
+
+  appendMsg('user', msg);
+  chatHistory.push({role:'user', content:msg});
+
+  const thinking = appendMsg('ai', '...', true);
+
+  try {
+    const res = await fetch(WORKER_URL, {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({
+        system: buildSystemPrompt(),
+        messages: chatHistory
+      })
+    });
+    const raw = await res.text();
+    let data;
+    try { data = JSON.parse(raw); } catch(e) { data = {}; }
+    console.log('Worker response:', data);
+    const reply = data.choices?.[0]?.message?.content || data.error?.message || data.error || 'No he podido obtener respuesta.';
+    thinking.remove();
+    appendMsg('ai', reply);
+    chatHistory.push({role:'assistant', content:reply});
+  } catch(err) {
+    thinking.remove();
+    appendMsg('ai', 'Error al conectar con el asistente. Inténtalo de nuevo.');
+  }
+
+  document.getElementById('chat-send').disabled = false;
+  input.focus();
+}
+
+function appendMsg(role, text, isThinking=false){
+  const msgs = document.getElementById('chat-messages');
+  const div = document.createElement('div');
+  div.className = `chat-msg ${role}${isThinking?' thinking':''}`;
+  if(role==='ai' && !isThinking){
+    div.innerHTML = text
+      .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+      .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
+      .replace(/\*(.+?)\*/g,'<em>$1</em>')
+      .replace(/^#{1,3} (.+)$/gm,'<div style="font-weight:700;color:#e8e6e1;margin-top:8px;margin-bottom:2px">$1</div>')
+      .replace(/^[-•] (.+)$/gm,'<div style="padding-left:10px;margin:2px 0">• $1</div>')
+      .replace(/\n\n/g,'<br><br>')
+      .replace(/\n/g,'<br>');
+  } else {
+    div.textContent = text;
+  }
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+  return div;
+}
+
+</script>
+<!-- AI Chat Bot -->
+<button id="chat-fab" onclick="toggleChat()" title="Asistente de barra">🍸</button>
+<div id="chat-panel">
+  <div id="chat-header">
+    <span>🍸 Asistente de barra</span>
+    <button id="chat-close" onclick="toggleChat()">✕</button>
+  </div>
+  <div id="chat-messages">
+    <div class="chat-msg ai">Hola! Dime qué tipo de bebida buscas y te recomiendo algo del menú o te sugiero un clásico con lo que tenemos en barra.</div>
+  </div>
+  <div id="chat-input-row">
+    <textarea id="chat-input" rows="1" placeholder="Algo dulce, sin alcohol, con ron..." onkeydown="chatKeydown(event)"></textarea>
+    <button id="chat-send" onclick="sendChat()">➤</button>
+  </div>
+</div>
+
+</body>
+</html>
