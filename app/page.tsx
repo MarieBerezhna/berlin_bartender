@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 
 import ChatPanel from "./components/chat/ChatPanel";
+import InteractiveMenu from "./components/interactive/InteractiveMenu";
 import FilterBar, { FILTER_TYPES, type FilterType } from "./components/layout/FilterBar";
 import Header, { type AppMode } from "./components/layout/Header";
 import TabBar from "./components/layout/TabBar";
@@ -70,6 +71,8 @@ export default function Home() {
           The menu data and learn helpers are now wired through a TypeScript module, so the app can grow without losing structure.
         </p>
       </section>
+
+      {mode === "interactive" ? <InteractiveMenu /> : null}
 
       <section className="grid gap-4 md:grid-cols-2">
         <div className="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm dark:border-zinc-800 dark:bg-zinc-950">
