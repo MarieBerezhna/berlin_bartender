@@ -170,6 +170,9 @@ function buildInteractiveMenuData(items: MenuItem[], preferCombinedPrice: boolea
 		const spiritGroup = getInteractiveSpiritGroup(item);
 		const spirit = spiritGroup === "Otros" ? getMainSpirit(item) : spiritGroup;
 		const excludedSpirits = new Set(["Cerveza", "Vino tinto", "Vermut", "Vermut tinto", "Cava"]);
+		const rawSpirits = DESTILADOS_CATS.includes(item.cat)
+			? [item.cat]
+			: ingr.filter((ing) => ingrGroup(ing) === "spirit" && !excludedSpirits.has(ing));
 		const spirits = uniqueSorted(
 			DESTILADOS_CATS.includes(item.cat)
 				? [getSpiritFamily(item.cat)]
@@ -190,7 +193,7 @@ function buildInteractiveMenuData(items: MenuItem[], preferCombinedPrice: boolea
 		const siropes = ingr.filter((ing) => ingrGroup(ing) === "sweet");
 		const otros = ingr.filter(
 			(ing) =>
-				!spirits.includes(ing) &&
+				!rawSpirits.includes(ing) &&
 				!licores.includes(ing) &&
 				!cervezas.includes(ing) &&
 				!vinosVermuts.includes(ing) &&
