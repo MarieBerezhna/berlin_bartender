@@ -95,6 +95,7 @@ const IMAGES: Record<string, string> = {
   "Manzana verde": "./ingredientes/huerto/manzana_verde.webp",
   "Naranja": "./ingredientes/huerto/naranja.webp",
   "Fruta de la pasión": "./ingredientes/huerto/pasion.webp",
+  "Maracuyá": "./ingredientes/huerto/pasion.webp",
   "Puré de fruta de la pasión": "./ingredientes/huerto/pasion.webp",
   "Zumo de lima": "./ingredientes/zumos/zumo_lima.png",
   "Zumo de limón": "./ingredientes/zumos/zumo_limon.webp",
@@ -175,7 +176,9 @@ const IMAGES: Record<string, string> = {
   "Coco": "./ingredientes/coco.webp",
   "Jamón": "./comida/jamon.webp",
   "Drambuie": "./liqueurs/drambuie.webp",
+  "Terry": "./liqueurs/terry.webp",
   "Piña": "./ingredientes/huerto/pina.webp",
+  "Cognac": "./cognac.webp",
 };
 
 export default IMAGES;

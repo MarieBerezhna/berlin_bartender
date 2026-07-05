@@ -79,7 +79,7 @@ const DEFAULT_ACCORDION: AccordionState = {
 };
 
 const COMBINADOS_TAB = "Combinados";
-const interactiveCats = ["Todo", COMBINADOS_TAB, "Cócteles de autor", "Coctelería clásica", "Micheladas", "Spritz"];
+const interactiveCats = ["Todo", COMBINADOS_TAB, "Cócteles de autor", "Coctelería clásica", "Jarras", "Micheladas", "Spritz"];
 
 function fmt(price: number): string {
 	return `${price.toFixed(2).replace(".", ",")} €`;
@@ -149,7 +149,7 @@ function getInteractivePool(activeTab: string, activeFamily: string | null, incl
 			return prices.some((entry) => String(entry.label).trim().toLowerCase() === "combinado");
 		});
 	} else {
-		const allowedCats = new Set(["Cócteles de autor", "Coctelería clásica", "Micheladas", "Spritz"]);
+		const allowedCats = new Set(["Cócteles de autor", "Coctelería clásica", "Jarras", "Micheladas", "Spritz"]);
 		pool = (RAW as MenuItem[]).filter(
 			(item) => allowedCats.has(item.cat) && item.hasIngr && Array.isArray(item.ingr) && item.ingr.length,
 		);
