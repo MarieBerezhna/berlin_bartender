@@ -165,7 +165,7 @@ const IMAGES: Record<string, string> = {
   "Sal": "./ingredientes/sal.webp",
   "Salsa inglesa": "./ingredientes/salsa_inglesa.webp",
   "Tabasco": "./ingredientes/tabasco.webp",
-  "Café": "./ingredientes/cafe.webp",
+  "Café": "./ingredientes/coffee.webp",
   "Tullamore Dew": "./whisky/tullamore_dew.webp",
   "Foam": "./ingredientes/foam.webp",
   "Nata": "./ingredientes/nata.webp",
@@ -175,6 +175,7 @@ const IMAGES: Record<string, string> = {
   "Coco": "./ingredientes/coco.webp",
   "Jamón": "./comida/jamon.webp",
   "Drambuie": "./liqueurs/drambuie.webp",
+  "Piña": "./ingredientes/huerto/pina.webp",
 };
 
 export default IMAGES;

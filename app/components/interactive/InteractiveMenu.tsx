@@ -143,7 +143,11 @@ function getInteractivePool(activeTab: string, activeFamily: string | null, incl
 	let pool: MenuItem[];
 
 	if (activeTab === COMBINADOS_TAB) {
-		pool = (RAW as MenuItem[]).filter((item) => DESTILADOS_CATS.includes(item.cat));
+		pool = (RAW as MenuItem[]).filter((item) => {
+			if (!DESTILADOS_CATS.includes(item.cat)) return false;
+			const prices = Array.isArray(item.prices) ? item.prices : [];
+			return prices.some((entry) => String(entry.label).trim().toLowerCase() === "combinado");
+		});
 	} else {
 		const allowedCats = new Set(["Cócteles de autor", "Coctelería clásica", "Micheladas", "Spritz"]);
 		pool = (RAW as MenuItem[]).filter(
