@@ -29,7 +29,8 @@ body {
 body{font-family:system-ui,-apple-system,sans-serif;padding:1rem;background:#0f0e0c;color:#e8e6e1}
 .wrap{max-width:900px;margin:0 auto;padding:1rem 0}
 h1{font-size:18px;font-weight:500;margin-bottom:1rem;color:#e8e6e1}
-.tabs-scroll{overflow-x:auto;padding-bottom:4px;margin-bottom:1rem}
+.tabs-scroll{overflow-x:auto;padding-bottom:4px;margin-bottom:1rem;scrollbar-width:none;-ms-overflow-style:none}
+.tabs-scroll::-webkit-scrollbar{display:none}
 .tabs{display:flex;gap:4px;width:max-content;background:#1e1d1a;border-radius:10px;padding:4px}
 .tab{padding:6px 12px;border-radius:7px;border:none;background:transparent;font-size:13px;color:#7a7875;cursor:pointer;white-space:nowrap}
 .tab-info{position:relative;font-size:11px;opacity:.6;cursor:pointer;vertical-align:middle;margin-left:2px}
