@@ -38,7 +38,11 @@ export const DESTILADOS_TAB = "Destilados";
 export const DESTILADOS_CATS = ["Ron","Whisky","Gin","Tequila","Vodka"];
 export const DESTILADOS_SUBGROUPS = ["Tequila","Gin","Vodka","Ron","Whisky"];
 export const CAT_DESCRIPTIONS = {
+  "Daiquiri": "<strong>Fórmula común</strong><br><br>• 2 oz (60 ml) de destilado base<br>• 3/4 oz (22,5 ml) de zumo cítrico fresco<br>• 3/4 oz (22,5 ml) de endulzante<br>• Agitar con hielo<br>• Doble colado (opcional)<br>• Servir sin hielo o sobre hielo fresco, según el cóctel",
+  "Highball": "<strong>Fórmula común</strong><br><br>• 2 oz de destilado base<br>• Completar con un mezclador (soda, tónica, cola, ginger beer, etc.)<br>• Servir directamente en un vaso alto con hielo<br>• Decorar según la receta",
+  "Sidecar": "<strong>Fórmula común</strong><br><br>• <strong>2 oz</strong> de destilado base<br>• <strong>3/4 oz</strong> de zumo de cítrico fresco<br>• <strong>3/4 oz</strong> de licor<br>• Agitar con hielo<br>• Doble colado en una copa coupé previamente enfriada<br>• Decorar con un twist de cítrico (o escarchar el borde con azúcar o sal, según la receta; por ejemplo, en un <strong>Sidecar</strong> o una <strong>Margarita</strong>)",
   "Old Fashioned": "<strong>Fórmula común</strong><br><br>• <strong>2 oz (60 ml)</strong> de destilado base<br>• <strong>1/4 oz (7,5 ml/1.5 cucharaditas)</strong> de endulzante<br>• <strong>2-3 golpes</strong> de bitters<br>• Remover con hielo<br>• Servir sobre un cubo grande de hielo<br>• Una piel de naranja (o de limón, según la receta)",
+  "Martini": "<strong>Fórmula común</strong><br><br>• 2 oz (60 ml) de destilado base<br>• 1/2-1 oz (15-30 ml) de vino fortificado (vermut, jerez, Lillet, etc.)<br>• Remover con hielo<br>• Colar en una copa previamente enfriada<br>• Decorar con un twist de limón, una aceituna o una cebollita encurtida (en el caso del Gibson)",
   "Spritz": "Un spritz es un famoso y refrescante cóctel de origen italiano que se sirve principalmente como aperitivo. Su receta clásica combina tres elementos fundamentales: vino blanco espumoso (generalmente Prosecco), un licor amargo (bitter) y un chorrito de agua con gas (soda). La regla de oro del cóctel italiano clásico sigue la proporción 3-2-1: tres partes de prosecco o cava, 2 partes de bitter y 1 de soda.",
   "Licores": "Un licor es una bebida alcohólica elaborada a partir de un destilado al que se le añaden azúcar y aromas o sabores, como frutas, hierbas, especias, café o frutos secos. Suele tener un sabor dulce e intenso y puede consumirse solo o utilizarse como ingrediente para aportar sabor y color a los cócteles.",
   "Vodka": "El vodka es una bebida alcohólica destilada elaborada principalmente a partir de cereales o patatas. Se caracteriza por su sabor limpio y neutro, ya que suele filtrarse varias veces para eliminar impurezas. Gracias a su perfil discreto, es una de las bases más versátiles de la coctelería y se utiliza en cócteles como el Moscow Mule, Bloody Mary, Cosmopolitan y Espresso Martini.",
@@ -54,7 +58,7 @@ export const AUTOR_FAMILIES: string[] = [
       .filter((family): family is string => Boolean(family)),
   ),
 ];
-const CLASICA_FAMILY_ORDER = ["Old Fashioned", "Martini", "Sidecar", "Daiquiri", "Highball", "Flip"];
+const CLASICA_FAMILY_ORDER = ["Inclasificables", "Old Fashioned", "Martini", "Sidecar", "Daiquiri", "Highball", "Flip"];
 const CLASICA_FAMILIES_FOUND: string[] = [
   ...new Set(
     MENU.filter((x) => x.cat === CLASICA_CAT && x.family)
@@ -63,7 +67,7 @@ const CLASICA_FAMILIES_FOUND: string[] = [
   ),
 ];
 export const CLASICA_FAMILIES: string[] = [
-  ...CLASICA_FAMILY_ORDER.filter((family) => CLASICA_FAMILIES_FOUND.includes(family)),
+  ...CLASICA_FAMILY_ORDER,
   ...CLASICA_FAMILIES_FOUND.filter((family) => !CLASICA_FAMILY_ORDER.includes(family)),
 ];
 // badge colors per section type
@@ -82,29 +86,30 @@ export const Q_META = {
   category:     "Categoría",
   name:         "Nombre",
 };
-export const MENU_SPIRIT_HINTS = new Set(['Tequila','Tequila Don Julio','Gin','Gin Tanqueray','Gin Mare','Vodka','Moskovskaya','Vodka Smirnoff Tamarindo','Ron','Ron blanco','Ron jamaicano','Bumbu','Diplomático Planas','Jack Daniels Fire','Jack Daniels Triple Mash','Monkey Shoulder','Whisky','Whiskey','Fino','Cognac']);
+export const MENU_SPIRIT_HINTS = new Set(['Tequila','Tequila blanco','Tequila reposado','Tequila Don Julio','Gin','Ginebra','Gin Tanqueray','Gin Mare','Vodka','Moskovskaya','Vodka Smirnoff Tamarindo','Ron','Ron blanco','Ron oscuro','Ron jamaicano','Bumbu','Diplomático Planas','Jack Daniels Fire','Jack Daniels Triple Mash','Monkey Shoulder','Whisky','Whiskey','Bourbon','Fino','Cognac']);
 export const INGR_GROUP: Record<string, string> = {
-  "Tequila":"spirit","Tequila Don Julio":"spirit","Gin":"spirit","Gin Tanqueray":"spirit",
+  "Tequila":"spirit","Tequila blanco":"spirit","Tequila reposado":"spirit","Tequila Don Julio":"spirit","Gin":"spirit","Ginebra":"spirit","Gin Tanqueray":"spirit",
   "Gin Mare":"spirit","Vodka":"spirit","Moskovskaya":"spirit","Vodka Smirnoff Tamarindo":"spirit",
-  "Ron":"spirit","Ron blanco":"spirit","Ron jamaicano":"spirit","Bumbu":"spirit","Diplomático Planas":"spirit",
+  "Ron":"spirit","Ron blanco":"spirit","Ron oscuro":"spirit","Ron jamaicano":"spirit","Bumbu":"spirit","Diplomático Planas":"spirit",
   "Jack Daniels Fire":"spirit","Jack Daniels Triple Mash":"spirit","Monkey Shoulder":"spirit",
-  "Whisky":"spirit","Whiskey":"spirit","Fino":"spirit","Tanqueray 0.0":"spirit","Cognac":"spirit",
-  "Triple Sec Bols":"liqueur","Licor Bols Blue Curaçao":"liqueur","Licor yuzu":"liqueur",
+  "Whisky":"spirit","Whiskey":"spirit","Bourbon":"spirit","Fino":"spirit","Tanqueray 0.0":"spirit","Cognac":"spirit",
+  "Triple Sec Bols":"liqueur","Triple sec":"liqueur","Licor Bols Blue Curaçao":"liqueur","Licor yuzu":"liqueur",
   "Cerveza":"beer","Guinness":"beer","Paulaner":"beer","Águila":"beer","Heineken":"beer",
   "Licor Midori":"liqueur","Licor de café Bols":"liqueur",
   "Licor de humo":"liqueur","Licor Bols Vainilla":"liqueur","Licor mandarina MB":"liqueur",
   "Licor Bols Chocolate":"liqueur","Licor Bols Butterscotch":"liqueur","Licor Bols Yogurt":"liqueur",
-  "Chambord":"liqueur","Bénédictine DOM":"liqueur","Drambuie":"liqueur",
+  "Chambord":"liqueur","Bénédictine DOM":"liqueur","Drambuie":"liqueur","Licor de maraschino":"liqueur","Crème de violette":"liqueur",
   "Aperol":"liqueur","Campari":"liqueur","Sarti Rosa":"liqueur","Bols Saúco":"liqueur","Terry":"liqueur",
-  "Vino tinto":"wine","Vermut":"wine","Vermut tinto":"wine",
+  "Curaçao":"liqueur",
+  "Vino tinto":"wine","Vermut":"wine","Vermut tinto":"wine","Vermut seco":"wine",
   "7UP":"filler","Cava":"filler","Soda":"filler","Soda de pomelo":"filler","Ginger Ale":"filler",
-  "Ginger beer":"filler","Schweppes limón":"filler","Zumo de tomate":"filler",
+  "Ginger beer":"filler","Refresco de pomelo":"filler","Cola":"filler","Schweppes limón":"filler","Zumo de tomate":"filler",
   "Zumo de naranja":"filler","Zumo de piña":"filler","Zumo de arándanos":"filler",
   "Zumo de limón":"filler","Zumo de lima":"filler",
   "Bitter":"bitter","Bitter caffè":"bitter","Bitter de cacao":"bitter","Bitter de naranja":"bitter",
   "Angostura Bitters":"bitter",
   "Bitter habanero":"bitter","Salsa inglesa":"bitter","Tabasco":"bitter",
-  "Sirope":"sweet","Sirope amarena":"sweet","Sirope de agave":"sweet",
+  "Sirope":"sweet","Sirope amarena":"sweet","Sirope de agave":"sweet","Granadina":"sweet","Sirope de orgeat":"sweet",
   "Azúcar líquido":"sweet","Sirope de vainilla":"sweet","Sirope falernum":"sweet",
   "Sirope pandán":"sweet","Jalea de naranja":"sweet",
   "Arándanos":"fruit","Fresa":"fruit","Piña":"fruit","Fruta de la pasión":"fruit",

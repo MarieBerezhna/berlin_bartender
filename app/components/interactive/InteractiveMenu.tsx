@@ -50,7 +50,7 @@ const SPIRIT_FAMILY_PATTERNS: Array<[RegExp, string]> = [
 	[/vodka|moskovskaya|smirnoff/i, "Vodka"],
 	[/tequila|don julio/i, "Tequila"],
 	[/ron|bumbu|diplom[aá]tico|zacapa|barcel[oó]/i, "Ron"],
-	[/whisky|whiskey|jack daniels|tullamore|bulleit|monkey shoulder|macallan|bushmills|toki/i, "Whisky"],
+	[/whisky|whiskey|bourbon|jack daniels|tullamore|bulleit|monkey shoulder|macallan|bushmills|toki/i, "Whisky"],
 	[/gin|tanqueray|hendrick/i, "Gin"],
 ];
 
