@@ -1,4 +1,5 @@
 import RAW from "./data/menu";
+import ChatPanel from "./components/chat/ChatPanel";
 import { buildLearnQueue, getLearnableItems } from "./lib/learn";
 
 export default function Home() {
@@ -29,6 +30,7 @@ export default function Home() {
           </p>
         </div>
       </section>
+      <ChatPanel />
     </main>
   );
 }
