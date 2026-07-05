@@ -13,8 +13,8 @@ type StudyCardProps = {
 };
 
 const ROW_GROUPS = [
-	["spirit", "liqueur"],
-	["beer", "filler", "bitter", "sweet", "other"],
+	["spirit", "liqueur", "beer", "wine", "bitter"],
+	["filler", "sweet", "other"],
 ];
 
 function toPublicPath(path: string | null | undefined): string | null {
@@ -107,6 +107,7 @@ export default function StudyCard({ item, index, total, onPrimaryAction }: Study
 											{byGroup[group].map((ingredient) => {
 												const ingredientImage = toPublicPath(IMAGES[ingredient]);
 												const isOptional = Boolean(item.optional?.includes(ingredient));
+												const dose = item.doses?.[ingredient];
 												return (
 													<div
 														className={`learn-ingr-item${ingredientImage ? "" : " no-img"}`}
@@ -129,6 +130,7 @@ export default function StudyCard({ item, index, total, onPrimaryAction }: Study
 																<span style={{ fontSize: 9, opacity: 0.6, fontStyle: "italic" }}> (opt)</span>
 															) : null}
 														</span>
+														{dose ? <span className="learn-ingr-dose">{dose}</span> : null}
 													</div>
 												);
 											})}

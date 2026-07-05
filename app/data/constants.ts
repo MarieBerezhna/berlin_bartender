@@ -86,13 +86,13 @@ export const Q_META = {
   category:     "Categoría",
   name:         "Nombre",
 };
-export const MENU_SPIRIT_HINTS = new Set(['Tequila','Tequila blanco','Tequila reposado','Tequila Don Julio','Gin','Ginebra','Gin Tanqueray','Gin Mare','Vodka','Moskovskaya','Vodka Smirnoff Tamarindo','Ron','Ron blanco','Ron oscuro','Ron jamaicano','Bumbu','Diplomático Planas','Jack Daniels Fire','Jack Daniels Triple Mash','Monkey Shoulder','Whisky','Whiskey','Bourbon','Fino','Cognac']);
+export const MENU_SPIRIT_HINTS = new Set(['Tequila','Tequila blanco','Tequila reposado','Tequila Don Julio','Gin','Gin Tanqueray','Gin Mare','Vodka','Moskovskaya','Vodka Smirnoff Tamarindo','Ron','Ron blanco','Ron oscuro','Ron jamaicano','Bumbu','Diplomático Planas','Jack Daniels Fire','Jack Daniels Triple Mash','Monkey Shoulder','Whisky','Whiskey','Whisky (o Bourbon)','Bourbon','Fino','Cognac']);
 export const INGR_GROUP: Record<string, string> = {
-  "Tequila":"spirit","Tequila blanco":"spirit","Tequila reposado":"spirit","Tequila Don Julio":"spirit","Gin":"spirit","Ginebra":"spirit","Gin Tanqueray":"spirit",
+  "Tequila":"spirit","Tequila blanco":"spirit","Tequila reposado":"spirit","Tequila Don Julio":"spirit","Gin":"spirit","Gin Tanqueray":"spirit",
   "Gin Mare":"spirit","Vodka":"spirit","Moskovskaya":"spirit","Vodka Smirnoff Tamarindo":"spirit",
   "Ron":"spirit","Ron blanco":"spirit","Ron oscuro":"spirit","Ron jamaicano":"spirit","Bumbu":"spirit","Diplomático Planas":"spirit",
   "Jack Daniels Fire":"spirit","Jack Daniels Triple Mash":"spirit","Monkey Shoulder":"spirit",
-  "Whisky":"spirit","Whiskey":"spirit","Bourbon":"spirit","Fino":"spirit","Tanqueray 0.0":"spirit","Cognac":"spirit",
+  "Whisky":"spirit","Whiskey":"spirit","Whisky (o Bourbon)":"spirit","Bourbon":"spirit","Fino":"spirit","Tanqueray 0.0":"spirit","Cognac":"spirit",
   "Triple Sec Bols":"liqueur","Triple sec":"liqueur","Licor Bols Blue Curaçao":"liqueur","Licor yuzu":"liqueur",
   "Cerveza":"beer","Guinness":"beer","Paulaner":"beer","Águila":"beer","Heineken":"beer",
   "Licor Midori":"liqueur","Licor de café Bols":"liqueur",
@@ -103,7 +103,7 @@ export const INGR_GROUP: Record<string, string> = {
   "Curaçao":"liqueur",
   "Vino tinto":"wine","Vermut":"wine","Vermut tinto":"wine","Vermut seco":"wine",
   "7UP":"filler","Cava":"filler","Soda":"filler","Soda de pomelo":"filler","Ginger Ale":"filler",
-  "Ginger beer":"filler","Refresco de pomelo":"filler","Cola":"filler","Schweppes limón":"filler","Zumo de tomate":"filler",
+  "Ginger beer":"filler","Refresco de pomelo":"filler","Pepsi":"filler","Schweppes limón":"filler","Zumo de tomate":"filler",
   "Zumo de naranja":"filler","Zumo de piña":"filler","Zumo de arándanos":"filler",
   "Zumo de limón":"filler","Zumo de lima":"filler",
   "Bitter":"bitter","Bitter caffè":"bitter","Bitter de cacao":"bitter","Bitter de naranja":"bitter",
