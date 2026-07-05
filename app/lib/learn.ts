@@ -1,4 +1,4 @@
-import RAW from "../data/menu.js";
+import RAW from "../data/menu";
 import {
   ALL_INGRS,
   CLASICA_CAT,
@@ -6,35 +6,66 @@ import {
   GROUP_LABELS,
   GROUP_ORDER,
   INGR_GROUP,
-} from "../data/constants.js";
-import IMAGES from "../data/images.js";
+} from "../data/constants";
+import IMAGES from "../data/images";
 
-function shuffleArray(list) {
+type MenuPrice = {
+  label: string;
+  p: number;
+};
+
+type MenuItem = {
+  cat: string;
+  name: string;
+  family?: string;
+  hasIngr?: boolean;
+  ingr?: string[];
+  optional?: string[];
+  doses?: Record<string, string>;
+  method?: string;
+  glass?: string;
+  prices?: MenuPrice[];
+};
+
+type LearnFilters = {
+  activeTab?: string;
+  activeFamily?: string;
+};
+
+type LearnQuestion = {
+  qtype: string;
+  question: string;
+  options: Array<string | number>;
+  answer: string | number;
+  hint: string;
+};
+
+function shuffleArray<T>(list: T[]): T[] {
   const copy = [...list];
-  for (let i = copy.length - 1; i > 0; i -= 1) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [copy[i], copy[j]] = [copy[j], copy[i]];
+  for (let index = copy.length - 1; index > 0; index -= 1) {
+    const swapIndex = Math.floor(Math.random() * (index + 1));
+    [copy[index], copy[swapIndex]] = [copy[swapIndex], copy[index]];
   }
   return copy;
 }
 
-function fmt(value) {
-  if (typeof value !== "number") return value;
+function fmt(value: string | number): string {
+  if (typeof value !== "number") return String(value);
   const rounded = Number.isInteger(value) ? value : Number(value.toFixed(2));
   return `${rounded}€`;
 }
 
-export function formatPrice(item) {
+export function formatPrice(item: MenuItem): string {
   if (!item?.prices?.length) return "";
   if (item.prices.length === 1) return fmt(item.prices[0].p);
   return item.prices.map((entry) => `${fmt(entry.p)} (${entry.label})`).join(" · ");
 }
 
-export function getLearnableItems(items = RAW) {
+export function getLearnableItems(items: MenuItem[] = RAW as MenuItem[]): MenuItem[] {
   return items.filter((item) => item?.hasIngr || item?.ingr?.length || item?.prices?.length);
 }
 
-export function buildLearnQueue(items = RAW, filters = {}) {
+export function buildLearnQueue(items: MenuItem[] = RAW as MenuItem[], filters: LearnFilters = {}): MenuItem[] {
   let pool = getLearnableItems(items);
 
   if (filters.activeTab && filters.activeTab !== "Todo") {
@@ -48,12 +79,12 @@ export function buildLearnQueue(items = RAW, filters = {}) {
   return shuffleArray(pool);
 }
 
-export function buildStudyViewModel(item) {
-  const hasRecipe = Boolean(item?.hasIngr && item.ingr?.length > 1);
-  const groupedIngredients = {};
+export function buildStudyViewModel(item: MenuItem) {
+  const hasRecipe = Boolean(item?.hasIngr && item.ingr?.length && item.ingr.length > 1);
+  const groupedIngredients: Record<string, string[]> = {};
 
   if (hasRecipe) {
-    item.ingr.forEach((ingredient) => {
+    item.ingr?.forEach((ingredient) => {
       const group = INGR_GROUP[ingredient] || "other";
       groupedIngredients[group] = groupedIngredients[group] || [];
       groupedIngredients[group].push(ingredient);
@@ -73,13 +104,13 @@ export function buildStudyViewModel(item) {
   };
 }
 
-export function buildRecallViewModel(item) {
+export function buildRecallViewModel(item: MenuItem) {
   const correctIngredients = item.ingr || [];
   const distractors = shuffleArray(
     ALL_INGRS.filter((ingredient) => !correctIngredients.includes(ingredient))
   ).slice(0, Math.min(correctIngredients.length + 2, 8));
 
-  const byGroup = {};
+  const byGroup: Record<string, string[]> = {};
   [...correctIngredients, ...distractors].forEach((entry) => {
     const group = INGR_GROUP[entry] || "other";
     byGroup[group] = byGroup[group] || [];
@@ -100,7 +131,7 @@ export function buildRecallViewModel(item) {
   };
 }
 
-function buildIngredientQuestion(item) {
+function buildIngredientQuestion(item: MenuItem): LearnQuestion | null {
   const required = (item.ingr || []).filter(
     (ingredient) => !item.optional || !item.optional.includes(ingredient)
   );
@@ -109,7 +140,7 @@ function buildIngredientQuestion(item) {
 
   const correct = required[Math.floor(Math.random() * required.length)];
   const wrongs = shuffleArray(
-    ALL_INGRS.filter((ingredient) => !item.ingr.includes(ingredient))
+    ALL_INGRS.filter((ingredient) => !item.ingr?.includes(ingredient))
   ).slice(0, 3);
 
   if (wrongs.length < 3) return null;
@@ -119,16 +150,16 @@ function buildIngredientQuestion(item) {
     question: `¿Cuál de estos ingredientes lleva el ${item.name}?`,
     options: shuffleArray([correct, ...wrongs]),
     answer: correct,
-    hint: `${item.name}: ${item.ingr.join(", ")}`,
+    hint: `${item.name}: ${item.ingr?.join(", ")}`,
   };
 }
 
-function buildRatioQuestion(item) {
+function buildRatioQuestion(item: MenuItem): LearnQuestion | null {
   if (!item.doses || Object.keys(item.doses).length === 0) return null;
 
-  const allWithDoses = RAW.filter((entry) => entry.doses && Object.keys(entry.doses).length > 0);
-  const ratioString = (entry) =>
-    entry.ingr
+  const allWithDoses = (RAW as MenuItem[]).filter((entry) => entry.doses && Object.keys(entry.doses).length > 0);
+  const ratioString = (entry: MenuItem): string =>
+    (entry.ingr || [])
       .map((ingredient) => (entry.doses && entry.doses[ingredient] ? `${entry.doses[ingredient]} ${ingredient}` : ingredient))
       .join(", ");
 
@@ -148,12 +179,12 @@ function buildRatioQuestion(item) {
   };
 }
 
-function buildPriceQuestion(item) {
+function buildPriceQuestion(item: MenuItem): LearnQuestion | null {
   if (!item.prices?.length || item.cat === CLASICA_CAT) return null;
 
   const serving = item.prices[Math.floor(Math.random() * item.prices.length)];
   const wrongPrices = shuffleArray(
-    [...new Set(RAW.flatMap((entry) => (entry.prices || []).map((price) => price.p)))].filter((price) => price !== serving.p)
+    [...new Set((RAW as MenuItem[]).flatMap((entry) => (entry.prices || []).map((price) => price.p)))].filter((price) => price !== serving.p)
   ).slice(0, 3);
 
   if (wrongPrices.length < 3) return null;
@@ -167,9 +198,9 @@ function buildPriceQuestion(item) {
   };
 }
 
-export function createLearnQuizQueue(item) {
-  const hasRecipe = Boolean(item?.hasIngr && item.ingr?.length > 1);
-  const questions = [];
+export function createLearnQuizQueue(item: MenuItem): LearnQuestion[] {
+  const hasRecipe = Boolean(item?.hasIngr && item.ingr?.length && item.ingr.length > 1);
+  const questions: LearnQuestion[] = [];
 
   if (hasRecipe) {
     const ingredientQuestion = buildIngredientQuestion(item);
@@ -185,7 +216,7 @@ export function createLearnQuizQueue(item) {
   return questions;
 }
 
-export function scoreRecallSelection(item, selectedValues = []) {
+export function scoreRecallSelection(item: MenuItem, selectedValues: string[] = []) {
   const correct = new Set(item.ingr || []);
   const optional = new Set(item.optional || []);
   let hits = 0;
@@ -223,19 +254,19 @@ export function scoreRecallSelection(item, selectedValues = []) {
   };
 }
 
-export function getIngredientGroupLabel(group) {
+export function getIngredientGroupLabel(group: string): string {
   return GROUP_LABELS[group] || "Otros / Other";
 }
 
-export function getIngredientGroup(ingredient) {
+export function getIngredientGroup(ingredient: string): string {
   return INGR_GROUP[ingredient] || "other";
 }
 
-export function isGarnish(ingredient) {
+export function isGarnish(ingredient: string): boolean {
   return GARNISHMENTS.has(ingredient);
 }
 
-export function sortIngredientsForStudy(item) {
+export function sortIngredientsForStudy(item: MenuItem): string[] {
   return [...(item.ingr || [])].sort((left, right) => {
     const isGarnishLeft = isGarnish(left);
     const isGarnishRight = isGarnish(right);
@@ -257,7 +288,7 @@ export function sortIngredientsForStudy(item) {
   });
 }
 
-export default {
+const learnUtils = {
   buildLearnQueue,
   buildRecallViewModel,
   buildStudyViewModel,
@@ -267,3 +298,5 @@ export default {
   scoreRecallSelection,
   sortIngredientsForStudy,
 };
+
+export default learnUtils;

@@ -1,4 +1,6 @@
-export default [
+import type { MenuItem } from "./constants";
+
+const RAW: MenuItem[] = [
   {cat:"Coctelería clásica",name:"Mojito",family:"Daiquiri",hasIngr:true,
    ingr:["Hierbabuena","Ron blanco","Zumo de lima","Azúcar líquido","Soda"],
    doses:{"Ron blanco":"1 oz","Zumo de lima":"1 oz","Azúcar líquido":"1 oz"},
@@ -236,3 +238,5 @@ export default [
   {cat:"Refrescos",name:"Agua con gas Perrier",hasIngr:false,
    prices:[{label:"botella",p:3}]},
 ];
+
+export default RAW;

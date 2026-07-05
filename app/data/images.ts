@@ -1,4 +1,4 @@
-export default {
+const IMAGES: Record<string, string> = {
   "Micheladas":          "./micheladas/micheladas.webp",
   "Michelada Berlín":    "./micheladas/michelada.webp",
   "Michelada de Tequila":"./micheladas/michelada_tequila.webp",
@@ -172,8 +172,8 @@ export default {
   "Leche": "./ingredientes/leche.webp",
   "Mix casero": "./ingredientes/mix_casero.webp",
   "Salsa Inglesa": "./ingredientes/salsa_inglesa.webp",
-  "Salsa inglesa": "./ingredientes/salsa_inglesa.webp",
-  "Tabasco": "./ingredientes/tabasco.webp",
   "Jamón": "./comida/jamon.webp",
 };
+
+export default IMAGES;
 
