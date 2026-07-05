@@ -30,7 +30,7 @@ export default function Header({ mode, onModeChange }: HeaderProps) {
 						id="btnMenu"
 						onClick={() => onModeChange("interactive")}
 					>
-						🧭 Interactive Menú
+						🧭 Explorar
 					</button>
 				</div>
 			</div>

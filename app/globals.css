@@ -42,7 +42,7 @@ h1{font-size:18px;font-weight:500;margin-bottom:1rem;color:#e8e6e1}
 .tab-info:hover .tab-tooltip,.tab-info.open .tab-tooltip{display:block}
 .tab:hover{color:#e8e6e1}
 .tab.active{background:#2a2926;color:#e8e6e1;font-weight:500;border:0.5px solid rgba(232,230,225,0.15)}
-.filters{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:1.25rem;align-items:center}
+.filters{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
 .filter-label{font-size:12px;color:#7a7875;margin-right:2px}
 .filt{padding:4px 10px;border-radius:20px;border:0.5px solid rgba(232,230,225,0.25);background:transparent;font-size:12px;color:#7a7875;cursor:pointer}
 .filt.on{background:#e8e6e1;color:#0f0e0c;border-color:#e8e6e1}
@@ -158,6 +158,17 @@ h1{font-size:18px;font-weight:500;margin-bottom:1rem;color:#e8e6e1}
 .interactive-card-desc{font-size:12px;color:#9a9793;line-height:1.55}
 .interactive-empty{grid-column:1/-1;text-align:center;padding:60px 20px;color:#9a9793;font-size:14px}
 @media (max-width: 780px){.interactive-layout{grid-template-columns:1fr}.interactive-filters{border-right:none;border-bottom:1px solid rgba(232,230,225,0.1)}}
+@media (max-width: 780px){
+  .interactive-shell{border-radius:12px}
+  .interactive-header{padding:10px 10px 0}
+  .interactive-count{padding:6px 10px 0}
+  .interactive-filters{padding:10px}
+  .interactive-cards{padding:10px;gap:8px;grid-template-columns:repeat(auto-fill,minmax(180px,1fr))}
+  .interactive-card{padding:10px}
+  .interactive-wordmark{margin-bottom:8px}
+  .interactive-tabs{padding-bottom:6px}
+  .overview-start-btn{width:100% !important;align-self:stretch !important}
+}
 /* ── AI CHAT BOT ─────────────────────────────────────────── */
 #chat-fab{position:fixed;bottom:20px;right:20px;width:52px;height:52px;border-radius:50%;background:#E0AE6B;border:none;font-size:22px;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,.4);z-index:1000;display:flex;align-items:center;justify-content:center;transition:transform .15s}
 #chat-fab:hover{transform:scale(1.08)}

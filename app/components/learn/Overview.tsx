@@ -66,7 +66,7 @@ export default function Overview({ items, categoryLabel, activeTab, onStart }: O
 						{sortedItems.length} {sortedItems.length === 1 ? "ítem" : "ítems"} en esta sección
 					</div>
 					<button
-						className="pri"
+						className="pri overview-start-btn"
 						style={{
 							width: "fit-content",
 							padding: "12px 16px",

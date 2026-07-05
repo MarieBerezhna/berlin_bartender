@@ -10,7 +10,6 @@ import StudyCard from "./components/learn/StudyCard";
 import FilterBar, { FILTER_TYPES, type FilterType } from "./components/layout/FilterBar";
 import Header, { type AppMode } from "./components/layout/Header";
 import TabBar from "./components/layout/TabBar";
-import ProgressBar from "./components/quiz/ProgressBar";
 import QuizCard from "./components/quiz/QuizCard";
 import QuizEnd from "./components/quiz/QuizEnd";
 import RAW from "./data/menu";
@@ -65,8 +64,8 @@ export default function Home() {
   }
 
   return (
-    <main className="mx-auto flex min-h-screen max-w-4xl flex-col gap-6 px-6 py-12 text-zinc-900 dark:text-zinc-100">
-      <section className="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm dark:border-zinc-800 dark:bg-zinc-950">
+    <main className="mx-auto flex min-h-screen max-w-4xl flex-col gap-3 px-2 py-3 text-zinc-900 sm:gap-6 sm:px-4 sm:py-6 lg:px-6 lg:py-12 dark:text-zinc-100">
+      <section className="rounded-2xl border border-zinc-200 bg-white p-3 shadow-sm sm:p-5 lg:p-6 dark:border-zinc-800 dark:bg-zinc-950">
         <Header mode={mode} onModeChange={setMode} />
         {mode !== "interactive" ? (
           <>
@@ -84,13 +83,13 @@ export default function Home() {
       </section>
 
       {mode === "learn" ? (
-        <section className="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm dark:border-zinc-800 dark:bg-zinc-950">
+        <section className="rounded-2xl border border-zinc-200 bg-white p-3 shadow-sm sm:p-5 lg:p-6 dark:border-zinc-800 dark:bg-zinc-950">
           <LearnModePanel key={`${activeTab}|${activeFamily || ""}`} pool={filteredMenu} activeTab={activeTab} activeFamily={activeFamily} />
         </section>
       ) : null}
 
       {mode === "test" ? (
-        <section className="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm dark:border-zinc-800 dark:bg-zinc-950">
+        <section className="rounded-2xl border border-zinc-200 bg-white p-3 shadow-sm sm:p-5 lg:p-6 dark:border-zinc-800 dark:bg-zinc-950">
           <TestModePanel
             key={`${activeTab}|${activeFamily || ""}|${activeFiltersKey}`}
             pool={filteredMenu}
@@ -297,7 +296,6 @@ function TestModePanel({ pool, activeTab, activeFilters }: TestModePanelProps) {
 
   return (
     <>
-      <ProgressBar currentIndex={index} total={questions.length} correct={score} showMeta />
       <QuizCard
         question={currentQuestion}
         selectedOption={selectedOption}
