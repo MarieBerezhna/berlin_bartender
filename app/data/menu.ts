@@ -353,7 +353,7 @@ const RAW: MenuItem[] = [
   {cat:"Cerveza",name:"IPA Lagunitas",hasIngr:false,
    prices:[{label:"botella",p:5.5}]},
   {cat:"Cerveza",name:"Guinness",hasIngr:false,
-   prices:[{label:"pinta",p:5.5}]},
+    prices:[{label:"tercio",p:5.5}]},
   {cat:"Cerveza",name:"Heineken",hasIngr:false,
    prices:[{label:"tercio",p:3.5}]},
   {cat:"Micheladas",name:"Michelada Berlín",hasIngr:true,ingr:["Cerveza","Zumo de limón","Sal","Salsa inglesa","Tabasco"],
