@@ -51,6 +51,7 @@ export const CAT_DESCRIPTIONS = {
   "Gin": "El gin (ginebra) es una bebida alcohólica destilada elaborada a partir de alcohol neutro y aromatizada principalmente con bayas de enebro, que le aportan su sabor característico. También puede contener otros botánicos, como cilantro, cítricos, raíz de angélica o cardamomo. Se utiliza ampliamente en la coctelería clásica por su perfil fresco, seco y herbal.",
   "Whisky": "El whisky es una bebida alcohólica destilada elaborada a partir de cereales, como cebada, maíz, centeno o trigo. Tras la destilación se envejece en barricas de roble durante varios años, lo que le aporta su color, aroma y sabores característicos, como vainilla, caramelo, especias o madera. Es una de las bases más importantes de la coctelería clásica y también se consume solo o con hielo.",
   "Ron": "El ron es una bebida alcohólica destilada que se elabora principalmente a partir de la caña de azúcar, ya sea del jugo de caña o de la melaza (un subproducto de la producción de azúcar). Su proceso incluye fermentar los azúcares de la caña, destilar el líquido fermentado y, en muchos casos, envejecer el destilado en barricas de madera.<br><br><strong>Tipos de ron:</strong><br>• <em>Ron blanco</em> — ligero y transparente, muy usado en cócteles.<br>• <em>Ron dorado</em> — envejecido por un tiempo moderado, sabor más intenso.<br>• <em>Ron añejo</em> — envejecido varios años, sabores más complejos.<br>• <em>Ron especiado</em> — con especias y otros aromas añadidos.<br><br>Se consume solo, con hielo o en cócteles como el mojito, la piña colada o el daiquiri.",
+  "Cerveza": "La cerveza es una bebida alcohólica elaborada a partir de la fermentación de cereales, principalmente cebada, y aromatizada con lúpulo. Su proceso de elaboración incluye la malteación, la cocción del mosto, la fermentación y el envasado. Existen numerosos estilos de cerveza, que varían en sabor, color, aroma y contenido alcohólico. Se consume sola o como acompañamiento de comidas y también se utiliza en cócteles como la michelada o el shandy. Es la bebida alcohólica más consumida del mundo, y una de las bebidas más consumidas en general, solo por detrás del agua, el té y el café.",
 };
 export const AUTOR_FAMILIES: string[] = [
   ...new Set(
@@ -79,9 +80,21 @@ export const CLASICA_TEXT = "#8AB4F8";
 export const FILTER_TYPES = ["ingredients","price","category","name"];
 export const FILTER_LABELS    = {ingredients:"Ingredientes",price:"Precio",category:"Categoría",name:"Nombre"};
 export const ITEM_DESCRIPTIONS: Record<string, string> = {
+  // Jarras
   "Tinto de verano": "Bebida fría muy popular en España, preparada con 1 parte de vino tinto y 1 parte de soda (normalmente de limón). Se sirve con hielo y suele llevar una rodaja de limón o naranja.",
   "Agua de Valencia": "Cóctel español creado en 1959 por el pintor gallego Constante Gil en la Cervecería Madrid de Valencia. Combina cava, zumo de naranja, vodka y ginebra. Por lo general se sirve en jarras de varias raciones y se bebe en copa de champán tipo seno de María Antonieta.",
   "Sangría": "Bebida alcohólica originaria de España y Portugal. Aunque existen multitud de recetas, generalmente consiste en vino, trozos de fruta, gaseosa, algún licor y azúcar. Es una de las bebidas más populares de la gastronomía española y se sirve habitualmente en bares, restaurantes, chiringuitos y festivales.",
+  // Cerveza
+  "Águila": "Cerveza El Águila es una marca de cerveza española, fundada en Madrid, España en 1904, que en 2019 ha vuelto a ser comercializada. Actualmente, es propiedad del grupo cervecero neerlandés Heineken International. La cerveza Águila es de tipo lager, de color dorado y sabor suave, con un contenido alcohólico de 4,8%.",
+  "Águila Sin Filtrar": "Cerveza Águila Sin Filtrar es una marca de cerveza española, fundada en 1904 en Madrid, España. Es una cerveza lager de color dorado y sabor suave, con un contenido alcohólico de 4,8%.",
+  "Heineken": "Cerveza Heineken es una marca de cerveza neerlandesa, fundada en 1864 en Ámsterdam, Países Bajos. Es una cerveza lager de color dorado y sabor suave, con un contenido alcohólico de 5%.",
+  "Paulaner": "Cerveza Paulaner es una marca de cerveza alemana, fundada en 1634 en Múnich, Alemania. Es una cerveza lager de color dorado y sabor suave, con un contenido alcohólico de 5,5%.",
+  "Guinness": "Cerveza Guinness es una marca de cerveza irlandesa, fundada en 1759 en Dublín, Irlanda. Es una cerveza stout de color negro y sabor intenso, con un contenido alcohólico de 4,2%.",
+  "18/70": "Cerveza 18/70 es una marca de cerveza española, fundada en 1870 en Madrid, España. Es una cerveza lager de color dorado y sabor suave, con un contenido alcohólico de 5%.",
+  "Amstel 0.0": "Cerveza Amstel 0.0 es una marca de cerveza neerlandesa sin alcohol, fundada en 1870 en Ámsterdam, Países Bajos. Es una cerveza lager de color dorado y sabor suave.",
+  "Amstel Radler": "Cerveza Amstel Radler es una mezcla de cerveza Amstel y limonada, con un contenido alcohólico de 2,5%.",
+  "Cruzcampo Sin Gluten": "Cerveza Cruzcampo Sin Gluten es una marca de cerveza española sin gluten, fundada en 1904 en Sevilla, España. Es una cerveza lager de color dorado y sabor suave.",
+  "IPA Lagunitas": "Cerveza IPA Lagunitas es una marca de cerveza estadounidense, fundada en 1993 en Petaluma, California. Es una cerveza IPA de color ámbar y sabor intenso, con un contenido alcohólico de 6,2%."
 };
 export const Q_META = {
   ingredients:  "¿Qué lleva?",
