@@ -173,7 +173,7 @@ function buildInteractiveMenuData(items: MenuItem[], preferCombinedPrice: boolea
 		const section = item?.family || item?.cat || "Otros";
 		const spiritGroup = getInteractiveSpiritGroup(item);
 		const spirit = spiritGroup === "Otros" ? getMainSpirit(item) : spiritGroup;
-		const excludedSpirits = new Set(["Cerveza", "Vino tinto", "Vermut", "Vermut tinto", "Cava"]);
+		const excludedSpirits = new Set(["Cerveza", "Vino tinto", "Vermut", "Vermut tinto"]);
 		const rawSpirits = DESTILADOS_CATS.includes(item.cat)
 			? [item.cat]
 			: ingr.filter((ing) => ingrGroup(ing) === "spirit" && !excludedSpirits.has(ing));
