@@ -109,7 +109,7 @@ export const INGR_GROUP: Record<string, string> = {
   "Angostura Bitters":"bitter",
   "Bitter habanero":"bitter","Salsa inglesa":"bitter","Tabasco":"bitter",
   "Sirope amarena":"sweet","Sirope de agave":"sweet","Granadina":"sweet","Sirope de orgeat":"sweet",
-  "Azúcar líquido":"sweet","Sirope de vainilla":"sweet","Sirope falernum":"sweet",
+  "Azúcar líquido":"sweet","Sirope de vainilla":"sweet","Sirope falernum":"sweet","Leche de coco":"sweet",
   "Sirope pandán":"sweet","Jalea de naranja":"sweet",
   "Arándanos":"fruit","Fresa":"fruit","Piña":"fruit","Maracuya":"fruit",
   "Lichee":"fruit","Frutos rojos":"fruit","Manzana verde":"fruit","Calabaza asada":"fruit",
@@ -118,7 +118,7 @@ export const INGR_GROUP: Record<string, string> = {
 export const GARNISHMENTS = new Set([
   "Hierbabuena","Albahaca","Menta","Romero","Tomillo","Perejil",
   "Lima","Limón","Naranja","Limón verde","Rodajas de limón","Rodajas de lima",
-  "Coco","Café","Nata","Leche","Foam",
+  "Leche de coco","Café","Nata","Leche","Foam",
   "Arándanos","Fresa","Piña","Maracuya","Lichee","Frutos rojos","Manzana verde",
   "Calabaza asada"
 ]);
