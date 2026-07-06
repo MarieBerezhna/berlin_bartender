@@ -1,4 +1,7 @@
+"use client";
+
 import Image from "next/image";
+import { useEffect, useRef, useState } from "react";
 
 import {
 	AUTOR_COLOR,
@@ -6,6 +9,7 @@ import {
 	CLASICA_CAT,
 	CLASICA_COLOR,
 	CLASICA_TEXT,
+	ITEM_DESCRIPTIONS,
 	type MenuItem,
 } from "../../data/constants";
 import IMAGES from "../../data/images";
@@ -56,11 +60,38 @@ function FamilyBadge({ item }: { item: MenuItem }) {
 }
 
 export default function OverviewCard({ item, showCategoryLabel }: OverviewCardProps) {
+	const [showDescription, setShowDescription] = useState(false);
+	const infoWrapRef = useRef<HTMLDivElement | null>(null);
 	const image = toPublicPath(IMAGES[item.name]);
 	const glassName = item.glass || null;
 	const glassImage = toPublicPath(glassName ? IMAGES[`glass:${glassName}`] : null);
 	const sortedIngr = item.ingr ? sortIngredientsForStudy(item) : [];
 	const garnishes = item.garnish || [];
+	const description = ITEM_DESCRIPTIONS[item.name as keyof typeof ITEM_DESCRIPTIONS] || "";
+
+	useEffect(() => {
+		if (!showDescription) return;
+
+		const handlePointerDown = (event: PointerEvent) => {
+			if (!infoWrapRef.current?.contains(event.target as Node)) {
+				setShowDescription(false);
+			}
+		};
+
+		const handleEscape = (event: KeyboardEvent) => {
+			if (event.key === "Escape") {
+				setShowDescription(false);
+			}
+		};
+
+		document.addEventListener("pointerdown", handlePointerDown);
+		document.addEventListener("keydown", handleEscape);
+
+		return () => {
+			document.removeEventListener("pointerdown", handlePointerDown);
+			document.removeEventListener("keydown", handleEscape);
+		};
+	}, [showDescription]);
 
 	return (
 		<div
@@ -123,8 +154,39 @@ export default function OverviewCard({ item, showCategoryLabel }: OverviewCardPr
 					</div>
 				) : null}
 
-				<div style={{ fontSize: 16, fontWeight: 700, color: "#e8e6e1", lineHeight: 1.3 }}>{item.name}</div>
-				<div style={{ fontSize: 14, color: "#E0AE6B", marginTop: 4, fontWeight: 500 }}>{formatPrice(item)}</div>
+				<div style={{ display: "flex", alignItems: "flex-start", gap: 8, justifyContent: "space-between" }}>
+					<div style={{ minWidth: 0 }}>
+						<div style={{ fontSize: 16, fontWeight: 700, color: "#e8e6e1", lineHeight: 1.3 }}>{item.name}</div>
+						<div style={{ fontSize: 14, color: "#E0AE6B", marginTop: 4, fontWeight: 500 }}>{formatPrice(item)}</div>
+					</div>
+					{description ? (
+						<div
+							ref={infoWrapRef}
+							className={`item-info${showDescription ? " open" : ""}`}
+							onMouseEnter={() => setShowDescription(true)}
+							onMouseLeave={() => setShowDescription(false)}
+						>
+							<button
+								type="button"
+								onClick={() => setShowDescription((current) => !current)}
+								aria-label={showDescription ? "Ocultar descripción" : "Mostrar descripción"}
+								aria-expanded={showDescription}
+								className="item-info-btn"
+							>
+								i
+							</button>
+							<div className="item-tooltip" role="tooltip" aria-hidden={!showDescription}>
+								<div className="item-tooltip-head">
+									<span>Descripción</span>
+									<button type="button" className="item-tooltip-close" onClick={() => setShowDescription(false)} aria-label="Cerrar descripción">
+										×
+									</button>
+								</div>
+								<div className="item-tooltip-body">{description}</div>
+							</div>
+						</div>
+					) : null}
+				</div>
 
 				{sortedIngr.length ? (
 					<div style={{ fontSize: 14, marginTop: 5, lineHeight: 1.8 }}>

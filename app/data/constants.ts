@@ -80,6 +80,8 @@ export const FILTER_TYPES = ["ingredients","price","category","name"];
 export const FILTER_LABELS    = {ingredients:"Ingredientes",price:"Precio",category:"Categoría",name:"Nombre"};
 export const ITEM_DESCRIPTIONS: Record<string, string> = {
   "Tinto de verano": "Bebida fría muy popular en España, preparada con 1 parte de vino tinto y 1 parte de soda (normalmente de limón). Se sirve con hielo y suele llevar una rodaja de limón o naranja.",
+  "Agua de Valencia": "Cóctel español creado en 1959 por el pintor gallego Constante Gil en la Cervecería Madrid de Valencia. Combina cava, zumo de naranja, vodka y ginebra. Por lo general se sirve en jarras de varias raciones y se bebe en copa de champán tipo seno de María Antonieta.",
+  "Sangría": "Bebida alcohólica originaria de España y Portugal. Aunque existen multitud de recetas, generalmente consiste en vino, trozos de fruta, gaseosa, algún licor y azúcar. Es una de las bebidas más populares de la gastronomía española y se sirve habitualmente en bares, restaurantes, chiringuitos y festivales.",
 };
 export const Q_META = {
   ingredients:  "¿Qué lleva?",
