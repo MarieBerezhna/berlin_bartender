@@ -60,6 +60,7 @@ export default function OverviewCard({ item, showCategoryLabel }: OverviewCardPr
 	const glassName = item.glass || null;
 	const glassImage = toPublicPath(glassName ? IMAGES[`glass:${glassName}`] : null);
 	const sortedIngr = item.ingr ? sortIngredientsForStudy(item) : [];
+	const garnishes = item.garnish || [];
 
 	return (
 		<div
@@ -147,6 +148,19 @@ export default function OverviewCard({ item, showCategoryLabel }: OverviewCardPr
 								</span>
 							);
 						})}
+					</div>
+				) : null}
+
+				{garnishes.length ? (
+					<div
+						style={{
+							fontSize: 12,
+							marginTop: 6,
+							color: "#9ECB7A",
+							lineHeight: 1.4,
+						}}
+					>
+						Guarnición <span style={{ color: "#d9e8ca" }}>{garnishes.join(" · ")}</span>
 					</div>
 				) : null}
 

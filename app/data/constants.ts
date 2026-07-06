@@ -12,6 +12,7 @@ export interface MenuItem {
   hasIngr?: boolean;
   ingr?: string[];
   optional?: string[];
+  garnish?: string[];
   doses?: Record<string, string>;
   method?: string;
   glass?: string;
@@ -117,7 +118,7 @@ export const INGR_GROUP: Record<string, string> = {
 };
 export const GARNISHMENTS = new Set([
   "Hierbabuena","Albahaca","Menta","Romero","Tomillo","Perejil",
-  "Lima","Limón","Naranja","Limón verde","Rodajas de limón","Rodajas de lima",
+  "Lima","Limón","Naranja","Limón verde","Rodaja de limón","Rodajas de limón","Rodajas de lima",
   "Leche de coco","Café","Nata","Leche","Foam",
   "Arándanos","Fresa","Piña","Maracuya","Lichee","Frutos rojos","Manzana verde",
   "Calabaza asada"

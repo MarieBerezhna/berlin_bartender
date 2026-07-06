@@ -21,6 +21,7 @@ type MenuItem = {
   hasIngr?: boolean;
   ingr?: string[];
   optional?: string[];
+  garnish?: string[];
   doses?: Record<string, string>;
   method?: string;
   glass?: string;
