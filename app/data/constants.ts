@@ -78,6 +78,9 @@ export const AUTOR_TEXT   = "#F09595";
 export const CLASICA_TEXT = "#8AB4F8";
 export const FILTER_TYPES = ["ingredients","price","category","name"];
 export const FILTER_LABELS    = {ingredients:"Ingredientes",price:"Precio",category:"Categoría",name:"Nombre"};
+export const ITEM_DESCRIPTIONS: Record<string, string> = {
+  "Tinto de verano": "Bebida fría muy popular en España, preparada con 1 parte de vino tinto y 1 parte de soda (normalmente de limón). Se sirve con hielo y suele llevar una rodaja de limón o naranja.",
+};
 export const Q_META = {
   ingredients:  "¿Qué lleva?",
   ingredients2: "¿Cuál más?",
