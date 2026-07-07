@@ -95,6 +95,7 @@ export default function OverviewCard({ item, showCategoryLabel }: OverviewCardPr
 
 	return (
 		<div
+			className="overview-card"
 			style={{
 				background: "#1f1e1b",
 				border: "0.5px solid rgba(232,230,225,0.15)",
@@ -106,6 +107,7 @@ export default function OverviewCard({ item, showCategoryLabel }: OverviewCardPr
 		>
 			{image ? (
 				<Image
+					className="overview-card-img"
 					src={image}
 					alt={item.name}
 					width={600}
@@ -115,7 +117,7 @@ export default function OverviewCard({ item, showCategoryLabel }: OverviewCardPr
 				/>
 			) : null}
 
-			<div style={{ padding: 14, display: "flex", flexDirection: "column", gap: 6 }}>
+			<div className="overview-card-body" style={{ padding: 14, display: "flex", flexDirection: "column", gap: 6 }}>
 				{showCategoryLabel ? (
 					<div style={{ display: "flex", alignItems: "center", gap: 6 }}>
 						<FamilyBadge item={item} />

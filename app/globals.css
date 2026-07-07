@@ -183,6 +183,11 @@ h1{font-size:18px;font-weight:500;margin-bottom:1rem;color:#e8e6e1}
   .interactive-tabs{padding-bottom:6px}
   .overview-start-btn{width:100% !important;align-self:stretch !important}
 }
+@media (min-width: 781px){
+  .overview-card{flex-direction:row !important;align-items:stretch}
+  .overview-card-img{width:140px !important;height:auto !important;min-height:120px;flex-shrink:0;object-fit:cover !important}
+  .overview-card-body{flex:1;min-width:0}
+}
 /* ── AI CHAT BOT ─────────────────────────────────────────── */
 #chat-fab{position:fixed;bottom:20px;right:20px;width:52px;height:52px;border-radius:50%;background:#E0AE6B;border:none;font-size:22px;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,.4);z-index:1000;display:flex;align-items:center;justify-content:center;transition:transform .15s}
 #chat-fab:hover{transform:scale(1.08)}
