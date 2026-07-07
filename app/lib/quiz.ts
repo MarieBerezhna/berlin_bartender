@@ -11,6 +11,7 @@ type QuestionType =
   | "ingredients"
   | "ingredients2"
   | "ingredients3"
+  | "recall"
   | "price"
   | "category"
   | "ratio"
@@ -24,6 +25,8 @@ export type QuizQuestion = {
   answer: string;
   cat: string;
   hint: string;
+  recallAnswers?: string[];
+  item?: MenuItem;
 };
 
 type MakeQsOptions = {
@@ -130,6 +133,23 @@ export function makeQs({
             hint: `${item.name} lleva: ${ingredientsHint(item)}`,
           });
         }
+      }
+
+      // Recall: select ALL ingredients from a mixed grid
+      {
+        const distractors = sh(ALL_INGRS.filter((i) => !item.ingr.includes(i)))
+          .slice(0, Math.min(item.ingr.length + 2, 8));
+        res.push({
+          qtype: "recall",
+          img: IMAGES[item.name] || null,
+          q: `Selecciona todos los ingredientes del ${item.name}`,
+          opts: sh([...item.ingr, ...distractors]),
+          answer: "",
+          recallAnswers: [...item.ingr],
+          item,
+          cat: item.cat,
+          hint: `${item.name}: ${ingredientsHint(item)}`,
+        });
       }
     });
   }

@@ -6,6 +6,7 @@ import ChatPanel from "./components/chat/ChatPanel";
 import InteractiveMenu from "./components/interactive/InteractiveMenu";
 import LearnEnd from "./components/learn/LearnEnd";
 import Overview from "./components/learn/Overview";
+import RecallCard, { type RecallOptionState } from "./components/learn/RecallCard";
 import StudyCard from "./components/learn/StudyCard";
 import FilterBar, { FILTER_TYPES, type FilterType } from "./components/layout/FilterBar";
 import Header, { type AppMode } from "./components/layout/Header";
@@ -15,7 +16,7 @@ import QuizCard from "./components/quiz/QuizCard";
 import QuizEnd from "./components/quiz/QuizEnd";
 import RAW from "./data/menu";
 import type { MenuItem } from "./data/constants";
-import { buildLearnQueue, createLearnQuizQueue, getLearnableItems } from "./lib/learn";
+import { buildLearnQueue, buildRecallViewModel, createLearnQuizQueue, getLearnableItems, scoreRecallSelection } from "./lib/learn";
 import { makeQs } from "./lib/quiz";
 import LearnQuiz from "./components/learn/LearnQuiz";
 
@@ -117,6 +118,11 @@ function LearnModePanel({ pool, activeTab, activeFamily }: LearnModePanelProps) 
   const [itemIndex, setItemIndex] = useState(0);
   const [questionIndex, setQuestionIndex] = useState(0);
   const [quizMode, setQuizMode] = useState(false);
+  const [recallMode, setRecallMode] = useState(false);
+  const [recallSelected, setRecallSelected] = useState<Set<string>>(new Set());
+  const [recallChecked, setRecallChecked] = useState(false);
+  const [recallStatusByOption, setRecallStatusByOption] = useState<Record<string, RecallOptionState>>({});
+  const [recallFeedback, setRecallFeedback] = useState<{ message: string; perfect: boolean } | null>(null);
   const [answered, setAnswered] = useState(false);
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
 
@@ -139,6 +145,22 @@ function LearnModePanel({ pool, activeTab, activeFamily }: LearnModePanelProps) 
   const currentItem = queue[itemIndex];
   const currentQuestions = quizQueues[itemIndex] || [];
   const currentQuestion = currentQuestions[questionIndex];
+  const currentRecallVM = useMemo(
+    () => (currentItem ? buildRecallViewModel(currentItem) : null),
+    [currentItem],
+  );
+
+  function advanceToQuizOrNext() {
+    setRecallMode(false);
+    if (currentQuestions.length > 0) {
+      setQuizMode(true);
+      setQuestionIndex(0);
+      setAnswered(false);
+      setSelectedOption(null);
+    } else {
+      setItemIndex((prev) => prev + 1);
+    }
+  }
 
   if (learnableItems.length === 0) {
     return <div className="text-sm text-zinc-600 dark:text-zinc-400">No hay elementos disponibles para este filtro.</div>;
@@ -155,6 +177,11 @@ function LearnModePanel({ pool, activeTab, activeFamily }: LearnModePanelProps) 
           setItemIndex(0);
           setQuestionIndex(0);
           setQuizMode(false);
+          setRecallMode(false);
+          setRecallSelected(new Set());
+          setRecallChecked(false);
+          setRecallStatusByOption({});
+          setRecallFeedback(null);
           setAnswered(false);
           setSelectedOption(null);
         }}
@@ -173,11 +200,67 @@ function LearnModePanel({ pool, activeTab, activeFamily }: LearnModePanelProps) 
           setItemIndex(0);
           setQuestionIndex(0);
           setQuizMode(false);
+          setRecallMode(false);
+          setRecallSelected(new Set());
+          setRecallChecked(false);
+          setRecallStatusByOption({});
+          setRecallFeedback(null);
           setAnswered(false);
           setSelectedOption(null);
         }}
       />
     );
+  }
+
+  if (recallMode && currentItem && currentRecallVM) {
+    const hasRecipe = Boolean(currentItem.hasIngr && currentItem.ingr && currentItem.ingr.length > 1);
+    if (hasRecipe) {
+      return (
+        <RecallCard
+          item={currentItem}
+          index={itemIndex}
+          total={queue.length}
+          stage="main"
+          options={currentRecallVM.options}
+          selected={recallSelected}
+          statusByOption={recallStatusByOption}
+          checked={recallChecked}
+          feedbackMessage={recallFeedback?.message}
+          feedbackPerfect={recallFeedback?.perfect}
+          onToggle={(opt) => {
+            if (recallChecked) return;
+            setRecallSelected((prev) => {
+              const next = new Set(prev);
+              if (next.has(opt)) next.delete(opt);
+              else next.add(opt);
+              return next;
+            });
+          }}
+          onCheck={() => {
+            const result = scoreRecallSelection(currentItem, [...recallSelected]);
+            const correct = new Set(currentItem.ingr || []);
+            const status: Record<string, RecallOptionState> = {};
+            for (const opt of currentRecallVM.options) {
+              if (correct.has(opt) && recallSelected.has(opt)) status[opt] = "correct";
+              else if (correct.has(opt)) status[opt] = "missed";
+              else if (recallSelected.has(opt)) status[opt] = "wrong";
+              else status[opt] = "idle";
+            }
+            setRecallStatusByOption(status);
+            setRecallFeedback({ message: result.message, perfect: result.perfect });
+            setRecallChecked(true);
+          }}
+          onNext={advanceToQuizOrNext}
+          nextLabel={
+            currentQuestions.length > 0
+              ? "A practicar →"
+              : itemIndex === queue.length - 1
+                ? "Ver resultados →"
+                : "Siguiente →"
+          }
+        />
+      );
+    }
   }
 
   if (quizMode && currentItem && currentQuestion) {
@@ -222,6 +305,16 @@ function LearnModePanel({ pool, activeTab, activeFamily }: LearnModePanelProps) 
         index={itemIndex}
         total={queue.length}
         onPrimaryAction={() => {
+          const hasRecipe = Boolean(currentItem.hasIngr && currentItem.ingr && currentItem.ingr.length > 1);
+          if (hasRecipe) {
+            setRecallMode(true);
+            setRecallSelected(new Set());
+            setRecallChecked(false);
+            setRecallStatusByOption({});
+            setRecallFeedback(null);
+            return;
+          }
+
           if (currentQuestions.length > 0) {
             setQuizMode(true);
             setQuestionIndex(0);
@@ -258,6 +351,17 @@ function TestModePanel({ pool, activeTab, activeFilters }: TestModePanelProps) {
   const [score, setScore] = useState(0);
   const [answered, setAnswered] = useState(false);
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
+  const [recallSelected, setRecallSelected] = useState<Set<string>>(new Set());
+  const [recallChecked, setRecallChecked] = useState(false);
+  const [recallStatusByOption, setRecallStatusByOption] = useState<Record<string, RecallOptionState>>({});
+  const [recallFeedback, setRecallFeedback] = useState<{ message: string; perfect: boolean } | null>(null);
+
+  function resetRecall() {
+    setRecallSelected(new Set());
+    setRecallChecked(false);
+    setRecallStatusByOption({});
+    setRecallFeedback(null);
+  }
 
   const isFinished = questions.length > 0 && index >= questions.length;
   const currentQuestion = !isFinished ? questions[index] : undefined;
@@ -288,12 +392,65 @@ function TestModePanel({ pool, activeTab, activeFilters }: TestModePanelProps) {
           setScore(0);
           setAnswered(false);
           setSelectedOption(null);
+          resetRecall();
         }}
       />
     );
   }
 
   if (!currentQuestion) return null;
+
+  if (currentQuestion.qtype === "recall" && currentQuestion.item) {
+    const recallItem = currentQuestion.item;
+    return (
+      <>
+        <ProgressBar currentIndex={index} total={questions.length} correct={score} showMeta />
+        <RecallCard
+          item={recallItem}
+          index={index}
+          total={questions.length}
+          stage="main"
+          options={currentQuestion.opts}
+          selected={recallSelected}
+          statusByOption={recallStatusByOption}
+          checked={recallChecked}
+          feedbackMessage={recallFeedback?.message}
+          feedbackPerfect={recallFeedback?.perfect}
+          onToggle={(opt) => {
+            if (recallChecked) return;
+            setRecallSelected((prev) => {
+              const next = new Set(prev);
+              if (next.has(opt)) next.delete(opt);
+              else next.add(opt);
+              return next;
+            });
+          }}
+          onCheck={() => {
+            const result = scoreRecallSelection(recallItem, [...recallSelected]);
+            const correct = new Set(currentQuestion.recallAnswers || []);
+            const status: Record<string, RecallOptionState> = {};
+            for (const opt of currentQuestion.opts) {
+              if (correct.has(opt) && recallSelected.has(opt)) status[opt] = "correct";
+              else if (correct.has(opt)) status[opt] = "missed";
+              else if (recallSelected.has(opt)) status[opt] = "wrong";
+              else status[opt] = "idle";
+            }
+            setRecallStatusByOption(status);
+            setRecallFeedback({ message: result.message, perfect: result.perfect });
+            setRecallChecked(true);
+            if (result.perfect) setScore((prev) => prev + 1);
+          }}
+          onNext={() => {
+            setIndex((prev) => prev + 1);
+            setAnswered(false);
+            setSelectedOption(null);
+            resetRecall();
+          }}
+          nextLabel={index === questions.length - 1 ? "Resultados →" : "Siguiente →"}
+        />
+      </>
+    );
+  }
 
   return (
     <>

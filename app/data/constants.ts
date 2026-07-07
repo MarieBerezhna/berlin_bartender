@@ -118,6 +118,7 @@ export const Q_META = {
   ingredients:  "¿Qué lleva?",
   ingredients2: "¿Cuál más?",
   ingredients3: "¿Cuál NO lleva?",
+  recall:       "Todos los ingredientes",
   price:        "Precio exacto",
   ratio:        "Ratio",
   category:     "Categoría",

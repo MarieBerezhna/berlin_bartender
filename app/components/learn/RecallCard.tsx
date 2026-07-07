@@ -4,7 +4,7 @@ import type { MenuItem } from "../../data/constants";
 import IMAGES from "../../data/images";
 import { formatPrice, getIngredientGroup } from "../../lib/learn";
 
-type RecallOptionState = "idle" | "selected" | "correct" | "missed" | "wrong";
+export type RecallOptionState = "idle" | "selected" | "correct" | "missed" | "wrong";
 
 type RecallCardProps = {
 	item: MenuItem;
