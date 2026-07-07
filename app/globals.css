@@ -61,7 +61,7 @@ h1{font-size:18px;font-weight:500;margin-bottom:1rem;color:#e8e6e1}
 .mc{flex:1;background:#1e1d1a;border-radius:8px;padding:10px;text-align:center}
 .ml{font-size:11px;color:#7a7875}
 .mv{font-size:20px;font-weight:500;color:#e8e6e1}
-.qcard{background:#1a1917;border:0.5px solid rgba(232,230,225,0.1);border-radius:12px;padding:1.25rem;margin-bottom:1rem}
+.qcard{background:#1a1917;border:0.5px solid rgba(232,230,225,0.1);border-radius:12px;padding:1.25rem;margin-bottom:1rem;position:relative;overflow:hidden}
 .qtype{font-size:11px;font-weight:500;color:#7a7875;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
 .qtag{display:inline-block;font-size:11px;padding:2px 7px;border-radius:20px;background:#2a2926;color:#7a7875;margin-left:6px;font-weight:400;text-transform:none;letter-spacing:0}
 .qtext{font-size:16px;font-weight:500;line-height:1.5;margin-bottom:3px;color:#e8e6e1}
@@ -73,6 +73,10 @@ h1{font-size:18px;font-weight:500;margin-bottom:1rem;color:#e8e6e1}
 .ob.bad{background:#2e1010;border-color:#8b2020;color:#e07070}
 .fb{margin-top:10px;font-size:13px;color:#7a7875;border-top:0.5px solid rgba(232,230,225,0.1);padding-top:10px;line-height:1.6;display:none}
 .fb strong{color:#e8e6e1}
+.q-layer{transition:opacity .18s ease}
+.q-layer.faded{opacity:0;pointer-events:none;user-select:none}
+.q-overlay{position:absolute;inset:0;padding:1.25rem;border-radius:inherit;background:inherit;display:flex;flex-direction:column;justify-content:flex-start;gap:12px;overflow-y:auto;opacity:0;pointer-events:none;transition:opacity .22s ease .1s}
+.q-overlay.in{opacity:1;pointer-events:auto}
 .nav{display:flex;gap:8px;margin-top:10px}
 .nav button{flex:1;padding:9px;border:0.5px solid rgba(232,230,225,0.25);border-radius:8px;background:transparent;font-size:14px;cursor:pointer;color:#e8e6e1}
 .nav button:hover{background:#2a2926}
@@ -93,7 +97,7 @@ h1{font-size:18px;font-weight:500;margin-bottom:1rem;color:#e8e6e1}
   .header-main{flex-direction:row;align-items:center;justify-content:space-between;gap:1rem}
   .header-main h1{white-space:nowrap}
 }
-.learn-card{background:#1f1e1b;border:0.5px solid rgba(232,230,225,0.12);border-radius:12px;padding:1.25rem;margin-bottom:1rem}
+.learn-card{background:#1f1e1b;border:0.5px solid rgba(232,230,225,0.12);border-radius:12px;padding:1.25rem;margin-bottom:1rem;position:relative;overflow:hidden}
 .learn-name{font-size:20px;font-weight:600;color:#e8e6e1;margin-bottom:1rem;text-align:center}
 .learn-price{font-size:14px;font-weight:600;color:#E0AE6B}
 .learn-ingr-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;margin-bottom:1rem}

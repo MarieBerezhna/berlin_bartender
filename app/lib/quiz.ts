@@ -98,6 +98,7 @@ export function makeQs({
           answer: c1,
           cat: item.cat,
           hint: `${item.name}: ${ingredientsHint(item)}`,
+          item,
         });
       }
 
@@ -115,6 +116,7 @@ export function makeQs({
             answer: c2,
             cat: item.cat,
             hint: `${item.name}: ${ingredientsHint(item)}`,
+            item,
           });
         }
       }
@@ -131,6 +133,7 @@ export function makeQs({
             answer: intruder,
             cat: item.cat,
             hint: `${item.name} lleva: ${ingredientsHint(item)}`,
+            item,
           });
         }
       }

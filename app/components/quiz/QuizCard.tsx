@@ -31,8 +31,8 @@ export default function QuizCard({
 	useActivateOnKeys(answered, onNext);
 
 	return (
-		<>
-			<div className="qcard">
+		<div className="qcard">
+			<div className={`q-layer${answered ? " faded" : ""}`}>
 				<div className="qtype">
 					{qTypeLabel}
 					<span className="qtag">{question.cat}</span>
@@ -48,18 +48,16 @@ export default function QuizCard({
 					locked={answered}
 					onSelect={onChoose}
 				/>
-				<QuizFeedback
-					visible={answered}
-					isCorrect={isCorrect}
-					answer={question.answer}
-					hint={question.hint}
-				/>
 			</div>
-			<div className="nav" id="nav" style={{ display: answered ? "flex" : "none" }}>
-				<button className="pri" onClick={onNext}>
-					{nextLabel}
-				</button>
-			</div>
-		</>
+			<QuizFeedback
+				visible={answered}
+				isCorrect={isCorrect}
+				answer={question.answer}
+				hint={question.hint}
+				item={question.item}
+				onNext={onNext}
+				nextLabel={nextLabel}
+			/>
+		</div>
 	);
 }

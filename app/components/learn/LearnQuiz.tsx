@@ -44,8 +44,8 @@ export default function LearnQuiz({
 	useActivateOnKeys(answered, onNext);
 
 	return (
-		<>
-			<div className="learn-card">
+		<div className="learn-card">
+			<div className={`q-layer${answered ? " faded" : ""}`}>
 				<div className="learn-counter">
 					Práctica · {index + 1} / {total}
 					{queueTotal > 1 ? ` · ${queueIndex + 1}/${queueTotal}` : ""}
@@ -63,20 +63,17 @@ export default function LearnQuiz({
 					locked={answered}
 					onSelect={onChoose}
 				/>
-
-				<QuizFeedback
-					visible={answered}
-					isCorrect={isCorrect}
-					answer={question.answer}
-					hint={question.hint}
-				/>
 			</div>
 
-			<div className="nav" id="nav" style={{ display: answered ? "flex" : "none" }}>
-				<button className="pri" onClick={onNext}>
-					{nextLabel}
-				</button>
-			</div>
-		</>
+			<QuizFeedback
+				visible={answered}
+				isCorrect={isCorrect}
+				answer={question.answer}
+				hint={question.hint}
+				item={item}
+				onNext={onNext}
+				nextLabel={nextLabel}
+			/>
+		</div>
 	);
 }
