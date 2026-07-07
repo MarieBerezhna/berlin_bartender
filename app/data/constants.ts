@@ -52,6 +52,9 @@ export const CAT_DESCRIPTIONS = {
   "Whisky": "El whisky es una bebida alcohólica destilada elaborada a partir de cereales, como cebada, maíz, centeno o trigo. Tras la destilación se envejece en barricas de roble durante varios años, lo que le aporta su color, aroma y sabores característicos, como vainilla, caramelo, especias o madera. Es una de las bases más importantes de la coctelería clásica y también se consume solo o con hielo.",
   "Ron": "El ron es una bebida alcohólica destilada que se elabora principalmente a partir de la caña de azúcar, ya sea del jugo de caña o de la melaza (un subproducto de la producción de azúcar). Su proceso incluye fermentar los azúcares de la caña, destilar el líquido fermentado y, en muchos casos, envejecer el destilado en barricas de madera.<br><br><strong>Tipos de ron:</strong><br>• <em>Ron blanco</em> — ligero y transparente, muy usado en cócteles.<br>• <em>Ron dorado</em> — envejecido por un tiempo moderado, sabor más intenso.<br>• <em>Ron añejo</em> — envejecido varios años, sabores más complejos.<br>• <em>Ron especiado</em> — con especias y otros aromas añadidos.<br><br>Se consume solo, con hielo o en cócteles como el mojito, la piña colada o el daiquiri.",
   "Cerveza": "La cerveza es una bebida alcohólica elaborada a partir de la fermentación de cereales, principalmente cebada, y aromatizada con lúpulo. Su proceso de elaboración incluye la malteación, la cocción del mosto, la fermentación y el envasado. Existen numerosos estilos de cerveza, que varían en sabor, color, aroma y contenido alcohólico. Se consume sola o como acompañamiento de comidas y también se utiliza en cócteles como la michelada o el shandy. Es la bebida alcohólica más consumida del mundo, y una de las bebidas más consumidas en general, solo por detrás del agua, el té y el café.",
+  "Vino": "El vino es una bebida alcohólica obtenida de la fermentación del jugo de uvas. Existen diferentes tipos de vino, como tinto, blanco, rosado y espumoso, cada uno con características únicas de sabor, aroma y color. Se consume solo, acompañado de comidas o como ingrediente en cócteles.",
+  "Vermut": "El vermut es un vino aromatizado y fortificado, elaborado a partir de vino base al que se le añaden hierbas, especias y otros botánicos. Se utiliza como aperitivo o digestivo y también es un ingrediente clave en cócteles clásicos como el Martini, el Negroni y el Manhattan.",
+
 };
 export const AUTOR_FAMILIES: string[] = [
   ...new Set(
@@ -94,7 +97,22 @@ export const ITEM_DESCRIPTIONS: Record<string, string> = {
   "Amstel 0.0": "Cerveza Amstel 0.0 es una marca de cerveza neerlandesa sin alcohol, fundada en 1870 en Ámsterdam, Países Bajos. Es una cerveza lager de color dorado y sabor suave.",
   "Amstel Radler": "Cerveza Amstel Radler es una mezcla de cerveza Amstel y limonada, con un contenido alcohólico de 2,5%.",
   "Cruzcampo Sin Gluten": "Cerveza Cruzcampo Sin Gluten es una marca de cerveza española sin gluten, fundada en 1904 en Sevilla, España. Es una cerveza lager de color dorado y sabor suave.",
-  "IPA Lagunitas": "Cerveza IPA Lagunitas es una marca de cerveza estadounidense, fundada en 1993 en Petaluma, California. Es una cerveza IPA de color ámbar y sabor intenso, con un contenido alcohólico de 6,2%."
+  "IPA Lagunitas": "Cerveza IPA Lagunitas es una marca de cerveza estadounidense, fundada en 1993 en Petaluma, California. Es una cerveza IPA de color ámbar y sabor intenso, con un contenido alcohólico de 6,2%.",
+  // VINO
+  "Ladrón de Lunas Blanco": "Vino blanco español, conocido por su sabor fresco y afrutado.",
+  "Ovejita Tinto": "Vino tinto español, caracterizado por su sabor suave y equilibrado.",
+  "Ovejita verde Verdejo": "Vino blanco español, elaborado con la variedad de uva Verdejo, conocido por su frescura y notas frutales.",
+  "Vento n°1": "Vino realizado por Café Berlin, de forma artesanal en el celler de la Ibola",
+  "Brut Cava": "Vino espumoso español, elaborado mediante el método tradicional, con un sabor seco y burbujeante.",
+  "Ramón Bilbao Rioja": "Vino tinto español, proveniente de la región de Rioja, conocido por su sabor intenso y afrutado.",
+  "Bollinger Spécial Cuvée": "Vino espumoso francés, elaborado por la casa Bollinger, conocido por su sabor complejo y elegante.",
+  // Vermut
+  "Vittore Blanco": "Vermut blanco español, elaborado con una mezcla de vinos y aromatizado con hierbas y especias.",
+  "Vittore Rojo": "Vermut rojo español, elaborado con una mezcla de vinos y aromatizado con hierbas y especias.",
+  "Martini Reserva Ambrato": "Vermut italiano, elaborado con una mezcla de vinos y aromatizado con hierbas y especias, conocido por su sabor suave y equilibrado.",
+  "Martini Reserva Rubino": "Vermut italiano, elaborado con una mezcla de vinos y aromatizado con hierbas y especias, conocido por su sabor intenso y afrutado.",
+  "Noilly Prat Blanco Seco": "Vermut francés, elaborado con una mezcla de vinos y aromatizado con hierbas y especias, conocido por su sabor seco y elegante.",
+  // 
 };
 export const Q_META = {
   ingredients:  "¿Qué lleva?",
