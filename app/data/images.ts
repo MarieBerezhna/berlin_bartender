@@ -108,7 +108,7 @@ const IMAGES: Record<string, string> = {
   "Limon": "./ingredientes/huerto/limon.webp",
   "Manzana verde": "./ingredientes/huerto/manzana_verde.webp",
   "Naranja": "./ingredientes/huerto/naranja.webp",
-  "Maracuya": "./frutas/maracuya.webp",
+  "Maracuya": "./fruitymix/maracuya.webp",
   "Zumo de lima": "./ingredientes/zumos/zumo_lima.png",
   "Zumo de limón": "./ingredientes/zumos/zumo_limon.webp",
   "Zumo de limon": "./ingredientes/zumos/zumo_limon.webp",
