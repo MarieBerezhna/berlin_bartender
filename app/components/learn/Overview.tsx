@@ -34,11 +34,10 @@ export default function Overview({ items, categoryLabel, activeTab, onStart }: O
 					background: "#1a1917",
 					border: "1px solid rgba(224,174,107,0.3)",
 					borderRadius: 16,
-					padding: 20,
+					overflow: "hidden",
 					marginBottom: 16,
 					display: "flex",
-					alignItems: "stretch",
-					gap: 16,
+					flexDirection: "column",
 					textAlign: "left",
 				}}
 			>
@@ -46,14 +45,14 @@ export default function Overview({ items, categoryLabel, activeTab, onStart }: O
 					<Image
 						src={categoryImage}
 						alt={categoryLabel}
-						width={112}
-						height={112}
+						width={600}
+						height={200}
 						unoptimized
-						style={{ width: 112, height: 112, objectFit: "cover", borderRadius: 12, flexShrink: 0 }}
+						style={{ width: "100%", height: 200, objectFit: "cover", display: "block" }}
 					/>
 				) : null}
-				<div style={{ flex: 1, minWidth: 0, display: "flex", flexDirection: "column", gap: 10, minHeight: 112 }}>
-					<div style={{ fontSize: 22, fontWeight: 700, color: "#e8e6e1", marginBottom: 4 }}>
+				<div style={{ padding: 20, display: "flex", flexDirection: "column", gap: 10 }}>
+					<div style={{ fontSize: 22, fontWeight: 700, color: "#e8e6e1" }}>
 						{categoryLabel}
 					</div>
 					<div style={{ fontSize: 13, color: "#9a9793" }}>
@@ -68,7 +67,7 @@ export default function Overview({ items, categoryLabel, activeTab, onStart }: O
 					<button
 						className="pri overview-start-btn"
 						style={{
-							width: "fit-content",
+							width: "100%",
 							padding: "12px 16px",
 							border: "none",
 							borderRadius: 10,
@@ -77,8 +76,7 @@ export default function Overview({ items, categoryLabel, activeTab, onStart }: O
 							fontSize: 16,
 							fontWeight: 700,
 							cursor: "pointer",
-							alignSelf: "flex-end",
-							marginTop: "auto",
+							marginTop: 4,
 						}}
 						onClick={onStart}
 					>

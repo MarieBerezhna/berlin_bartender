@@ -99,66 +99,40 @@ export default function OverviewCard({ item, showCategoryLabel }: OverviewCardPr
 				background: "#1f1e1b",
 				border: "0.5px solid rgba(232,230,225,0.15)",
 				borderRadius: 12,
-				padding: 14,
+				overflow: "hidden",
 				display: "flex",
-				alignItems: "flex-start",
-				gap: 14,
+				flexDirection: "column",
 			}}
 		>
 			{image ? (
 				<Image
 					src={image}
 					alt={item.name}
-					width={64}
-					height={64}
+					width={600}
+					height={160}
 					unoptimized
-					style={{ width: 64, height: 64, objectFit: "cover", borderRadius: 10, flexShrink: 0 }}
+					style={{ width: "100%", height: 160, objectFit: "cover", display: "block" }}
 				/>
-			) : (
-				<div
-					style={{
-						width: 64,
-						height: 64,
-						borderRadius: 10,
-						background: "#2a2926",
-						flexShrink: 0,
-						display: "flex",
-						alignItems: "center",
-						justifyContent: "center",
-						fontSize: 22,
-					}}
-				>
-					🍹
-				</div>
-			)}
+			) : null}
 
-			<div style={{ flex: 1, minWidth: 0 }}>
+			<div style={{ padding: 14, display: "flex", flexDirection: "column", gap: 6 }}>
 				{showCategoryLabel ? (
-					<div style={{ marginBottom: 3 }}>
+					<div style={{ display: "flex", alignItems: "center", gap: 6 }}>
 						<FamilyBadge item={item} />
-						<span
-							style={{
-								fontSize: 11,
-								color: "#9a9793",
-								textTransform: "uppercase",
-								letterSpacing: ".04em",
-								marginLeft: item.family ? 6 : 0,
-							}}
-						>
-							{item.family ? "" : item.cat}
-						</span>
+						{!item.family ? (
+							<span style={{ fontSize: 11, color: "#9a9793", textTransform: "uppercase", letterSpacing: ".04em" }}>
+								{item.cat}
+							</span>
+						) : null}
 					</div>
 				) : item.family ? (
-					<div style={{ marginBottom: 4 }}>
+					<div>
 						<FamilyBadge item={item} />
 					</div>
 				) : null}
 
-				<div style={{ display: "flex", alignItems: "flex-start", gap: 8, justifyContent: "space-between" }}>
-					<div style={{ minWidth: 0 }}>
-						<div style={{ fontSize: 16, fontWeight: 700, color: "#e8e6e1", lineHeight: 1.3 }}>{item.name}</div>
-						<div style={{ fontSize: 14, color: "#E0AE6B", marginTop: 4, fontWeight: 500 }}>{formatPrice(item)}</div>
-					</div>
+				<div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 8 }}>
+					<div style={{ fontSize: 16, fontWeight: 700, color: "#e8e6e1", lineHeight: 1.3 }}>{item.name}</div>
 					{description ? (
 						<div
 							ref={infoWrapRef}
@@ -188,8 +162,10 @@ export default function OverviewCard({ item, showCategoryLabel }: OverviewCardPr
 					) : null}
 				</div>
 
+				<div style={{ fontSize: 14, color: "#E0AE6B", fontWeight: 500 }}>{formatPrice(item)}</div>
+
 				{sortedIngr.length ? (
-					<div style={{ fontSize: 14, marginTop: 5, lineHeight: 1.8 }}>
+					<div style={{ fontSize: 13, lineHeight: 1.8 }}>
 						{sortedIngr.map((ing, idx) => {
 							const color = GROUP_COLOR[getIngredientGroup(ing)] || GROUP_COLOR.other;
 							const isOptional = Boolean(item.optional?.includes(ing));
@@ -214,44 +190,38 @@ export default function OverviewCard({ item, showCategoryLabel }: OverviewCardPr
 				) : null}
 
 				{garnishes.length ? (
-					<div
-						style={{
-							fontSize: 12,
-							marginTop: 6,
-							color: "#9ECB7A",
-							lineHeight: 1.4,
-						}}
-					>
+					<div style={{ fontSize: 12, color: "#9ECB7A", lineHeight: 1.4 }}>
 						Guarnición <span style={{ color: "#d9e8ca" }}>{garnishes.join(" · ")}</span>
 					</div>
 				) : null}
 
-				{item.method ? (
+				{item.method || glassName ? (
 					<div
 						style={{
+							display: "flex",
+							alignItems: "center",
+							justifyContent: "space-between",
+							gap: 8,
 							fontSize: 12,
-							marginTop: 6,
 							borderTop: "0.5px solid rgba(232,230,225,0.1)",
-							paddingTop: 6,
+							paddingTop: 8,
+							marginTop: 2,
 						}}
 					>
-						Método <span style={{ color: "#8FC1E0", fontWeight: 600 }}>{item.method}</span>
+						{item.method ? (
+							<span>Método <span style={{ color: "#8FC1E0", fontWeight: 600 }}>{item.method}</span></span>
+						) : <span />}
+						{glassName ? (
+							<div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+								{glassImage ? (
+									<Image src={glassImage} alt={glassName} width={24} height={32} unoptimized style={{ objectFit: "contain" }} />
+								) : null}
+								<span style={{ fontSize: 11, color: "#7a7875" }}>{glassName}</span>
+							</div>
+						) : null}
 					</div>
 				) : null}
 			</div>
-
-			{glassName ? (
-				<div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 4, flexShrink: 0, minWidth: 52 }}>
-					{glassImage ? (
-						<Image src={glassImage} alt={glassName} width={44} height={60} unoptimized style={{ objectFit: "contain" }} />
-					) : (
-						<div style={{ width: 44, height: 60, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 24 }}>
-							🥛
-						</div>
-					)}
-					<span style={{ fontSize: 10, color: "#7a7875", textAlign: "center", lineHeight: 1.2 }}>{glassName}</span>
-				</div>
-			) : null}
 		</div>
 	);
 }
