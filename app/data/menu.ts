@@ -1,6 +1,6 @@
 import type { MenuItem } from "./constants";
 
-const RAW: MenuItem[] = [
+const CLASSICS: MenuItem[] = [
   {cat:"Coctelería clásica",family:"Inclasificables",name:"Espresso Martini",hasIngr:true,ingr:["Moskovskaya","Licor de café Bols","Bitter de cacao","Sirope de vainilla","Café"],
    prices:[{label:"cóctel",p:11}]},
   {cat:"Coctelería clásica",family:"Inclasificables",name:"White Russian",hasIngr:true,ingr:["Vodka","Licor de café Bols","Leche","Nata"],
@@ -116,7 +116,7 @@ const RAW: MenuItem[] = [
    prices:[{label:"cóctel",p:11}]},
   {cat:"Coctelería clásica",name:"Negroni",family:"Inclasificables",hasIngr:true,
    ingr:["Gin","Campari","Vermut tinto","Naranja"],
-   optional:["Naranja"],
+   garnish:["Twist de naranja,"],
    doses:{"Gin":"2 oz","Campari":"2 oz","Vermut tinto":"2 oz"},
   method:"Removido",
    glass:"Vaso bajo",
@@ -128,7 +128,7 @@ const RAW: MenuItem[] = [
    prices:[{label:"cóctel",p:11}]},
   {cat:"Coctelería clásica",name:"Manhattan",family:"Inclasificables",hasIngr:true,
    ingr:["Whisky","Vermut tinto","Angostura Bitters","Cereza"],
-   optional:["Cereza"],
+   garnish:["Cereza"],
     doses:{"Whisky":"2 oz","Vermut tinto":"1 oz","Angostura Bitters":"2 dashes"},
   method:"Removido, Colado",
    glass:"Coupe / Martini",
@@ -182,7 +182,10 @@ const RAW: MenuItem[] = [
   method:"Agitado, Colado",
    glass:"Coupe / Martini",
    prices:[{label:"cóctel",p:11}]},
-  {cat:"Cócteles de autor",family:"Acid Times",name:"Blue Margarita",hasIngr:true,ingr:["Tequila","Licor Bols Blue Curaçao","Sirope de agave","Zumo de lima"],
+];
+
+const AUTOR_COCTAILS: MenuItem[] = [
+    {cat:"Cócteles de autor",family:"Acid Times",name:"Blue Margarita",hasIngr:true,ingr:["Tequila","Licor Bols Blue Curaçao","Sirope de agave","Zumo de lima"],
    prices:[{label:"cóctel",p:12}]},
   {cat:"Cócteles de autor",family:"Acid Times",name:"Brote Primera",hasIngr:true,ingr:["Gin Tanqueray","Licor yuzu","Azúcar líquido","Lima","Albahaca"],
    prices:[{label:"cóctel",p:12}]},
@@ -218,6 +221,9 @@ const RAW: MenuItem[] = [
    prices:[{label:"cóctel",p:12}]},
   {cat:"Cócteles de autor",family:"Hard Times",name:"Berlin Sling",hasIngr:true,ingr:["Gin Mare","Chambord","Bénédictine DOM","Triple Sec Bols","Piña","Lima"],
    prices:[{label:"cóctel",p:12},{label:"cóctel con chupito de vodka",p:13}]},
+];
+
+const LEY_SECA: MenuItem[] = [
   {cat:"Sin Alcohol",name:"Virgin Mai Tai",hasIngr:true,
     ingr:["Tanqueray 0.0","Sirope de orgeat","Sirope falernum","Zumo de limón","Zumo de naranja","Granadina"],
     optional:["Granadina","Rodaja de limón","Hierbabuena"],
@@ -236,6 +242,9 @@ const RAW: MenuItem[] = [
     ingr:["Tanqueray 0.0","Zumo de limón","Granadina","Foam"],
     doses:{"Tanqueray 0.0":"2 oz","Zumo de limón":"1 oz","Granadina":"0.5 oz"},
    prices:[{label:"cóctel",p:9}]},
+];
+
+const SPRITZ: MenuItem[] = [
   {cat:"Spritz",name:"Hugo Spritz",hasIngr:true,doses:{"Bols Saúco":"2 oz","Cava":"3 oz","Soda":"1 oz"},ingr:["Bols Saúco","Cava","Soda","Hierbabuena"],
    prices:[{label:"copa",p:10}]},
   {cat:"Spritz",name:"Aperol Spritz",hasIngr:true,doses:{"Aperol":"2 oz","Cava":"3 oz","Soda":"1 oz"},ingr:["Aperol","Cava","Soda"],
@@ -248,6 +257,9 @@ const RAW: MenuItem[] = [
    prices:[{label:"copa",p:8}]},
   {cat:"Spritz",name:"Sarti Rosa Spritz",hasIngr:true,doses:{"Sarti Rosa":"2 oz","Cava":"3 oz","Soda":"1 oz"},ingr:["Sarti Rosa","Cava","Soda"],
    prices:[{label:"copa",p:8}]},
+];
+
+const JARRAS: MenuItem[] = [
   {cat:"Jarras",name:"Agua de Valencia",hasIngr:true,ingr:["Vodka","Gin Tanqueray","Zumo de naranja","Cava","Triple Sec Bols","Licor mandarina MB","Azúcar líquido"],
    doses:{"Vodka":"1 oz","Gin Tanqueray":"1 oz","Zumo de naranja":"2 oz","Cava":"2 oz"},
     prices:[{label:"copa",p:7},{label:"jarra",p:25}]},
@@ -255,7 +267,10 @@ const RAW: MenuItem[] = [
     prices:[{label:"copa",p:7},{label:"jarra",p:25}]},
   {cat:"Jarras",name:"Tinto de verano",hasIngr:true,ingr:["Vino tinto","Schweppes limón","Zumo de limón"],
     prices:[{label:"copa",p:5},{label:"jarra",p:20}]},
-  {cat:"Ron",name:"Barceló Añejo",hasIngr:false,
+];
+
+const RON: MenuItem[] = [
+    {cat:"Ron",name:"Barceló Añejo",hasIngr:false,
    prices:[{label:"combinado",p:9.5},{label:"chupito",p:3}]},
   {cat:"Ron",name:"Barceló Imperial",hasIngr:false,
    prices:[{label:"combinado",p:12},{label:"chupito",p:6}]},
@@ -263,6 +278,9 @@ const RAW: MenuItem[] = [
    prices:[{label:"combinado",p:10},{label:"chupito",p:6}]},
   {cat:"Ron",name:"Zacapa Centenario 23",hasIngr:false,
    prices:[{label:"combinado",p:16},{label:"chupito",p:8}]},
+];
+
+const WHISKY: MenuItem[] = [
   {cat:"Whisky",name:"Johnnie Walker Red Label",hasIngr:false,
    prices:[{label:"combinado",p:9.5},{label:"doble",p:12},{label:"chupito",p:3}]},
   {cat:"Whisky",name:"Johnnie Walker Black Label 12Y",hasIngr:false,
@@ -283,6 +301,9 @@ const RAW: MenuItem[] = [
    prices:[{label:"solo",p:12},{label:"doble",p:20},{label:"chupito",p:6}]},
   {cat:"Whisky",name:"Macallan",hasIngr:false,
    prices:[{label:"copa",p:16}]},
+  ];
+
+const GIN: MenuItem[] = [
   {cat:"Gin",name:"Tanqueray London Dry",hasIngr:false,
    prices:[{label:"solo",p:9.5}]},
   {cat:"Gin",name:"Tanqueray Nº Ten",hasIngr:false,
@@ -303,6 +324,9 @@ const RAW: MenuItem[] = [
    prices:[{label:"solo",p:13}]},
   {cat:"Gin",name:"Macaronesia",hasIngr:false,
    prices:[{label:"solo",p:9.5}]},
+  ];
+
+const TEQUILA: MenuItem[] = [
   {cat:"Tequila",name:"Rooster Rojo White",hasIngr:false,
    prices:[{label:"combinado",p:10},{label:"chupito",p:4}]},
   {cat:"Tequila",name:"Mezcal Union",hasIngr:false,
@@ -311,12 +335,18 @@ const RAW: MenuItem[] = [
    prices:[{label:"combinado",p:18},{label:"chupito",p:10}]},
   {cat:"Tequila",name:"Don Julio Reposado",hasIngr:false,
    prices:[{label:"combinado",p:18},{label:"chupito",p:10}]},
+  ];
+
+const VODKA: MenuItem[] = [
   {cat:"Vodka",name:"Moskovskaya",hasIngr:false,
    prices:[{label:"combinado",p:9.5},{label:"chupito",p:3}]},
   {cat:"Vodka",name:"Cîroc",hasIngr:false,
    prices:[{label:"combinado",p:14},{label:"chupito",p:7}]},
   {cat:"Vodka",name:"Beluga",hasIngr:false,
    prices:[{label:"combinado",p:16},{label:"chupito",p:9}]},
+];
+
+const LICORES: MenuItem[] = [
   {cat:"Licores",name:"Jack Fire",hasIngr:false,
    prices:[{label:"copa",p:9},{label:"chupito",p:5}]},
   {cat:"Licores",name:"Jägermeister",hasIngr:false,
@@ -331,6 +361,9 @@ const RAW: MenuItem[] = [
    prices:[{label:"combinado",p:10},{label:"copa",p:8},{label:"chupito",p:3}]},
   {cat:"Licores",name:"Baileys",hasIngr:false,
    prices:[{label:"copa",p:6},{label:"chupito",p:3}]},
+];
+
+const VERMUT: MenuItem[] = [
   {cat:"Vermut",name:"Vittore Rojo",hasIngr:false,
    prices:[{label:"copa",p:4}]},
   {cat:"Vermut",name:"Vittore Blanco",hasIngr:false,
@@ -341,6 +374,9 @@ const RAW: MenuItem[] = [
    prices:[{label:"copa",p:5}]},
   {cat:"Vermut",name:"Noilly Prat Blanco Seco",hasIngr:false,
    prices:[{label:"copa",p:5}]},
+];
+
+const VINOS: MenuItem[] = [
   {cat:"Vino",name:"Ovejita verde Verdejo",hasIngr:false,
    prices:[{label:"copa",p:4},{label:"botella",p:20}]},
   {cat:"Vino",name:"Ladrón de Lunas Blanco",hasIngr:false,
@@ -355,6 +391,8 @@ const RAW: MenuItem[] = [
    prices:[{label:"copa",p:5},{label:"botella",p:25}]},
   {cat:"Vino",name:"Vento n°1",hasIngr:false,
    prices:[{label:"copa",p:4.5},{label:"botella",p:25}]},
+];
+const CERVEZAS: MenuItem[] = [
   {cat:"Cerveza",name:"Águila",hasIngr:false,
    prices:[{label:"pinta",p:5.3},{label:"doble",p:3.7}]},
   {cat:"Cerveza",name:"Águila Sin Filtrar",hasIngr:false,
@@ -375,18 +413,27 @@ const RAW: MenuItem[] = [
     prices:[{label:"tercio",p:5.5}]},
   {cat:"Cerveza",name:"Heineken",hasIngr:false,
    prices:[{label:"tercio",p:3.5}]},
+];
+
+const MICHELADAS: MenuItem[] = [
   {cat:"Micheladas",name:"Michelada Berlín",hasIngr:true,ingr:["Cerveza","Zumo de limón","Sal","Salsa inglesa","Tabasco"],
    doses:{"Zumo de limón":"1 oz","Salsa inglesa":"1/2 tbsp","Tabasco":"6-8 dashes","Cerveza":"top"},
    prices:[{label:"500 ml",p:8}]},
   {cat:"Micheladas",name:"Michelada de Tequila",hasIngr:true,ingr:["Cerveza","Tequila","Bitter habanero","Zumo de limón","Sal"],
    doses:{"Tequila":"1.5 oz","Zumo de limón":"1 oz","Bitter habanero":"4-6 dashes","Cerveza":"top"},
    prices:[{label:"500 ml",p:9}]},
+];
+
+const COMIDA: MenuItem[] = [
   {cat:"Comida",name:"Patatas bolsa",hasIngr:false,
    prices:[{label:"ración",p:1.5}]},
   {cat:"Comida",name:"Aceitunas",hasIngr:false,
    prices:[{label:"ración",p:2}]},
   {cat:"Comida",name:"Tabla de jamón Gargallo",hasIngr:false,
    prices:[{label:"tabla",p:12}]},
+];
+
+const REFRESCOS: MenuItem[] = [
   {cat:"Refrescos",name:"Pepsi",hasIngr:false,
    prices:[{label:"lata/botella",p:3}]},
   {cat:"Refrescos",name:"Pepsi Zero",hasIngr:false,
@@ -403,6 +450,26 @@ const RAW: MenuItem[] = [
    prices:[{label:"botella",p:2.5}]},
   {cat:"Refrescos",name:"Agua con gas Perrier",hasIngr:false,
    prices:[{label:"botella",p:3}]},
+];
+
+const RAW: MenuItem[] = [
+  ...CLASSICS,
+  ...AUTOR_COCTAILS,
+  ...LEY_SECA,
+  ...SPRITZ,
+  ...JARRAS,
+  ...RON,
+  ...WHISKY,
+  ...GIN,
+  ...TEQUILA,
+  ...VODKA,
+  ...LICORES,
+  ...VERMUT,
+  ...VINOS,
+  ...CERVEZAS,
+  ...MICHELADAS,
+  ...COMIDA,
+  ...REFRESCOS,
 ];
 
 export default RAW;
