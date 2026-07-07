@@ -181,10 +181,12 @@ const CLASSICS: MenuItem[] = [
   method:"Agitado, Colado",
    glass:"Coupe / Martini",
    prices:[{label:"cóctel",p:11}]},
+     {cat:"Coctelería clásica",family:"Inclasificables",name:"Bloody Mary",hasIngr:true,ingr:["Moskovskaya","Zumo de tomate","Mix casero"],
+   prices:[{label:"cóctel",p:11}]},
 ];
 
 const AUTOR_COCTAILS: MenuItem[] = [
-    {cat:"Cócteles de autor",family:"Acid Times",name:"Blue Margarita",hasIngr:true,ingr:["Tequila","Licor Bols Blue Curaçao","Sirope de agave","Zumo de lima"],
+  {cat:"Cócteles de autor",family:"Acid Times",name:"Blue Margarita",hasIngr:true,ingr:["Tequila","Licor Bols Blue Curaçao","Sirope de agave","Zumo de lima"],
    prices:[{label:"cóctel",p:12}]},
   {cat:"Cócteles de autor",family:"Acid Times",name:"Brote Primera",hasIngr:true,ingr:["Gin Tanqueray","Licor yuzu","Azúcar líquido","Lima","Albahaca"],
    prices:[{label:"cóctel",p:12}]},
@@ -206,10 +208,6 @@ const AUTOR_COCTAILS: MenuItem[] = [
    prices:[{label:"cóctel",p:12}]},
   {cat:"Cócteles de autor",family:"Sweet Times",name:"Diego",hasIngr:true,ingr:["Jack Daniels Fire","Licor Bols Yogurt","Licor Bols Butterscotch","Sirope amarena","Zumo de arándanos"],
    prices:[{label:"cóctel",p:12}]},
-  {cat:"Cócteles de autor",family:"Spicy Times",name:"Bloody Mary",hasIngr:true,ingr:["Moskovskaya","Zumo de tomate","Mix casero"],
-   prices:[{label:"cóctel",p:11}]},
-  {cat:"Cócteles de autor",family:"Spicy Times",name:"Moscow Mule",hasIngr:true,ingr:["Moskovskaya","Ginger beer","Zumo de lima"],
-   prices:[{label:"cóctel",p:11}]},
   {cat:"Cócteles de autor",family:"Spicy Times",name:"Paloma Don Julio",hasIngr:true,ingr:["Tequila Don Julio","Soda de pomelo","Sirope de agave","Lima"],
    prices:[{label:"cóctel",p:12}]},
   {cat:"Cócteles de autor",family:"Spicy Times",name:"Matarreyes",hasIngr:true,ingr:["Vodka Smirnoff Tamarindo","Licor de humo","Triple Sec Bols","Sirope de agave","Lima","Maracuya"],
