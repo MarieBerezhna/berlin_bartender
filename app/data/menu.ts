@@ -185,6 +185,10 @@ const CLASSICS: MenuItem[] = [
     ingr:["Vodka","Zumo de tomate","Mix casero"],
     doses: {"Vodka":"3 oz","Zumo de tomate":"top","Mix casero":"tbs"},
     prices:[{label:"cóctel",p:11}]},
+  {cat:"Coctelería clásica",family:"Flip",name:"Vegan Lemon Gin Flip",hasIngr:true,
+    ingr:["Gin","Zumo de limón","Azúcar líquido", "Aguafaba"],
+    doses: {"Gin":"2 oz","Zumo de limón":"1.5 oz", "Azúcar líquido":"0.5 oz", "Aguafaba":"3 tbs"},
+    prices:[{label:"cóctel",p:11}]},
 ];
 
 const AUTOR_COCTAILS: MenuItem[] = [
