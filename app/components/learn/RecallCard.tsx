@@ -1,4 +1,7 @@
+"use client";
+
 import Image from "next/image";
+import { useRef } from "react";
 
 import type { MenuItem } from "../../data/constants";
 import IMAGES from "../../data/images";
@@ -46,6 +49,11 @@ export default function RecallCard({
 	nextLabel,
 }: RecallCardProps) {
 	const itemImage = toPublicPath(IMAGES[item.name]);
+
+	// Freeze overlay content during fade-out so resetting state doesn't flash empty/wrong feedback
+	const snap = useRef({ feedbackMessage, feedbackPerfect });
+	if (checked) snap.current = { feedbackMessage, feedbackPerfect };
+	const { feedbackMessage: fm, feedbackPerfect: fp } = snap.current;
 
 	return (
 		<>
@@ -108,9 +116,9 @@ export default function RecallCard({
 						textAlign: "center",
 						fontSize: 14,
 						fontWeight: 600,
-						color: feedbackPerfect ? "#97C459" : "#c87020",
+						color: fp ? "#97C459" : "#c87020",
 					}}>
-						{feedbackMessage}
+						{fm}
 					</div>
 					<RecipeCard item={item} />
 					{onNext ? (

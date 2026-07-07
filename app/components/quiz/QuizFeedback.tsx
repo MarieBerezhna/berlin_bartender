@@ -1,3 +1,7 @@
+"use client";
+
+import { useRef } from "react";
+
 import type { MenuItem } from "../../data/constants";
 import RecipeCard from "../learn/RecipeCard";
 
@@ -12,22 +16,27 @@ type QuizFeedbackProps = {
 };
 
 export default function QuizFeedback({ visible, isCorrect, answer, hint, item, onNext, nextLabel = "Siguiente →" }: QuizFeedbackProps) {
+	// Freeze content when visible so the fade-out shows the same result, not the next question's state
+	const snap = useRef({ isCorrect, answer, hint, item });
+	if (visible) snap.current = { isCorrect, answer, hint, item };
+	const { isCorrect: fc, answer: fa, hint: fh, item: fi } = snap.current;
+
 	return (
 		<div className={`q-overlay${visible ? " in" : ""}`} aria-live="polite">
-			<div style={{ textAlign: "center", fontSize: 44, lineHeight: 1, color: isCorrect ? "#97C459" : "#e07070" }}>
-				{isCorrect ? "✓" : "✗"}
+			<div style={{ textAlign: "center", fontSize: 44, lineHeight: 1, color: fc ? "#97C459" : "#e07070" }}>
+				{fc ? "✓" : "✗"}
 			</div>
-			<div style={{ textAlign: "center", fontSize: 18, fontWeight: 700, color: isCorrect ? "#97C459" : "#e07070" }}>
-				{isCorrect ? "¡Correcto!" : "Incorrecto"}
+			<div style={{ textAlign: "center", fontSize: 18, fontWeight: 700, color: fc ? "#97C459" : "#e07070" }}>
+				{fc ? "¡Correcto!" : "Incorrecto"}
 			</div>
-			{!isCorrect ? (
+			{!fc ? (
 				<div style={{ textAlign: "center", fontSize: 13, color: "#c8c5bf" }}>
-					Respuesta: <strong style={{ color: "#e8e6e1" }}>{answer}</strong>
+					Respuesta: <strong style={{ color: "#e8e6e1" }}>{fa}</strong>
 				</div>
 			) : null}
 
-			{item ? (
-				<RecipeCard item={item} />
+			{fi ? (
+				<RecipeCard item={fi} />
 			) : (
 				<div style={{
 					fontSize: 12,
@@ -37,7 +46,7 @@ export default function QuizFeedback({ visible, isCorrect, answer, hint, item, o
 					borderTop: "0.5px solid rgba(232,230,225,0.1)",
 					paddingTop: 10,
 				}}>
-					{hint}
+					{fh}
 				</div>
 			)}
 
