@@ -24,6 +24,9 @@ export default function QuizEnd({ score, total, onRestart }: QuizEndProps) {
 			<div className="sc">
 				{score} / {total}
 			</div>
+			<div style={{ fontSize: 18, color: pct >= 80 ? "#97C459" : pct >= 50 ? "#E0AE6B" : "#e07070", fontWeight: 600, marginBottom: 6 }}>
+				{pct}%
+			</div>
 			<p>{message}</p>
 			<div className="nav" style={{ marginTop: "1.5rem", display: "flex" }}>
 				<button className="pri" onClick={onRestart}>
