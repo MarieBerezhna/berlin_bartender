@@ -181,8 +181,10 @@ const CLASSICS: MenuItem[] = [
   method:"Agitado, Colado",
    glass:"Coupe / Martini",
    prices:[{label:"cóctel",p:11}]},
-     {cat:"Coctelería clásica",family:"Inclasificables",name:"Bloody Mary",hasIngr:true,ingr:["Moskovskaya","Zumo de tomate","Mix casero"],
-   prices:[{label:"cóctel",p:11}]},
+  {cat:"Coctelería clásica",family:"Inclasificables",name:"Bloody Mary",hasIngr:true,
+    ingr:["Vodka","Zumo de tomate","Mix casero"],
+    doses: {"Vodka":"3 oz","Zumo de tomate":"top","Mix casero":"tbs"},
+    prices:[{label:"cóctel",p:11}]},
 ];
 
 const AUTOR_COCTAILS: MenuItem[] = [
