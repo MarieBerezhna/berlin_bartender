@@ -1,7 +1,8 @@
 import type { MenuItem } from "./constants";
 
-const CLASSICS: MenuItem[] = [
-  {cat:"Coctelería clásica",family:"Inclasificables",name:"Espresso Martini",hasIngr:true,
+
+const UNCLASSIFIED: MenuItem[] = [
+    {cat:"Coctelería clásica",family:"Inclasificables",name:"Espresso Martini",hasIngr:true,
     ingr:["Vodka","Licor de café Bols","Bitter de cacao","Sirope de vainilla","Café"],
     garnish:["Granos de café"],
     doses:{"Vodka":"2 oz","Licor de café Bols":"1 oz","Bitter de cacao":"2 dashes","Sirope de vainilla":"0.5 oz","Café":"1 oz"},
@@ -10,6 +11,7 @@ const CLASSICS: MenuItem[] = [
   {cat:"Coctelería clásica",family:"Inclasificables",name:"White Russian",hasIngr:true,
     ingr:["Vodka","Licor de café Bols","Leche","Nata"],
     doses:{"Vodka":"2 oz","Licor de café Bols":"1 oz","Nata":"1 oz"},
+    method:"Directo",
     glass:"Vaso bajo",
    prices:[{label:"cóctel",p:11}]},
   {cat:"Coctelería clásica",family:"Inclasificables",name:"Piña Colada",hasIngr:true,
@@ -20,7 +22,36 @@ const CLASSICS: MenuItem[] = [
   method:"Agitado, Colado",
    glass:"Copa Hurricane o vaso grande",
    prices:[{label:"cóctel",p:11}]},
-  {cat:"Coctelería clásica",name:"Mojito",family:"Daiquiri",hasIngr:true,
+     {cat:"Coctelería clásica",name:"Negroni",family:"Inclasificables",hasIngr:true,
+   ingr:["Gin","Campari","Vermut tinto"],
+   garnish:["Twist de naranja"],
+   doses:{"Gin":"2 oz","Campari":"2 oz","Vermut tinto":"2 oz"},
+  method:"Removido",
+   glass:"Vaso bajo",
+   prices:[{label:"cóctel",p:11}]},
+  {cat:"Coctelería clásica",name:"Boulevardier",family:"Inclasificables",hasIngr:true,
+   ingr:["Whisky","Campari","Vermut tinto"],
+   garnish:["Twist de naranja"],
+   doses:{"Whisky":"2 oz","Campari":"2 oz","Vermut tinto":"2 oz"},
+    method:"Removido",
+   prices:[{label:"cóctel",p:11}]},
+  {cat:"Coctelería clásica",name:"Manhattan",family:"Inclasificables",hasIngr:true,
+   ingr:["Whisky","Vermut tinto","Angostura Bitters","Cereza"],
+   garnish:["Cereza"],
+    doses:{"Whisky":"2 oz","Vermut tinto":"1 oz","Angostura Bitters":"2 dashes"},
+  method:"Removido, Colado",
+   glass:"Coupe / Martini",
+   prices:[{label:"cóctel",p:11}]},
+     {cat:"Coctelería clásica",family:"Inclasificables",name:"Bloody Mary",hasIngr:true,
+    ingr:["Vodka","Zumo de tomate","Mix casero"],
+    garnish:["Sal","Pimienta","Apio","Rodaja de limón"],
+    doses: {"Vodka":"3 oz","Zumo de tomate":"top","Mix casero":"tbs"},
+    prices:[{label:"cóctel",p:11}]},
+];
+
+
+const DAIQUIRIS: MenuItem[] = [
+    {cat:"Coctelería clásica",name:"Mojito",family:"Daiquiri",hasIngr:true,
    ingr:["Ron blanco","Zumo de lima","Azúcar líquido","Soda"],
    garnish: ["Hierbabuena"],
    doses:{"Ron blanco":"1 oz","Zumo de lima":"1 oz","Azúcar líquido":"1 oz"},
@@ -54,6 +85,16 @@ const CLASSICS: MenuItem[] = [
   method:"Agitado, Colado",
    glass:"Coupe / Martini",
    prices:[{label:"cóctel",p:11}]},
+  {cat:"Coctelería clásica",name:"Rusty Nail",family:"Old Fashioned",hasIngr:true,
+   ingr:["Whisky","Drambuie"],
+   garnish:["Twist de limón"],
+   doses:{"Whisky":"1 oz","Drambuie":"1 oz"},
+   method:"Directo",
+   glass:"Vaso bajo",
+   prices:[{label:"cóctel",p:11}]},
+];
+
+const HIGHBALLS: MenuItem[] = [
   {cat:"Coctelería clásica",name:"Whiskey Highball",family:"Highball",hasIngr:true,
     ingr:["Whisky","Soda"],
     garnish:["Rodaja de limón"],
@@ -104,6 +145,9 @@ const CLASSICS: MenuItem[] = [
    method:"Removido",
    glass:"Vaso largo",
    prices:[{label:"cóctel",p:11}]},
+];
+
+const OLD_FASHIONED: MenuItem[] = [
   {cat:"Coctelería clásica",name:"Old Fashioned",family:"Old Fashioned",hasIngr:true,
    ingr:["Whisky","Azúcar líquido","Angostura Bitters"],
    garnish:["Twist de naranja"],
@@ -125,32 +169,15 @@ const CLASSICS: MenuItem[] = [
   method:"Removido, Colado",
    glass:"Vaso bajo",
    prices:[{label:"cóctel",p:11}]},
+];
+
+const MARTINIS: MenuItem[] = [
   {cat:"Coctelería clásica",name:"Martini",family:"Martini",hasIngr:true,
    ingr:["Gin","Vermut"],
    garnish:["Twist de limón"],
    doses:{"Gin":"2 oz","Vermut":"1 oz"},
   method:"Removido, Colado",
    glass:"Copa Martini",
-   prices:[{label:"cóctel",p:11}]},
-  {cat:"Coctelería clásica",name:"Negroni",family:"Inclasificables",hasIngr:true,
-   ingr:["Gin","Campari","Vermut tinto"],
-   garnish:["Twist de naranja"],
-   doses:{"Gin":"2 oz","Campari":"2 oz","Vermut tinto":"2 oz"},
-  method:"Removido",
-   glass:"Vaso bajo",
-   prices:[{label:"cóctel",p:11}]},
-  {cat:"Coctelería clásica",name:"Boulevardier",family:"Inclasificables",hasIngr:true,
-   ingr:["Whisky","Campari","Vermut tinto"],
-   garnish:["Twist de naranja"],
-   doses:{"Whisky":"2 oz","Campari":"2 oz","Vermut tinto":"2 oz"},
-    method:"Removido",
-   prices:[{label:"cóctel",p:11}]},
-  {cat:"Coctelería clásica",name:"Manhattan",family:"Inclasificables",hasIngr:true,
-   ingr:["Whisky","Vermut tinto","Angostura Bitters","Cereza"],
-   garnish:["Cereza"],
-    doses:{"Whisky":"2 oz","Vermut tinto":"1 oz","Angostura Bitters":"2 dashes"},
-  method:"Removido, Colado",
-   glass:"Coupe / Martini",
    prices:[{label:"cóctel",p:11}]},
   {cat:"Coctelería clásica",name:"El Presidente",family:"Martini",hasIngr:true,
    ingr:["Ron blanco","Vermut seco","Triple sec","Granadina"],
@@ -159,13 +186,9 @@ const CLASSICS: MenuItem[] = [
   method:"Removido, Colado",
    glass:"Coupe / Martini",
    prices:[{label:"cóctel",p:11}]},
-  {cat:"Coctelería clásica",name:"Rusty Nail",family:"Old Fashioned",hasIngr:true,
-   ingr:["Whisky","Drambuie"],
-   garnish:["Twist de limón"],
-   doses:{"Whisky":"1 oz","Drambuie":"1 oz"},
-   method:"Directo",
-   glass:"Vaso bajo",
-   prices:[{label:"cóctel",p:11}]},
+];
+
+const SIDECARS: MenuItem[] = [
   {cat:"Coctelería clásica",name:"Rusty Nail Sour",family:"Sidecar",hasIngr:true,
    ingr:["Whisky","Drambuie","Zumo de limón"],
    garnish:["Twist de limón"],
@@ -207,11 +230,14 @@ const CLASSICS: MenuItem[] = [
   method:"Agitado, Colado",
    glass:"Coupe / Martini",
    prices:[{label:"cóctel",p:11}]},
-  {cat:"Coctelería clásica",family:"Inclasificables",name:"Bloody Mary",hasIngr:true,
-    ingr:["Vodka","Zumo de tomate","Mix casero"],
-    garnish:["Sal","Pimienta","Apio","Rodaja de limón"],
-    doses: {"Vodka":"3 oz","Zumo de tomate":"top","Mix casero":"tbs"},
-    prices:[{label:"cóctel",p:11}]},
+];
+
+const CLASSICS: MenuItem[] = [
+  ...UNCLASSIFIED,
+  ...DAIQUIRIS,
+  ...HIGHBALLS,
+  ...OLD_FASHIONED,
+  ...MARTINIS,
   {cat:"Coctelería clásica",family:"Flip",name:"Vegan Lemon Gin Flip",hasIngr:true,
     garnish:["Rodaja de limón"],
     ingr:["Gin","Zumo de limón","Azúcar líquido", "Aguafaba"],
