@@ -39,6 +39,7 @@ const CLASSICS: MenuItem[] = [
    prices:[{label:"cóctel",p:11}]},
   {cat:"Coctelería clásica",name:"Army & Navy",family:"Daiquiri",hasIngr:true,
     ingr:["Gin","Zumo de limón","Sirope de orgeat","Angostura Bitters"],
+    garnish:["Twist de limón"],
     doses:{"Gin":"2 oz","Zumo de limón":"0.75 oz","Sirope de orgeat":"0.5 oz","Angostura Bitters":"2 dashes"},
   method:"Agitado, Colado",
    glass:"Coupe / Martini",
