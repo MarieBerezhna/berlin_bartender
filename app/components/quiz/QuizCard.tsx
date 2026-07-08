@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { useEffect, useRef } from "react";
 
 import { Q_META } from "../../data/constants";
 import type { QuizQuestion } from "../../lib/quiz";
@@ -30,8 +31,15 @@ export default function QuizCard({
 		question.img && question.img.startsWith("./") ? question.img.replace("./", "/") : question.img;
 	useActivateOnKeys(answered, onNext);
 
+	const cardRef = useRef<HTMLDivElement>(null);
+	useEffect(() => {
+		if (answered && cardRef.current) {
+			cardRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+		}
+	}, [answered]);
+
 	return (
-		<div className="qcard">
+		<div className="qcard" ref={cardRef}>
 			<div className={`q-layer${answered ? " faded" : ""}`}>
 				<div className="qtype">
 					{qTypeLabel}

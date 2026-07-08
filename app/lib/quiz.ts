@@ -75,7 +75,6 @@ function ingredientsHint(item: MenuItem): string {
     })
     .join(", ");
 }
-}
 
 export function makeQs({
   pool,
