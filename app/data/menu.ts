@@ -46,6 +46,7 @@ const UNCLASSIFIED: MenuItem[] = [
     ingr:["Vodka","Zumo de tomate","Mix casero"],
     garnish:["Sal","Pimienta","Apio","Rodaja de limón"],
     doses: {"Vodka":"3 oz","Zumo de tomate":"top","Mix casero":"tbs"},
+     method:"Removido",
     prices:[{label:"cóctel",p:11}]},
 ];
 
@@ -290,14 +291,17 @@ const LEY_SECA: MenuItem[] = [
     {cat:"Sin Alcohol",name:"Gin Fizz 0.0",hasIngr:true,
     ingr:["Tanqueray 0.0","Zumo de limón","Azúcar líquido","Foam","Soda"],
     doses:{"Tanqueray 0.0":"2 oz","Zumo de limón":"1 oz","Azúcar líquido":"0.75 oz","Soda":"top"},
+    method:"Agitado, Colado",
    prices:[{label:"cóctel",p:9}]},
     {cat:"Sin Alcohol",name:"Virgin Lady",hasIngr:true,
     ingr:["Tanqueray 0.0","Zumo de limón","Azúcar líquido","Foam"],
     doses:{"Tanqueray 0.0":"2 oz","Zumo de limón":"1 oz","Azúcar líquido":"0.5 oz"},
+    method:"Agitado, Colado",
     prices:[{label:"cóctel",p:9}]},
     {cat:"Sin Alcohol",name:"Virgin Pink Lady",hasIngr:true,
     ingr:["Tanqueray 0.0","Zumo de limón","Granadina","Foam"],
     doses:{"Tanqueray 0.0":"2 oz","Zumo de limón":"1 oz","Granadina":"0.5 oz"},
+    method:"Agitado, Colado",
    prices:[{label:"cóctel",p:9}]},
 ];
 
