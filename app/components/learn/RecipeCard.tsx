@@ -60,7 +60,7 @@ export default function RecipeCard({ item }: RecipeCardProps) {
 						{sortedIngr.map((ing, idx) => {
 							const color = GROUP_COLOR[getIngredientGroup(ing)] ?? GROUP_COLOR.other;
 							const isOpt = Boolean(item.optional?.includes(ing));
-							const dose = item.doses?.[ing];
+							const dose = item.ingr?.[ing];
 							return (
 								<span key={ing}>
 									{idx > 0 ? <span style={{ color: "#3a3835" }}> · </span> : null}

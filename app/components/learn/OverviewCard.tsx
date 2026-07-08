@@ -65,7 +65,7 @@ export default function OverviewCard({ item, showCategoryLabel }: OverviewCardPr
 	const image = toPublicPath(IMAGES[item.name]);
 	const glassName = item.glass || null;
 	const glassImage = toPublicPath(glassName ? IMAGES[`glass:${glassName}`] : null);
-	const sortedIngr = item.ingr ? sortIngredientsForStudy(item) : [];
+	const sortedIngr = sortIngredientsForStudy(item);
 	const garnishes = item.garnish || [];
 	const description = ITEM_DESCRIPTIONS[item.name as keyof typeof ITEM_DESCRIPTIONS] || "";
 
@@ -171,7 +171,7 @@ export default function OverviewCard({ item, showCategoryLabel }: OverviewCardPr
 						{sortedIngr.map((ing, idx) => {
 							const color = GROUP_COLOR[getIngredientGroup(ing)] || GROUP_COLOR.other;
 							const isOptional = Boolean(item.optional?.includes(ing));
-							const dose = item.doses?.[ing];
+							const dose = item.ingr?.[ing];
 
 							return (
 								<span key={`${item.name}-${ing}`}>

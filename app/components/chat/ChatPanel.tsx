@@ -26,13 +26,12 @@ function buildSystemPrompt(menu: MenuItem[]): string {
 		.filter((item) => aiCats.has(item.cat))
 		.map((item) => {
 			const price = item.prices?.[0] ? `${item.prices[0].p}€` : "";
-			const recipe = item.doses
-				? Object.entries(item.doses)
-						.map(([ing, amt]) => `${ing} ${amt}`)
+			const recipe = item.ingr
+				? Object.entries(item.ingr)
+						.slice(0, 4)
+						.map(([ing, amt]) => amt ? `${ing} ${amt}` : ing)
 						.join(", ")
-				: item.ingr
-					? item.ingr.slice(0, 4).join(", ")
-					: "";
+				: "";
 			return `${item.name}|${item.cat}|${price}${recipe ? ` — ${recipe}` : ""}`;
 		})
 		.join("\n");

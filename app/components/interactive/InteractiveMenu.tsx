@@ -9,6 +9,7 @@ import {
 	CLASICA_FAMILIES,
 	DESTILADOS_CATS,
 	DESTILADOS_SUBGROUPS,
+	getIngr,
 	INGR_GROUP,
 	MENU_SPIRIT_HINTS,
 	type MenuItem,
@@ -106,7 +107,7 @@ function getMainSpirit(item: MenuItem): string {
 	const cat = String(item?.cat || "").trim();
 	if (DESTILADOS_CATS.includes(cat)) return getSpiritFamily(cat);
 
-	const ingr = Array.isArray(item?.ingr) ? item.ingr : [];
+	const ingr = getIngr(item);
 	if (!ingr.length) return "Otros";
 
 	const ordered = ["Tequila", "Gin", "Vodka", "Ron", "Whisky", "Whiskey", "Fino"];
@@ -128,7 +129,7 @@ function getInteractiveSpiritGroup(item: MenuItem): string {
 	const cat = String(item?.cat || "").trim();
 	if (DESTILADOS_CATS.includes(cat)) return getSpiritFamily(cat);
 
-	const ingr = Array.isArray(item?.ingr) ? item.ingr : [];
+	const ingr = getIngr(item);
 	for (const ingredient of ingr) {
 		if (ingrGroup(ingredient) === "spirit") {
 			const family = getSpiritFamily(ingredient);
@@ -151,7 +152,7 @@ function getInteractivePool(activeTab: string, activeFamily: string | null, incl
 	} else {
 		const allowedCats = new Set(["Cócteles de autor", "Coctelería clásica", "Jarras", "Micheladas", "Spritz"]);
 		pool = (RAW as MenuItem[]).filter(
-			(item) => allowedCats.has(item.cat) && item.hasIngr && Array.isArray(item.ingr) && item.ingr.length,
+			(item) => allowedCats.has(item.cat) && getIngr(item).length > 0,
 		);
 	}
 
@@ -169,7 +170,7 @@ function getInteractivePool(activeTab: string, activeFamily: string | null, incl
 
 function buildInteractiveMenuData(items: MenuItem[], preferCombinedPrice: boolean): InteractiveItem[] {
 	return items.map((item) => {
-		const ingr = Array.isArray(item?.ingr) ? item.ingr : [];
+		const ingr = getIngr(item);
 		const section = item?.family || item?.cat || "Otros";
 		const spiritGroup = getInteractiveSpiritGroup(item);
 		const spirit = spiritGroup === "Otros" ? getMainSpirit(item) : spiritGroup;

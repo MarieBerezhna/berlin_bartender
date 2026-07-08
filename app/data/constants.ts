@@ -9,23 +9,23 @@ export interface MenuItem {
   cat: string;
   name: string;
   family?: string;
-  hasIngr?: boolean;
-  ingr?: string[];
+  ingr?: Record<string, string | null>;
   optional?: string[];
   garnish?: string[];
-  doses?: Record<string, string>;
   method?: string;
   glass?: string;
   prices?: MenuPrice[];
+}
+
+export function getIngr(item: MenuItem): string[] {
+  return Object.keys(item.ingr || {});
 }
 
 const MENU: MenuItem[] = RAW as MenuItem[];
 
 export const ALL_INGRS: string[] = [
   ...new Set(
-    MENU.filter((x): x is MenuItem & { ingr: string[] } => Boolean(x.hasIngr && x.ingr)).flatMap(
-      (x) => x.ingr,
-    ),
+    MENU.filter((x) => getIngr(x).length > 0).flatMap((x) => getIngr(x)),
   ),
 ];
 // Flat list of all {name, serving_es, serving_en, price} for wrong-answer pool

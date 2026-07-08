@@ -3,6 +3,7 @@ import {
   ALL_INGRS,
   CLASICA_CAT,
   GARNISHMENTS,
+  getIngr,
   GROUP_LABELS,
   GROUP_ORDER,
   INGR_GROUP,
@@ -18,11 +19,9 @@ type MenuItem = {
   cat: string;
   name: string;
   family?: string;
-  hasIngr?: boolean;
-  ingr?: string[];
+  ingr?: Record<string, string | null>;
   optional?: string[];
   garnish?: string[];
-  doses?: Record<string, string>;
   method?: string;
   glass?: string;
   prices?: MenuPrice[];
@@ -63,7 +62,7 @@ export function formatPrice(item: MenuItem): string {
 }
 
 export function getLearnableItems(items: MenuItem[] = RAW as MenuItem[]): MenuItem[] {
-  return items.filter((item) => item?.hasIngr || item?.ingr?.length || item?.prices?.length);
+  return items.filter((item) => getIngr(item).length > 0 || item?.prices?.length);
 }
 
 export function buildLearnQueue(items: MenuItem[] = RAW as MenuItem[], filters: LearnFilters = {}): MenuItem[] {
@@ -81,11 +80,11 @@ export function buildLearnQueue(items: MenuItem[] = RAW as MenuItem[], filters: 
 }
 
 export function buildStudyViewModel(item: MenuItem) {
-  const hasRecipe = Boolean(item?.hasIngr && item.ingr?.length && item.ingr.length > 1);
+  const hasRecipe = getIngr(item).length > 1;
   const groupedIngredients: Record<string, string[]> = {};
 
   if (hasRecipe) {
-    item.ingr?.forEach((ingredient) => {
+    getIngr(item).forEach((ingredient) => {
       const group = INGR_GROUP[ingredient] || "other";
       groupedIngredients[group] = groupedIngredients[group] || [];
       groupedIngredients[group].push(ingredient);
@@ -99,14 +98,14 @@ export function buildStudyViewModel(item: MenuItem) {
     priceLabel: formatPrice(item),
     family: item.family ?? null,
     method: item.method ?? null,
-    doses: item.doses ? Object.entries(item.doses) : [],
+    doses: Object.entries(item.ingr || {}).filter(([,v]) => v !== null) as [string,string][],
     hasRecipe,
     ingredientsByGroup: groupedIngredients,
   };
 }
 
 export function buildRecallViewModel(item: MenuItem) {
-  const correctIngredients = item.ingr || [];
+  const correctIngredients = getIngr(item);
   const distractors = shuffleArray(
     ALL_INGRS.filter((ingredient) => !correctIngredients.includes(ingredient))
   ).slice(0, Math.min(correctIngredients.length + 2, 8));
@@ -133,7 +132,8 @@ export function buildRecallViewModel(item: MenuItem) {
 }
 
 function buildIngredientQuestion(item: MenuItem): LearnQuestion | null {
-  const required = (item.ingr || []).filter(
+  const ingr = getIngr(item);
+  const required = ingr.filter(
     (ingredient) => !item.optional || !item.optional.includes(ingredient)
   );
 
@@ -141,14 +141,14 @@ function buildIngredientQuestion(item: MenuItem): LearnQuestion | null {
 
   const correct = required[Math.floor(Math.random() * required.length)];
   const wrongs = shuffleArray(
-    ALL_INGRS.filter((ingredient) => !item.ingr?.includes(ingredient))
+    ALL_INGRS.filter((ingredient) => !ingr.includes(ingredient))
   ).slice(0, 3);
 
   if (wrongs.length < 3) return null;
 
-  const ingredientsWithDoses = (item.ingr || [])
+  const ingredientsWithDoses = ingr
     .map((ingredient) => {
-      const dose = item.doses && item.doses[ingredient];
+      const dose = item.ingr?.[ingredient];
       return dose ? `${ingredient} (${dose})` : ingredient;
     })
     .join(", ");
@@ -163,12 +163,12 @@ function buildIngredientQuestion(item: MenuItem): LearnQuestion | null {
 }
 
 function buildRatioQuestion(item: MenuItem): LearnQuestion | null {
-  if (!item.doses || Object.keys(item.doses).length === 0) return null;
+  if (!item.ingr || !Object.values(item.ingr).some(v => v !== null)) return null;
 
-  const allWithDoses = (RAW as MenuItem[]).filter((entry) => entry.doses && Object.keys(entry.doses).length > 0);
+  const allWithDoses = (RAW as MenuItem[]).filter((entry) => entry.ingr && Object.values(entry.ingr).some(v => v !== null));
   const ratioString = (entry: MenuItem): string =>
-    (entry.ingr || [])
-      .map((ingredient) => (entry.doses && entry.doses[ingredient] ? `${entry.doses[ingredient]} ${ingredient}` : ingredient))
+    getIngr(entry)
+      .map((ingredient) => (entry.ingr?.[ingredient] ? `${entry.ingr[ingredient]} ${ingredient}` : ingredient))
       .join(", ");
 
   const correct = ratioString(item);
@@ -207,7 +207,7 @@ function buildPriceQuestion(item: MenuItem): LearnQuestion | null {
 }
 
 export function createLearnQuizQueue(item: MenuItem): LearnQuestion[] {
-  const hasRecipe = Boolean(item?.hasIngr && item.ingr?.length && item.ingr.length > 1);
+  const hasRecipe = getIngr(item).length > 1;
   const questions: LearnQuestion[] = [];
 
   if (hasRecipe) {
@@ -225,7 +225,8 @@ export function createLearnQuizQueue(item: MenuItem): LearnQuestion[] {
 }
 
 export function scoreRecallSelection(item: MenuItem, selectedValues: string[] = []) {
-  const correct = new Set(item.ingr || []);
+  const ingr = getIngr(item);
+  const correct = new Set(ingr);
   const optional = new Set(item.optional || []);
   let hits = 0;
   let misses = 0;
@@ -239,14 +240,14 @@ export function scoreRecallSelection(item: MenuItem, selectedValues: string[] = 
     }
   });
 
-  (item.ingr || []).forEach((ingredient) => {
+  ingr.forEach((ingredient) => {
     const wasSelected = selectedValues.includes(ingredient);
     if (!wasSelected && !optional.has(ingredient)) {
       misses += 1;
     }
   });
 
-  const required = (item.ingr || []).filter((ingredient) => !optional.has(ingredient)).length;
+  const required = ingr.filter((ingredient) => !optional.has(ingredient)).length;
   const perfect = misses === 0 && wrongs === 0;
   const message = perfect
     ? "✓ ¡Perfecto!"
@@ -275,7 +276,7 @@ export function isGarnish(ingredient: string): boolean {
 }
 
 export function sortIngredientsForStudy(item: MenuItem): string[] {
-  return [...(item.ingr || [])].sort((left, right) => {
+  return [...getIngr(item)].sort((left, right) => {
     const isGarnishLeft = isGarnish(left);
     const isGarnishRight = isGarnish(right);
 
@@ -288,8 +289,8 @@ export function sortIngredientsForStudy(item: MenuItem): string[] {
 
     if (isAlcoholLeft !== isAlcoholRight) return isAlcoholRight ? 1 : -1;
 
-    const hasDoseLeft = Boolean(item.doses && item.doses[left]);
-    const hasDoseRight = Boolean(item.doses && item.doses[right]);
+    const hasDoseLeft = Boolean(item.ingr?.[left]);
+    const hasDoseRight = Boolean(item.ingr?.[right]);
     if (hasDoseLeft !== hasDoseRight) return hasDoseRight ? 1 : -1;
 
     return 0;

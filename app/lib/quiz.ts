@@ -3,6 +3,7 @@ import IMAGES from "../data/images";
 import {
   ALL_INGRS,
   CLASICA_CAT,
+  getIngr,
   type MenuItem,
   UNIQUE_PRICES,
 } from "../data/constants";
@@ -53,26 +54,27 @@ function fmt(value: number): string {
   return Number.isInteger(value) ? `${value}€` : `${value.toFixed(2)}€`;
 }
 
-function hasRecipe(item: MenuItem): item is MenuItem & { ingr: string[] } {
-  return Boolean(item.hasIngr && item.ingr && item.ingr.length > 1);
+function hasRecipe(item: MenuItem): boolean {
+  return getIngr(item).length > 1;
 }
 
 function ratioStr(item: MenuItem): string {
-  return (item.ingr || [])
+  return getIngr(item)
     .map((ing) => {
-      const dose = item.doses && item.doses[ing];
+      const dose = item.ingr?.[ing];
       return dose ? `${dose} ${ing}` : ing;
     })
     .join(", ");
 }
 
 function ingredientsHint(item: MenuItem): string {
-  return (item.ingr || [])
+  return getIngr(item)
     .map((ingredient) => {
-      const dose = item.doses && item.doses[ingredient];
+      const dose = item.ingr?.[ingredient];
       return dose ? `${ingredient} (${dose})` : ingredient;
     })
     .join(", ");
+}
 }
 
 export function makeQs({
@@ -87,8 +89,9 @@ export function makeQs({
 
   if (activeFilters.has("ingredients")) {
     cocktails.forEach((item) => {
-      const c1 = item.ingr[Math.floor(Math.random() * item.ingr.length)];
-      const w1 = sh(ALL_INGRS.filter((i) => !item.ingr.includes(i))).slice(0, 3);
+      const ingr = getIngr(item);
+      const c1 = ingr[Math.floor(Math.random() * ingr.length)];
+      const w1 = sh(ALL_INGRS.filter((i) => !ingr.includes(i))).slice(0, 3);
       if (w1.length >= 3) {
         res.push({
           qtype: "ingredients",
@@ -102,11 +105,11 @@ export function makeQs({
         });
       }
 
-      if (item.ingr.length >= 3) {
-        const shuffledIngr = sh(item.ingr);
+      if (ingr.length >= 3) {
+        const shuffledIngr = sh(ingr);
         const shown = shuffledIngr.slice(0, 2);
         const c2 = shuffledIngr[2];
-        const w2 = sh(ALL_INGRS.filter((i) => !item.ingr.includes(i))).slice(0, 3);
+        const w2 = sh(ALL_INGRS.filter((i) => !ingr.includes(i))).slice(0, 3);
         if (w2.length >= 3) {
           res.push({
             qtype: "ingredients2",
@@ -121,9 +124,9 @@ export function makeQs({
         }
       }
 
-      if (item.ingr.length >= 3) {
-        const intruder = sh(ALL_INGRS.filter((i) => !item.ingr.includes(i)))[0];
-        const decoys = sh(item.ingr).slice(0, 3);
+      if (ingr.length >= 3) {
+        const intruder = sh(ALL_INGRS.filter((i) => !ingr.includes(i)))[0];
+        const decoys = sh(ingr).slice(0, 3);
         if (intruder && decoys.length >= 3) {
           res.push({
             qtype: "ingredients3",
@@ -140,15 +143,15 @@ export function makeQs({
 
       // Recall: select ALL ingredients from a mixed grid
       {
-        const distractors = sh(ALL_INGRS.filter((i) => !item.ingr.includes(i)))
-          .slice(0, Math.min(item.ingr.length + 2, 8));
+        const distractors = sh(ALL_INGRS.filter((i) => !ingr.includes(i)))
+          .slice(0, Math.min(ingr.length + 2, 8));
         res.push({
           qtype: "recall",
           img: IMAGES[item.name] || null,
           q: `Selecciona todos los ingredientes del ${item.name}`,
-          opts: sh([...item.ingr, ...distractors]),
+          opts: sh([...ingr, ...distractors]),
           answer: "",
-          recallAnswers: [...item.ingr],
+          recallAnswers: [...ingr],
           item,
           cat: item.cat,
           hint: `${item.name}: ${ingredientsHint(item)}`,
@@ -197,10 +200,10 @@ export function makeQs({
 
   if (activeFilters.has("ingredients")) {
     const itemsWithDoses = pool.filter(
-      (item) => item.doses && Object.keys(item.doses).length > 0,
+      (item) => item.ingr && Object.values(item.ingr).some(v => v !== null),
     );
     const allItemsWithDoses = RAW.filter(
-      (item) => item.doses && Object.keys(item.doses).length > 0,
+      (item) => item.ingr && Object.values(item.ingr).some(v => v !== null),
     );
 
     itemsWithDoses.forEach((item) => {
@@ -212,8 +215,8 @@ export function makeQs({
         .map(ratioStr);
 
       while (otherRatios.length < 3) {
-        const shuffledDoses = sh(Object.entries(item.doses || {}));
-        const fake = (item.ingr || [])
+        const shuffledDoses = sh(Object.entries(item.ingr || {}).filter(([,v]) => v !== null) as [string,string][]);
+        const fake = getIngr(item)
           .map((ing) => {
             const dose = shuffledDoses.find(([k]) => k !== ing)?.[1];
             return dose ? `${dose} ${ing}` : ing;
@@ -241,26 +244,25 @@ export function makeQs({
   }
 
   if (activeFilters.has("name")) {
-    const cocktailItems = pool.filter(
-      (item): item is MenuItem & { ingr: string[] } => Boolean(item.hasIngr && item.ingr),
-    );
+    const cocktailItems = pool.filter((item) => getIngr(item).length > 0);
 
     cocktailItems.forEach((item) => {
+      const ingr = getIngr(item);
       let clue: string[] | null = null;
       const maxTries = 8;
 
       for (let attempt = 0; attempt < maxTries; attempt += 1) {
         const size =
-          item.ingr.length >= 3
+          ingr.length >= 3
             ? Math.random() < 0.5
               ? 2
               : 3
-            : Math.min(2, item.ingr.length);
-        const candidate = pick(item.ingr, size);
+            : Math.min(2, ingr.length);
+        const candidate = pick(ingr, size);
         const ambiguous = cocktailItems.some(
           (other) =>
             other.name !== item.name &&
-            candidate.every((ingredient) => (other.ingr || []).includes(ingredient)),
+            candidate.every((ingredient) => getIngr(other).includes(ingredient)),
         );
         if (!ambiguous) {
           clue = candidate;
@@ -284,7 +286,7 @@ export function makeQs({
           opts: sh([item.name, ...wrongNames]),
           answer: item.name,
           cat: item.cat,
-          hint: `${item.name}: ${item.ingr.join(", ")}`,
+          hint: `${item.name}: ${ingr.join(", ")}`,
         });
       }
     });
@@ -294,23 +296,21 @@ export function makeQs({
 }
 
 export function genIngrQ(item: MenuItem): QuizQuestion | null {
-  if (!item.ingr || item.ingr.length < 2) return null;
+  const ingr = getIngr(item);
+  if (ingr.length < 2) return null;
 
   const types: QuestionType[] = ["ingredients", "ingredients2", "ingredients3"];
   const shuffledTypes = sh(types);
 
   for (const type of shuffledTypes) {
     if (type === "ingredients") {
-      const required = item.ingr.filter(
+      const required = ingr.filter(
         (ingredient) => !item.optional || !item.optional.includes(ingredient),
       );
       if (required.length === 0) continue;
 
       const correct = required[Math.floor(Math.random() * required.length)];
-      const wrongs = sh(ALL_INGRS.filter((ingredient) => !item.ingr?.includes(ingredient))).slice(
-        0,
-        3,
-      );
+      const wrongs = sh(ALL_INGRS.filter((ingredient) => !ingr.includes(ingredient))).slice(0, 3);
       if (wrongs.length >= 3) {
         return {
           qtype: type,
@@ -324,8 +324,8 @@ export function genIngrQ(item: MenuItem): QuizQuestion | null {
       }
     }
 
-    if (type === "ingredients2" && item.ingr.length >= 3) {
-      const required = item.ingr.filter(
+    if (type === "ingredients2" && ingr.length >= 3) {
+      const required = ingr.filter(
         (ingredient) => !item.optional || !item.optional.includes(ingredient),
       );
       if (required.length < 3) continue;
@@ -333,10 +333,7 @@ export function genIngrQ(item: MenuItem): QuizQuestion | null {
       const shuffledIngr = sh(required);
       const shown = shuffledIngr.slice(0, 2);
       const c2 = shuffledIngr[2];
-      const wrongs = sh(ALL_INGRS.filter((ingredient) => !item.ingr?.includes(ingredient))).slice(
-        0,
-        3,
-      );
+      const wrongs = sh(ALL_INGRS.filter((ingredient) => !ingr.includes(ingredient))).slice(0, 3);
 
       if (wrongs.length >= 3) {
         return {
@@ -351,9 +348,9 @@ export function genIngrQ(item: MenuItem): QuizQuestion | null {
       }
     }
 
-    if (type === "ingredients3" && item.ingr.length >= 3) {
-      const intruder = sh(ALL_INGRS.filter((ingredient) => !item.ingr?.includes(ingredient)))[0];
-      const decoys = sh(item.ingr).slice(0, 3);
+    if (type === "ingredients3" && ingr.length >= 3) {
+      const intruder = sh(ALL_INGRS.filter((ingredient) => !ingr.includes(ingredient)))[0];
+      const decoys = sh(ingr).slice(0, 3);
       if (intruder && decoys.length >= 3) {
         return {
           qtype: type,
@@ -390,8 +387,8 @@ export function genPriceQ(item: MenuItem): QuizQuestion | null {
 }
 
 export function genRatioQ(item: MenuItem): QuizQuestion | null {
-  if (!item.doses || Object.keys(item.doses).length === 0) return null;
-  const allWithDoses = RAW.filter((entry) => entry.doses && Object.keys(entry.doses).length > 0);
+  if (!item.ingr || !Object.values(item.ingr).some(v => v !== null)) return null;
+  const allWithDoses = RAW.filter((entry) => entry.ingr && Object.values(entry.ingr).some(v => v !== null));
   const correct = ratioStr(item);
   const wrongs = sh(allWithDoses.filter((entry) => entry.name !== item.name))
     .slice(0, 3)

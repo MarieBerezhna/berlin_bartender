@@ -15,7 +15,7 @@ import ProgressBar from "./components/quiz/ProgressBar";
 import QuizCard from "./components/quiz/QuizCard";
 import QuizEnd from "./components/quiz/QuizEnd";
 import RAW from "./data/menu";
-import type { MenuItem } from "./data/constants";
+import { getIngr, type MenuItem } from "./data/constants";
 import { buildLearnQueue, buildRecallViewModel, createLearnQuizQueue, getLearnableItems, scoreRecallSelection } from "./lib/learn";
 import { makeQs } from "./lib/quiz";
 import LearnQuiz from "./components/learn/LearnQuiz";
@@ -193,7 +193,7 @@ function LearnModePanel({ pool, activeTab, activeFamily }: LearnModePanelProps) 
     return (
       <LearnEnd
         totalReviewed={queue.length}
-        hadRecipes={queue.some((item) => Boolean(item.hasIngr && item.ingr && item.ingr.length > 1))}
+        hadRecipes={queue.some((item) => getIngr(item).length > 1)}
         recallStats={{ hits: 0, total: 0, perfect: 0, items: 0 }}
         onRestart={() => {
           setStarted(false);
@@ -213,7 +213,7 @@ function LearnModePanel({ pool, activeTab, activeFamily }: LearnModePanelProps) 
   }
 
   if (recallMode && currentItem && currentRecallVM) {
-    const hasRecipe = Boolean(currentItem.hasIngr && currentItem.ingr && currentItem.ingr.length > 1);
+    const hasRecipe = getIngr(currentItem).length > 1;
     if (hasRecipe) {
       return (
         <RecallCard
@@ -238,7 +238,7 @@ function LearnModePanel({ pool, activeTab, activeFamily }: LearnModePanelProps) 
           }}
           onCheck={() => {
             const result = scoreRecallSelection(currentItem, [...recallSelected]);
-            const correct = new Set(currentItem.ingr || []);
+            const correct = new Set(getIngr(currentItem));
             const status: Record<string, RecallOptionState> = {};
             for (const opt of currentRecallVM.options) {
               if (correct.has(opt) && recallSelected.has(opt)) status[opt] = "correct";
@@ -305,7 +305,7 @@ function LearnModePanel({ pool, activeTab, activeFamily }: LearnModePanelProps) 
         index={itemIndex}
         total={queue.length}
         onPrimaryAction={() => {
-          const hasRecipe = Boolean(currentItem.hasIngr && currentItem.ingr && currentItem.ingr.length > 1);
+          const hasRecipe = getIngr(currentItem).length > 1;
           if (hasRecipe) {
             setRecallMode(true);
             setRecallSelected(new Set());

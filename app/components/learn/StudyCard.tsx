@@ -3,6 +3,7 @@ import Image from "next/image";
 import type { MenuItem } from "../../data/constants";
 import IMAGES from "../../data/images";
 import { formatPrice, getIngredientGroup, getIngredientGroupLabel } from "../../lib/learn";
+import { getIngr } from "../../data/constants";
 import { useActivateOnKeys } from "../../lib/utils";
 
 type StudyCardProps = {
@@ -24,11 +25,11 @@ function toPublicPath(path: string | null | undefined): string | null {
 
 export default function StudyCard({ item, index, total, onPrimaryAction }: StudyCardProps) {
 	const image = toPublicPath(IMAGES[item.name]);
-	const hasRecipe = Boolean(item.hasIngr && item.ingr && item.ingr.length > 1);
+	const hasRecipe = getIngr(item).length > 1;
 	useActivateOnKeys(true, onPrimaryAction);
 
 	const byGroup: Record<string, string[]> = {};
-	(item.ingr || []).forEach((ingredient) => {
+	getIngr(item).forEach((ingredient) => {
 		const group = getIngredientGroup(ingredient);
 		byGroup[group] = byGroup[group] || [];
 		byGroup[group].push(ingredient);
@@ -78,9 +79,9 @@ export default function StudyCard({ item, index, total, onPrimaryAction }: Study
 							{item.name} <span className="learn-price">{formatPrice(item)}</span>
 						</div>
 
-						{item.doses && Object.keys(item.doses).length ? (
-							<div style={{ fontSize: 12, color: "#E0AE6B", marginTop: 6, lineHeight: 1.5 }}>
-								{Object.entries(item.doses).map(([ingredient, dose]) => (
+					{item.ingr && Object.values(item.ingr).some(v => v !== null) ? (
+						<div style={{ fontSize: 12, color: "#E0AE6B", marginTop: 6, lineHeight: 1.5 }}>
+							{(Object.entries(item.ingr).filter(([,v]) => v !== null) as [string,string][]).map(([ingredient, dose]) => (
 									<div key={`${item.name}-${ingredient}`} style={{ display: "flex", gap: 4 }}>
 										<span>{ingredient}</span>
 										<span style={{ opacity: 0.7 }}>{dose}</span>
@@ -107,7 +108,7 @@ export default function StudyCard({ item, index, total, onPrimaryAction }: Study
 											{byGroup[group].map((ingredient) => {
 												const ingredientImage = toPublicPath(IMAGES[ingredient]);
 												const isOptional = Boolean(item.optional?.includes(ingredient));
-												const dose = item.doses?.[ingredient];
+												const dose = item.ingr?.[ingredient];
 												return (
 													<div
 														className={`learn-ingr-item${ingredientImage ? "" : " no-img"}`}
