@@ -239,6 +239,7 @@ const CLASSICS: MenuItem[] = [
   ...HIGHBALLS,
   ...OLD_FASHIONED,
   ...MARTINIS,
+  ...SIDECARS,
   {cat:"Coctelería clásica",family:"Flip",name:"Vegan Lemon Gin Flip",hasIngr:true,
     garnish:["Rodaja de limón"],
     ingr:["Gin","Zumo de limón","Azúcar líquido", "Aguafaba"],
