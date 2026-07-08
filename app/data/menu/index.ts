@@ -1,0 +1,257 @@
+import type { MenuItem } from "../constants";
+import { CLASSICS } from "./classics";
+import { AUTOR_COCTAILS } from "./specialty";
+
+const LEY_SECA: MenuItem[] = [
+  {cat:"Sin Alcohol",name:"Virgin Mai Tai",hasIngr:true,
+    ingr:["Tanqueray 0.0","Sirope de orgeat","Sirope falernum","Zumo de limón","Zumo de naranja","Granadina"],
+    optional:["Granadina","Rodaja de limón","Hierbabuena"],
+    doses:{"Tanqueray 0.0":"2 oz","Sirope de orgeat":"1.5 oz","Sirope falernum":"1.5 oz","Zumo de limón":"1 oz","Zumo de naranja":"0.5 oz","Granadina":"vestir vaso"},
+  method:"Removido",
+   prices:[{label:"sin alcohol",p:8},{label:"con alcohol",p:12}]},
+    {cat:"Sin Alcohol",name:"Gin Fizz 0.0",hasIngr:true,
+    ingr:["Tanqueray 0.0","Zumo de limón","Azúcar líquido","Foam","Soda"],
+    doses:{"Tanqueray 0.0":"2 oz","Zumo de limón":"1 oz","Azúcar líquido":"0.75 oz","Soda":"top"},
+    method:"Agitado, Colado",
+   prices:[{label:"cóctel",p:9}]},
+    {cat:"Sin Alcohol",name:"Virgin Lady",hasIngr:true,
+    ingr:["Tanqueray 0.0","Zumo de limón","Azúcar líquido","Foam"],
+    doses:{"Tanqueray 0.0":"2 oz","Zumo de limón":"1 oz","Azúcar líquido":"0.5 oz"},
+    method:"Agitado, Colado",
+    prices:[{label:"cóctel",p:9}]},
+    {cat:"Sin Alcohol",name:"Virgin Pink Lady",hasIngr:true,
+    ingr:["Tanqueray 0.0","Zumo de limón","Granadina","Foam"],
+    doses:{"Tanqueray 0.0":"2 oz","Zumo de limón":"1 oz","Granadina":"0.5 oz"},
+    method:"Agitado, Colado",
+   prices:[{label:"cóctel",p:9}]},
+];
+
+const SPRITZ: MenuItem[] = [
+  {cat:"Spritz",name:"Hugo Spritz",hasIngr:true,doses:{"Bols Saúco":"2 oz","Cava":"3 oz","Soda":"1 oz"},ingr:["Bols Saúco","Cava","Soda","Hierbabuena"],
+   prices:[{label:"copa",p:10}]},
+  {cat:"Spritz",name:"Aperol Spritz",hasIngr:true,doses:{"Aperol":"2 oz","Cava":"3 oz","Soda":"1 oz"},ingr:["Aperol","Cava","Soda"],
+   prices:[{label:"copa",p:8}]},
+  {cat:"Spritz",name:"Yuzu Spritz",hasIngr:true,doses:{"Licor yuzu":"2 oz","Cava":"3 oz","Soda":"1 oz"},ingr:["Licor yuzu","Cava","Soda"],
+   prices:[{label:"copa",p:8}]},
+  {cat:"Spritz",name:"Chambord Spritz",hasIngr:true,doses:{"Chambord":"2 oz","Cava":"3 oz","Soda":"1 oz"},ingr:["Chambord","Cava","Soda"],
+   prices:[{label:"copa",p:8}]},
+  {cat:"Spritz",name:"Campari Spritz",hasIngr:true,doses:{"Campari":"2 oz","Cava":"3 oz","Soda":"1 oz"},ingr:["Campari","Cava","Soda"],
+   prices:[{label:"copa",p:8}]},
+  {cat:"Spritz",name:"Sarti Rosa Spritz",hasIngr:true,doses:{"Sarti Rosa":"2 oz","Cava":"3 oz","Soda":"1 oz"},ingr:["Sarti Rosa","Cava","Soda"],
+   prices:[{label:"copa",p:8}]},
+];
+
+const JARRAS: MenuItem[] = [
+  {cat:"Jarras",name:"Agua de Valencia",hasIngr:true,ingr:["Vodka","Gin Tanqueray","Zumo de naranja","Cava","Triple Sec Bols","Licor mandarina MB","Azúcar líquido"],
+   doses:{"Vodka":"1 oz","Gin Tanqueray":"1 oz","Zumo de naranja":"2 oz","Cava":"2 oz"},
+    prices:[{label:"copa",p:7},{label:"jarra",p:25}]},
+  {cat:"Jarras",name:"Sangría",hasIngr:true,ingr:["Diplomático Planas","Vino tinto","Triple Sec Bols","Terry","Vermut tinto","Zumo de naranja","Azúcar líquido"],
+    prices:[{label:"copa",p:7},{label:"jarra",p:25}]},
+  {cat:"Jarras",name:"Tinto de verano",hasIngr:true,ingr:["Vino tinto","Schweppes limón","Zumo de limón"],
+    prices:[{label:"copa",p:5},{label:"jarra",p:20}]},
+];
+
+const RON: MenuItem[] = [
+    {cat:"Ron",name:"Barceló Añejo",hasIngr:false,
+   prices:[{label:"combinado",p:9.5},{label:"chupito",p:3}]},
+  {cat:"Ron",name:"Barceló Imperial",hasIngr:false,
+   prices:[{label:"combinado",p:12},{label:"chupito",p:6}]},
+  {cat:"Ron",name:"Diplomático Planas",hasIngr:false,
+   prices:[{label:"combinado",p:10},{label:"chupito",p:6}]},
+  {cat:"Ron",name:"Zacapa Centenario 23",hasIngr:false,
+   prices:[{label:"combinado",p:16},{label:"chupito",p:8}]},
+];
+
+const WHISKY: MenuItem[] = [
+  {cat:"Whisky",name:"Johnnie Walker Red Label",hasIngr:false,
+   prices:[{label:"combinado",p:9.5},{label:"doble",p:12},{label:"chupito",p:3}]},
+  {cat:"Whisky",name:"Johnnie Walker Black Label 12Y",hasIngr:false,
+   prices:[{label:"combinado",p:12},{label:"doble",p:16},{label:"chupito",p:6}]},
+  {cat:"Whisky",name:"Tullamore Dew",hasIngr:false,
+   prices:[{label:"combinado",p:9},{label:"doble",p:12},{label:"chupito",p:4}]},
+  {cat:"Whisky",name:"Jack Daniels Old Nº7",hasIngr:false,
+   prices:[{label:"combinado",p:9},{label:"doble",p:14},{label:"chupito",p:5}]},
+  {cat:"Whisky",name:"Bulleit Frontier Bourbon",hasIngr:false,
+   prices:[{label:"combinado",p:12},{label:"doble",p:16},{label:"chupito",p:6}]},
+  {cat:"Whisky",name:"Monkey Shoulder",hasIngr:false,
+   prices:[{label:"combinado",p:12},{label:"doble",p:16},{label:"chupito",p:6}]},
+  {cat:"Whisky",name:"Toki",hasIngr:false,
+   prices:[{label:"combinado",p:10},{label:"doble",p:18},{label:"chupito",p:5}]},
+  {cat:"Whisky",name:"Bushmills",hasIngr:false,
+   prices:[{label:"combinado",p:10},{label:"doble",p:18},{label:"chupito",p:5}]},
+  {cat:"Whisky",name:"Tomatin",hasIngr:false,
+   prices:[{label:"solo",p:12},{label:"doble",p:20},{label:"chupito",p:6}]},
+  {cat:"Whisky",name:"Macallan",hasIngr:false,
+   prices:[{label:"copa",p:16}]},
+  ];
+
+const GIN: MenuItem[] = [
+  {cat:"Gin",name:"Tanqueray London Dry",hasIngr:false,
+   prices:[{label:"solo",p:9.5}]},
+  {cat:"Gin",name:"Tanqueray Nº Ten",hasIngr:false,
+   prices:[{label:"solo",p:14}]},
+  {cat:"Gin",name:"Tanqueray 0.0",hasIngr:false,
+   prices:[{label:"solo",p:10}]},
+  {cat:"Gin",name:"Gin Mare",hasIngr:false,
+   prices:[{label:"solo",p:12}]},
+  {cat:"Gin",name:"Fords",hasIngr:false,
+   prices:[{label:"solo",p:12}]},
+  {cat:"Gin",name:"Larios 12",hasIngr:false,
+   prices:[{label:"solo",p:12}]},
+  {cat:"Gin",name:"Larios Rose",hasIngr:false,
+   prices:[{label:"solo",p:10}]},
+  {cat:"Gin",name:"Roku",hasIngr:false,
+   prices:[{label:"solo",p:12}]},
+  {cat:"Gin",name:"Hendrick's",hasIngr:false,
+   prices:[{label:"solo",p:13}]},
+  {cat:"Gin",name:"Macaronesia",hasIngr:false,
+   prices:[{label:"solo",p:9.5}]},
+  ];
+
+const TEQUILA: MenuItem[] = [
+  {cat:"Tequila",name:"Rooster Rojo White",hasIngr:false,
+   prices:[{label:"combinado",p:10},{label:"chupito",p:4}]},
+  {cat:"Tequila",name:"Mezcal Union",hasIngr:false,
+   prices:[{label:"combinado",p:12},{label:"chupito",p:5}]},
+  {cat:"Tequila",name:"Don Julio Silver",hasIngr:false,
+   prices:[{label:"combinado",p:18},{label:"chupito",p:10}]},
+  {cat:"Tequila",name:"Don Julio Reposado",hasIngr:false,
+   prices:[{label:"combinado",p:18},{label:"chupito",p:10}]},
+  ];
+
+const VODKA: MenuItem[] = [
+  {cat:"Vodka",name:"Moskovskaya",hasIngr:false,
+   prices:[{label:"combinado",p:9.5},{label:"chupito",p:3}]},
+  {cat:"Vodka",name:"Cîroc",hasIngr:false,
+   prices:[{label:"combinado",p:14},{label:"chupito",p:7}]},
+  {cat:"Vodka",name:"Beluga",hasIngr:false,
+   prices:[{label:"combinado",p:16},{label:"chupito",p:9}]},
+];
+
+const LICORES: MenuItem[] = [
+  {cat:"Licores",name:"Jack Fire",hasIngr:false,
+   prices:[{label:"copa",p:9},{label:"chupito",p:5}]},
+  {cat:"Licores",name:"Jägermeister",hasIngr:false,
+   prices:[{label:"combinado",p:10},{label:"copa",p:8},{label:"chupito",p:3}]},
+  {cat:"Licores",name:"Licor de arroz",hasIngr:false,
+   prices:[{label:"copa",p:6},{label:"chupito",p:3}]},
+  {cat:"Licores",name:"Limoncello",hasIngr:false,
+   prices:[{label:"copa",p:6},{label:"chupito",p:3}]},
+  {cat:"Licores",name:"Cazalla",hasIngr:false,
+   prices:[{label:"copa",p:6},{label:"chupito",p:3}]},
+  {cat:"Licores",name:"Amaretto",hasIngr:false,
+   prices:[{label:"combinado",p:10},{label:"copa",p:8},{label:"chupito",p:3}]},
+  {cat:"Licores",name:"Baileys",hasIngr:false,
+   prices:[{label:"copa",p:6},{label:"chupito",p:3}]},
+];
+
+const VERMUT: MenuItem[] = [
+  {cat:"Vermut",name:"Vittore Rojo",hasIngr:false,
+   prices:[{label:"copa",p:4}]},
+  {cat:"Vermut",name:"Vittore Blanco",hasIngr:false,
+   prices:[{label:"copa",p:4}]},
+  {cat:"Vermut",name:"Martini Reserva Ambrato",hasIngr:false,
+   prices:[{label:"copa",p:5}]},
+  {cat:"Vermut",name:"Martini Reserva Rubino",hasIngr:false,
+   prices:[{label:"copa",p:5}]},
+  {cat:"Vermut",name:"Noilly Prat Blanco Seco",hasIngr:false,
+   prices:[{label:"copa",p:5}]},
+];
+
+const VINOS: MenuItem[] = [
+  {cat:"Vino",name:"Ovejita verde Verdejo",hasIngr:false,
+   prices:[{label:"copa",p:4},{label:"botella",p:20}]},
+  {cat:"Vino",name:"Ladrón de Lunas Blanco",hasIngr:false,
+   prices:[{label:"copa",p:4},{label:"botella",p:20}]},
+  {cat:"Vino",name:"Ovejita Tinto",hasIngr:false,
+   prices:[{label:"copa",p:4},{label:"botella",p:20}]},
+  {cat:"Vino",name:"Brut Cava",hasIngr:false,
+   prices:[{label:"copa",p:5},{label:"botella",p:25}]},
+  {cat:"Vino",name:"Bollinger Spécial Cuvée",hasIngr:false,
+   prices:[{label:"botella",p:100}]},
+  {cat:"Vino",name:"Ramón Bilbao Rioja",hasIngr:false,
+   prices:[{label:"copa",p:5},{label:"botella",p:25}]},
+  {cat:"Vino",name:"Vento n°1",hasIngr:false,
+   prices:[{label:"copa",p:4.5},{label:"botella",p:25}]},
+];
+const CERVEZAS: MenuItem[] = [
+  {cat:"Cerveza",name:"Águila",hasIngr:false,
+   prices:[{label:"pinta",p:5.3},{label:"doble",p:3.7}]},
+  {cat:"Cerveza",name:"Águila Sin Filtrar",hasIngr:false,
+   prices:[{label:"pinta",p:5.5},{label:"doble",p:4}]},
+  {cat:"Cerveza",name:"18/70",hasIngr:false,
+   prices:[{label:"tercio",p:3.7}]},
+  {cat:"Cerveza",name:"Amstel 0.0",hasIngr:false,
+   prices:[{label:"tercio",p:3.5}]},
+  {cat:"Cerveza",name:"Amstel Radler",hasIngr:false,
+   prices:[{label:"tercio",p:3.5}]},
+  {cat:"Cerveza",name:"Cruzcampo Sin Gluten",hasIngr:false,
+   prices:[{label:"tercio",p:4}]},
+  {cat:"Cerveza",name:"Paulaner",hasIngr:false,
+   prices:[{label:"pinta",p:5.5},{label:"doble",p:4}]},
+  {cat:"Cerveza",name:"IPA Lagunitas",hasIngr:false,
+   prices:[{label:"botella",p:5.5}]},
+  {cat:"Cerveza",name:"Guinness",hasIngr:false,
+    prices:[{label:"tercio",p:5.5}]},
+  {cat:"Cerveza",name:"Heineken",hasIngr:false,
+   prices:[{label:"tercio",p:3.5}]},
+];
+
+const MICHELADAS: MenuItem[] = [
+  {cat:"Micheladas",name:"Michelada Berlín",hasIngr:true,ingr:["Cerveza","Zumo de limón","Sal","Salsa inglesa","Tabasco"],
+   doses:{"Zumo de limón":"1 oz","Salsa inglesa":"1/2 tbsp","Tabasco":"6-8 dashes","Cerveza":"top"},
+   prices:[{label:"500 ml",p:8}]},
+  {cat:"Micheladas",name:"Michelada de Tequila",hasIngr:true,ingr:["Cerveza","Tequila","Bitter habanero","Zumo de limón","Sal"],
+   doses:{"Tequila":"1.5 oz","Zumo de limón":"1 oz","Bitter habanero":"4-6 dashes","Cerveza":"top"},
+   prices:[{label:"500 ml",p:9}]},
+];
+
+const COMIDA: MenuItem[] = [
+  {cat:"Comida",name:"Patatas bolsa",hasIngr:false,
+   prices:[{label:"ración",p:1.5}]},
+  {cat:"Comida",name:"Aceitunas",hasIngr:false,
+   prices:[{label:"ración",p:2}]},
+  {cat:"Comida",name:"Tabla de jamón Gargallo",hasIngr:false,
+   prices:[{label:"tabla",p:12}]},
+];
+
+const REFRESCOS: MenuItem[] = [
+  {cat:"Refrescos",name:"Pepsi",hasIngr:false,
+   prices:[{label:"lata/botella",p:3}]},
+  {cat:"Refrescos",name:"Pepsi Zero",hasIngr:false,
+   prices:[{label:"lata/botella",p:3}]},
+  {cat:"Refrescos",name:"Schweppes Limón",hasIngr:false,
+   prices:[{label:"lata/botella",p:3}]},
+  {cat:"Refrescos",name:"Tónica Schweppes",hasIngr:false,
+   prices:[{label:"lata/botella",p:3}]},
+  {cat:"Refrescos",name:"Ginger Beer",hasIngr:false,
+   prices:[{label:"botella",p:3.5}]},
+  {cat:"Refrescos",name:"Red Bull",hasIngr:false,
+   prices:[{label:"lata",p:3.5}]},
+  {cat:"Refrescos",name:"Agua Lanjarón",hasIngr:false,
+   prices:[{label:"botella",p:2.5}]},
+  {cat:"Refrescos",name:"Agua con gas Perrier",hasIngr:false,
+   prices:[{label:"botella",p:3}]},
+];
+
+const RAW: MenuItem[] = [
+  ...CLASSICS,
+  ...AUTOR_COCTAILS,
+  ...LEY_SECA,
+  ...SPRITZ,
+  ...JARRAS,
+  ...RON,
+  ...WHISKY,
+  ...GIN,
+  ...TEQUILA,
+  ...VODKA,
+  ...LICORES,
+  ...VERMUT,
+  ...VINOS,
+  ...CERVEZAS,
+  ...MICHELADAS,
+  ...COMIDA,
+  ...REFRESCOS,
+];
+
+export default RAW;
