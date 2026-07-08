@@ -24,7 +24,7 @@ const DESTILADOS_CATS = new Set(["Ron", "Whisky", "Gin", "Tequila", "Vodka"]);
 
 export default function Home() {
   const [mode, setMode] = useState<AppMode>("learn");
-  const [activeTab, setActiveTab] = useState<string>("Todo");
+  const [activeTab, setActiveTab] = useState<string>("Coctelería clásica");
   const [activeFamily, setActiveFamily] = useState<string | null>(null);
   const [activeFilters, setActiveFilters] = useState<Set<FilterType>>(new Set(FILTER_TYPES));
 
