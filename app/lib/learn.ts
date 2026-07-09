@@ -251,7 +251,7 @@ export function scoreRecallSelection(item: MenuItem, selectedValues: string[] = 
   const perfect = misses === 0 && wrongs === 0;
   const message = perfect
     ? "✓ ¡Perfecto!"
-    : `${hits}/${required} ingredientes — ${misses} olvidados, ${wrongs} incorrectos`;
+    : `${hits}/${required} ingredientes — ${misses} olvidados, ${wrongs} incorrectos : ${selectedValues.join(", ")}`;
 
   return {
     hits,
