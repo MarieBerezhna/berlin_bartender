@@ -110,10 +110,9 @@ export default function OverviewCard({ item, showCategoryLabel }: OverviewCardPr
 					className="overview-card-img"
 					src={image}
 					alt={item.name}
-					width={600}
+					width={160}
 					height={160}
-					unoptimized
-					style={{ width: "100%", height: 160, objectFit: "cover", display: "block" }}
+					style={{ width: "auto", height: "auto", maxHeight: 160, maxWidth: 160, margin: "0 auto", objectFit: "cover", display: "block" }}
 				/>
 			) : null}
 
