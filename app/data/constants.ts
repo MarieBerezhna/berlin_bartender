@@ -137,7 +137,19 @@ export const ITEM_DESCRIPTIONS: Record<string, string> = {
   // Bourbon
  "Bulleit Frontier Bourbon": "Bourbon de carácter intenso y especiado, con notas de vainilla, caramelo, roble tostado y pimienta. Ideal solo, con hielo o en cócteles clásicos.",
   // Gin
+  "Macaronesia": "Ginebra premium de las Islas Canarias, fresca y aromática, con notas de enebro, cítricos y botánicos herbales. Ideal para un Gin & Tonic o cócteles clásicos.",
+  "Tanqueray London Dry": "Ginebra clásica de estilo London Dry, elaborada con una selección de cuatro botánicos: enebro, cilantro, angélica y regaliz. Destaca por su perfil seco, limpio y equilibrado, con un marcado carácter de enebro y notas cítricas. Perfecta para un Gin & Tonic o cócteles clásicos.",
+  "Tanqueray 0.0": "Destilado sin alcohol con notas de enebro, cítricos y botánicos herbales. Ideal para un Gin & Tonic 0.0% o cócteles sin alcohol.",
+  "Fords": "Fords Gin es una ginebra London Dry creada específicamente para coctelería, elaborada con una mezcla de nueve botánicos. Presenta un perfil equilibrado, con predominio de enebro, notas cítricas, florales y especiadas, lo que la hace especialmente versátil.",
+  "Gin Mare": "Gin Mare es una ginebra mediterránea elaborada con botánicos como aceituna arbequina, romero, albahaca y tomillo, además de enebro y cítricos. Su perfil es fresco, aromático y herbáceo, con un marcado carácter mediterráneo.",
+  "Larios 12": "Ginebra premium española destilada con una selección de doce botánicos, entre ellos cítricos mediterráneos, enebro y flor de azahar. Ofrece un perfil fresco, suave y muy aromático, con un marcado carácter cítrico.",
+  "Roku": "Ginebra japonesa elaborada con seis botánicos tradicionales de Japón, como flor y hoja de sakura, té sencha, té gyokuro, pimienta sansho y yuzu, además de botánicos clásicos. Presenta un perfil equilibrado, fresco y delicadamente floral.",
+  "Hendrick's": "Ginebra escocesa con notas de pepino, pétalos de rosa, enebro y cítricos. Suave, floral y refrescante, ideal para Gin & Tonic y cócteles clásicos.",
+  "Tanqueray Nº Ten": "Ginebra super premium elaborada con cítricos frescos y botánicos seleccionados, destilados en pequeños lotes. Destaca por su perfil suave, fresco y muy aromático, con notas de pomelo, lima, naranja, enebro y manzanilla.",
   // Vodka
+  "Moskovskaya": "Vodka de estilo clásico europeo, elaborado a partir de alcohol de grano y agua purificada. Presenta un perfil limpio, seco y suave, con un final fresco y un ligero toque de cereal.",
+  "Cîroc":"Vodka premium francés elaborado a partir de uvas, en lugar de cereales, y destilado cinco veces. Destaca por su textura sedosa y un perfil suave, con delicadas notas cítricas y frutales.",
+   "Beluga":"Vodka premium suave y elegante, con notas de cereal, miel y vainilla. Ideal para disfrutar solo, con hielo o en cócteles de alta gama.",
   // Ron
   "Barceló Añejo": "",
   "Barceló Imperial": "",
