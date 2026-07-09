@@ -149,8 +149,6 @@ export default function StudyCard({ item, index, total, onPrimaryAction }: Study
 			<div className="nav">
 				<button className="pri" onClick={onPrimaryAction}>
 					{buttonLabel}
-					<br />
-					<small style={{ opacity: 0.6 }}>o pulsa Espacio</small>
 				</button>
 			</div>
 		</>
