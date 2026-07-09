@@ -123,15 +123,26 @@ export const ITEM_DESCRIPTIONS: Record<string, string> = {
   "Don Julio Reposado": "Tequila reposado 100% de agave azul, suave y equilibrado, con notas de vainilla, caramelo, cítricos y especias. Ideal solo o en cócteles premium.",
   "Don Julio Silver":"Tequila 100% de agave azul, sin añejamiento, que destaca por su perfil fresco y limpio. Presenta notas de agave cocido, cítricos y un ligero toque de pimienta, con un final suave.",
   // Whisky
-
+  "Johny Walker Red Label": "un whisky escocés blended de carácter intenso y versátil. Combina notas de frutas frescas, vainilla, especias y un ligero toque ahumado, ideal para tomar con refrescos o en cócteles.",
+  "Monkey Shoulder": "un whisky escocés blended de malta, suave y cremoso, con notas de vainilla, miel, frutas y un toque de especias. Perfecto para tomar solo, con hielo o en cócteles.",
+  "Jack Daniels Fire": "un whisky estadounidense Tennessee con sabor a canela y especias. Combina el característico sabor del Jack Daniel's con un toque picante y dulce, ideal para tomar solo, con hielo o en cócteles.",
+  "Jack Daniels Triple Mash": "un whisky estadounidense Tennessee elaborado a partir de una mezcla de tres tipos de grano (maíz, cebada y centeno). Suave y equilibrado, con notas de vainilla, caramelo y especias. Ideal para tomar solo o en cócteles.",
+  "Tullamore Dew": "Whisky irlandés triple destilado, suave y equilibrado, con notas de vainilla, miel, fruta madura y especias. Ideal solo, con hielo o en cócteles clásicos.",
+  "Bushmills": "Whisky irlandés triple destilado, suave y ligero, con notas de vainilla, miel, fruta fresca y un sutil toque floral. Ideal solo, con hielo o en cócteles.",
+  "Jack Daniels Old Nº7": "Tennessee whiskey elaborado con el proceso de filtrado en carbón de arce (Lincoln County Process), que le aporta un perfil suave y equilibrado. Destaca por sus notas de vainilla, caramelo, roble tostado y un toque de plátano maduro.",
+  "Toki": "Suntory Toki es un whisky japonés blended de estilo ligero y elegante. Destaca por sus notas de manzana verde, miel, vainilla y un sutil toque especiado, con un final fresco y delicado.",
+  "Johnnie Walker Black Label 12Y": "Blended Scotch whisky de 12 años, suave y complejo, con notas de vainilla, frutas maduras, roble, especias y un sutil ahumado. Ideal solo o con hielo.",
+   "Tomatin": "Single malt de las Highlands, suave y afrutado, con notas de vainilla, miel, cítricos y manzana. Ideal solo o con unas gotas de agua.",
+   "Macallan": "single malt escocés envejecido en barricas de roble americano y europeo previamente envinadas con jerez. Presenta un perfil rico y elegante, con notas de vainilla, caramelo, frutas secas, cítricos y especias dulces. Perfecto para disfrutar solo o con hielo.",
   // Bourbon
-
+ "Bulleit Frontier Bourbon": "Bourbon de carácter intenso y especiado, con notas de vainilla, caramelo, roble tostado y pimienta. Ideal solo, con hielo o en cócteles clásicos.",
   // Gin
-
   // Vodka
-
   // Ron
-
+  "Barceló Añejo": "",
+  "Barceló Imperial": "",
+  "Zacapa Centenario 23": "",
+  "Diplomático Planas": "un ron venezolano blanco premium, suave y cremoso, con notas de vainilla, coco, frutas tropicales y un toque de especias. Perfecto para tomar solo, con hielo o en cócteles.",
   // LICORES
 };
 export const Q_META = {
