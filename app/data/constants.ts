@@ -149,13 +149,20 @@ export const ITEM_DESCRIPTIONS: Record<string, string> = {
   // Vodka
   "Moskovskaya": "Vodka de estilo clásico europeo, elaborado a partir de alcohol de grano y agua purificada. Presenta un perfil limpio, seco y suave, con un final fresco y un ligero toque de cereal.",
   "Cîroc":"Vodka premium francés elaborado a partir de uvas, en lugar de cereales, y destilado cinco veces. Destaca por su textura sedosa y un perfil suave, con delicadas notas cítricas y frutales.",
-   "Beluga":"Vodka premium suave y elegante, con notas de cereal, miel y vainilla. Ideal para disfrutar solo, con hielo o en cócteles de alta gama.",
+  "Beluga":"Vodka premium suave y elegante, con notas de cereal, miel y vainilla. Ideal para disfrutar solo, con hielo o en cócteles de alta gama.",
   // Ron
   "Barceló Añejo": "",
   "Barceló Imperial": "",
   "Zacapa Centenario 23": "",
   "Diplomático Planas": "un ron venezolano blanco premium, suave y cremoso, con notas de vainilla, coco, frutas tropicales y un toque de especias. Perfecto para tomar solo, con hielo o en cócteles.",
   // LICORES
+  "Amaretto": "Licor italiano dulce con notas de almendra, caramelo y vainilla. Ideal solo, con hielo o en cócteles y postres.",
+  "Baileys": "Licor de crema irlandesa, suave y cremoso, con notas de chocolate, vainilla y caramelo. Ideal solo, con hielo o en cócteles y cafés.",
+  "Cazalla": "Cazalla es un aguardiente tradicional español elaborado mediante la destilación de anís. De sabor intenso y seco, destaca por sus marcadas notas anisadas y su final cálido y persistente.",
+  "Jägermeister": "Licor alemán elaborado con una maceración de 56 hierbas, raíces, frutas y especias. Presenta un perfil intenso y equilibrado, con notas herbales, cítricas, especiadas y un ligero toque amargo.",
+  "Licor de arroz": "Licor suave y dulce con notas de arroz, vainilla y un toque cremoso. Ideal como digestivo o para acompañar postres.",
+  "Limoncello": "Licor italiano elaborado mediante la maceración de pieles de limón en alcohol. Destaca por su intenso aroma cítrico, su sabor dulce y fresco, y un final vibrante.",
+  "Jack Fire": "Jack Daniel's Tennessee Fire es un licor elaborado a partir de Jack Daniel's Old No. 7 y licor de canela. Combina el carácter suave del Tennessee whiskey con un intenso sabor a canela y un final cálido y especiado.",
 };
 export const Q_META = {
   ingredients:  "¿Qué lleva?",
