@@ -25,6 +25,8 @@ const SWEET_TIMES: MenuItem[] = [
   {cat:"Cócteles de autor",family:"Sweet Times",name:"Porn Star Martini",
     ingr:{"Vodka":"2 oz","Licor Bols Vainilla":"0.5 oz","Maracuya":"1 oz","Zumo de lima":"0.5 oz","sirope de vainilla":"1 golpe","Espumita":"2 golpes"},
     garnish:["Viene con un chupito de Cava o Prosecco"],
+    method:"Agitado, Colado",
+    glass:"Copa Martini",
    prices:[{label:"cóctel",p:12}]},
   {cat:"Cócteles de autor",family:"Sweet Times",name:"Éxodo",
     ingr:{"Bumbu":"2 oz","Bitter caffè":"2 golpes","Sirope pandán":"0.66 oz","Leche de coco":"0.5 oz","Café":"2.66 oz"},
