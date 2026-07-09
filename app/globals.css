@@ -73,10 +73,10 @@ h1{font-size:18px;font-weight:500;margin-bottom:1rem;color:#e8e6e1}
 .ob.bad{background:#2e1010;border-color:#8b2020;color:#e07070}
 .fb{margin-top:10px;font-size:13px;color:#7a7875;border-top:0.5px solid rgba(232,230,225,0.1);padding-top:10px;line-height:1.6;display:none}
 .fb strong{color:#e8e6e1}
-.q-layer{grid-area:1/1;padding:1.25rem;transition:opacity .18s ease}
-.q-layer.faded{opacity:0;pointer-events:none;user-select:none}
-.q-overlay{grid-area:1/1;padding:1.25rem;border-radius:inherit;background:inherit;display:flex;flex-direction:column;justify-content:flex-start;gap:12px;opacity:0;visibility:hidden;pointer-events:none;transition:opacity .22s ease .1s,visibility 0s linear .32s}
-.q-overlay.in{opacity:1;visibility:visible;pointer-events:auto;transition:opacity .22s ease .1s,visibility 0s linear 0s}
+.q-layer{height:auto; grid-area:1/1;padding:1.25rem;transition:all .22s ease}
+.q-layer.faded{height: 0; opacity:0;pointer-events:none;user-select:none}
+.q-overlay{height: 0; grid-area:1/1;padding:1.25rem;border-radius:inherit;background:inherit;display:flex;flex-direction:column;justify-content:flex-start;gap:12px;opacity:0;visibility:hidden;pointer-events:none;transition:opacity .22s ease .1s,visibility 0s linear .32s}
+.q-overlay.in{ height:auto; opacity:1;visibility:visible;pointer-events:auto;transition:all .22s ease}
 .nav{display:flex;gap:8px;margin-top:10px}
 .nav button{flex:1;padding:9px;border:0.5px solid rgba(232,230,225,0.25);border-radius:8px;background:transparent;font-size:14px;cursor:pointer;color:#e8e6e1}
 .nav button:hover{background:#2a2926}
