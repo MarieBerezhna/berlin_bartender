@@ -42,7 +42,9 @@ const SWEET_TIMES: MenuItem[] = [
    prices:[{label:"cóctel",p:12}]},
   {cat:"Cócteles de autor",family:"Sweet Times",name:"Diego",
     ingr:{"Jack Daniels Fire":"1 oz","Licor Bols Yogurt":"1 oz","Licor Bols Butterscotch":"1 oz", "Zumo de arándanos":"1 oz", "Sirope amarena":"~0.8 oz"},
-   prices:[{label:"cóctel",p:12}]},
+    method:"Removido",
+    glass:"Vaso largo o jarrita de bayas (preferiblemente)",
+    prices:[{label:"cóctel",p:12}]},
 ];
 
 const SPICY_TIMES: MenuItem[] = [
