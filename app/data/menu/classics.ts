@@ -7,7 +7,7 @@ const UNCLASSIFIED: MenuItem[] = [
     method:"Agitado, Colado",
     prices:[{label:"cóctel",p:11}]},
   {cat:"Coctelería clásica",family:"Inclasificables",name:"White Russian",
-    ingr:{"Vodka":"2 oz","Licor de café Bols":"1 oz","Leche":null,"Nata":"1 oz"},
+    ingr:{"Vodka":"2 oz","Licor de café Bols":"1 oz","Leche":"0.5 oz","Nata":"0.5 oz"},
     method:"Directo",
     glass:"Vaso bajo",
    prices:[{label:"cóctel",p:11}]},
