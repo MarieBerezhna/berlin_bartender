@@ -57,7 +57,8 @@ Over time, U.S. bar guides clarified the difference between eggnog and a flip. E
   "Cerveza": "La cerveza es una bebida alcohólica elaborada a partir de la fermentación de cereales, principalmente cebada, y aromatizada con lúpulo. Su proceso de elaboración incluye la malteación, la cocción del mosto, la fermentación y el envasado. Existen numerosos estilos de cerveza, que varían en sabor, color, aroma y contenido alcohólico. Se consume sola o como acompañamiento de comidas y también se utiliza en cócteles como la michelada o el shandy. Es la bebida alcohólica más consumida del mundo, y una de las bebidas más consumidas en general, solo por detrás del agua, el té y el café.",
   "Vino": "El vino es una bebida alcohólica obtenida de la fermentación del jugo de uvas. Existen diferentes tipos de vino, como tinto, blanco, rosado y espumoso, cada uno con características únicas de sabor, aroma y color. Se consume solo, acompañado de comidas o como ingrediente en cócteles.",
   "Vermut": "El vermut es un vino aromatizado y fortificado, elaborado a partir de vino base al que se le añaden hierbas, especias y otros botánicos. Se utiliza como aperitivo o digestivo y también es un ingrediente clave en cócteles clásicos como el Martini, el Negroni y el Manhattan.",
-
+  "Destilados": "Los destilados son bebidas alcohólicas obtenidas mediante el proceso de destilación, que consiste en separar los componentes de una mezcla líquida a través de la evaporación y condensación. Este proceso permite concentrar el alcohol y los sabores, dando lugar a bebidas con mayor graduación alcohólica y características organolépticas únicas. Algunos ejemplos de destilados son el whisky, el ron, la ginebra, el tequila y el vodka.",
+  "Bourbon": "El bourbon es un tipo de whisky estadounidense, elaborado principalmente a partir de maíz y envejecido en barricas de roble carbonizado. Se caracteriza por su sabor dulce y suave, con notas de vainilla, caramelo y especias. Es la base de cócteles populares como el Mint Julep, el Old Fashioned y el Boulevardier.",
 };
 export const AUTOR_FAMILIES: string[] = [
   ...new Set(
@@ -115,7 +116,23 @@ export const ITEM_DESCRIPTIONS: Record<string, string> = {
   "Martini Reserva Ambrato": "Vermut italiano, elaborado con una mezcla de vinos y aromatizado con hierbas y especias, conocido por su sabor suave y equilibrado.",
   "Martini Reserva Rubino": "Vermut italiano, elaborado con una mezcla de vinos y aromatizado con hierbas y especias, conocido por su sabor intenso y afrutado.",
   "Noilly Prat Blanco Seco": "Vermut francés, elaborado con una mezcla de vinos y aromatizado con hierbas y especias, conocido por su sabor seco y elegante.",
-  // 
+  // DESTILADOS
+  // Tequila
+  "Rooster Rojo White": "Tequila blanco 100% de agave azul, fresco y equilibrado, con notas cítricas, pimienta y agave cocido. Ideal para Margaritas, Palomas y otros cócteles donde el tequila es el protagonista.",
+  "Mezcal Unión": "Mezcal artesanal de agave Espadín y Cirial, con un ahumado suave y notas cítricas, herbales y ligeramente dulces. Perfecto para tomar solo o en cócteles.",
+  "Don Julio Reposado": "Tequila reposado 100% de agave azul, suave y equilibrado, con notas de vainilla, caramelo, cítricos y especias. Ideal solo o en cócteles premium.",
+  "Don Julio Silver":"Tequila 100% de agave azul, sin añejamiento, que destaca por su perfil fresco y limpio. Presenta notas de agave cocido, cítricos y un ligero toque de pimienta, con un final suave.",
+  // Whisky
+
+  // Bourbon
+
+  // Gin
+
+  // Vodka
+
+  // Ron
+
+  // LICORES
 };
 export const Q_META = {
   ingredients:  "¿Qué lleva?",

@@ -45,10 +45,9 @@ export default function Overview({ items, categoryLabel, activeTab, onStart }: O
 					<Image
 						src={categoryImage}
 						alt={categoryLabel}
-						width={600}
-						height={200}
-						unoptimized
-						style={{ width: "100%", height: 200, objectFit: "cover", display: "block" }}
+						width={300}
+						height={160}
+						style={{ aspectRatio: "300 / 160", width: "auto", height: "auto", maxHeight: 160, objectFit: "cover", display: "block" }}
 					/>
 				) : null}
 				<div style={{ padding: 20, display: "flex", flexDirection: "column", gap: 10 }}>
