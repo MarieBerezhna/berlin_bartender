@@ -100,20 +100,21 @@ export default function OverviewCard({ item, showCategoryLabel }: OverviewCardPr
 				background: "#1f1e1b",
 				border: "0.5px solid rgba(232,230,225,0.15)",
 				borderRadius: 12,
-				overflow: "hidden",
 				display: "flex",
 				flexDirection: "column",
 			}}
 		>
 			{image ? (
-				<Image
-					className="overview-card-img"
-					src={image}
-					alt={item.name}
-					width={160}
-					height={160}
-					style={{ width: "auto", height: "auto", maxHeight: 160, maxWidth: 160, margin: "0 auto", objectFit: "cover", display: "block" }}
-				/>
+				<div style={{ overflow: "hidden", borderRadius: "12px 12px 0 0" }}>
+					<Image
+						className="overview-card-img"
+						src={image}
+						alt={item.name}
+						width={160}
+						height={160}
+						style={{ width: "auto", height: "auto", maxHeight: 160, maxWidth: 160, margin: "0 auto", objectFit: "cover", display: "block" }}
+					/>
+				</div>
 			) : null}
 
 			<div className="overview-card-body" style={{ padding: 14, display: "flex", flexDirection: "column", gap: 6 }}>
