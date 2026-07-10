@@ -164,6 +164,7 @@ export const ITEM_DESCRIPTIONS: Record<string, string> = {
   "Licor de arroz": "Licor suave y dulce con notas de arroz, vainilla y un toque cremoso. Ideal como digestivo o para acompañar postres.",
   "Limoncello": "Licor italiano elaborado mediante la maceración de pieles de limón en alcohol. Destaca por su intenso aroma cítrico, su sabor dulce y fresco, y un final vibrante.",
   "Jack Fire": "Jack Daniel's Tennessee Fire es un licor elaborado a partir de Jack Daniel's Old No. 7 y licor de canela. Combina el carácter suave del Tennessee whiskey con un intenso sabor a canela y un final cálido y especiado.",
+  "Cynar": "licor amargo italiano elaborado con alcachofa y una mezcla de 13 hierbas y plantas aromáticas. Su perfil es herbáceo, ligeramente dulce y amargo, con notas de caramelo y especias",
 };
 export const Q_META = {
   ingredients:  "¿Qué lleva?",
