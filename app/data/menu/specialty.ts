@@ -14,12 +14,12 @@ const ACID_TIMES: MenuItem[] = [
   glass:"Vaso bajo",
    prices:[{label:"cóctel",p:12}]},
   {cat:"Cócteles de autor",family:"Acid Times",name:"Berlin Lemonade",
-    ingr:{"Jack Daniels Triple Mash":"1.5 oz","Triple Sec Bols":"0.5 oz","Bitter de naranja":"2 golpes","Zumo de limón":"1.33 oz","7UP":"top"},
+    ingr:{"Jack Daniels Triple Mash":"1.5 oz","Triple Sec":"0.5 oz","Bitter de naranja":"2 golpes","Zumo de limón":"1.33 oz","7UP":"top"},
        method:"Agitado, Colado",
     glass:"Vaso largo",
     prices:[{label:"cóctel",p:12}]},
   {cat:"Cócteles de autor",family:"Acid Times",name:"Corazón de Luna",
-    ingr:{"Tequila":"2 oz","Triple Sec Bols":"1 oz","Zumo de lima":"1 oz","Lichee":"0.5 oz"},
+    ingr:{"Tequila":"2 oz","Triple Sec":"1 oz","Zumo de lima":"1 oz","Lichee":"0.5 oz"},
     method:"Agitado, Colado",
     glass:"Coupe / Martini",
    prices:[{label:"cóctel",p:12}]},
@@ -71,7 +71,7 @@ const SPICY_TIMES: MenuItem[] = [
     glass:"Vaso largo",
     prices:[{label:"cóctel",p:12}]},
   {cat:"Cócteles de autor",family:"Spicy Times",name:"Matarreyes",
-    ingr:{"Vodka Smirnoff Tamarindo":"2 oz","Licor de humo":"1 oz","Triple Sec Bols":"1.5 oz","Sirope de agave":"1 oz","Zumo de lima":"1 oz","Maracuya":"1 oz"},
+    ingr:{"Vodka Smirnoff Tamarindo":"2 oz","Licor de humo":"1 oz","Triple Sec":"1.5 oz","Sirope de agave":"1 oz","Zumo de lima":"1 oz","Maracuya":"1 oz"},
    prices:[{label:"cóctel",p:12}]},
 
 ];
@@ -84,7 +84,7 @@ const HARD_TIMES: MenuItem[] = [
     ingr:{"Mezcal":"2 oz","Cynar":"2 oz","Vino blanco":"2 oz"},
    prices:[{label:"cóctel",p:12}]},
   {cat:"Cócteles de autor",family:"Hard Times",name:"Berlin Sling",
-    ingr:{"Gin Mare":"1,5 oz","Chambord":"0.5 oz","Bénédictine DOM":"1 oz","Triple Sec Bols":"0.5 oz","Piña":"0.5 oz","Lima":"0.5 oz","Sirope de agave":"0.5 oz","Bitter de naranja":"2 golpes"},
+    ingr:{"Gin Mare":"1,5 oz","Chambord":"0.5 oz","Bénédictine DOM":"1 oz","Triple Sec":"0.5 oz","Piña":"0.5 oz","Lima":"0.5 oz","Sirope de agave":"0.5 oz","Bitter de naranja":"2 golpes"},
    prices:[{label:"cóctel",p:12},{label:"cóctel con chupito de vodka",p:13}]},
 ];
 

@@ -38,9 +38,9 @@ const SPRITZ: MenuItem[] = [
 ];
 
 const JARRAS: MenuItem[] = [
-  {cat:"Jarras",name:"Agua de Valencia",ingr:{"Vodka":"1 oz","Gin Tanqueray":"1 oz","Zumo de naranja":"2 oz","Cava":"2 oz","Triple Sec Bols":null,"Licor mandarina MB":null,"Azúcar líquido":null},
-    prices:[{label:"copa",p:7},{label:"jarra",p:25}]},
-  {cat:"Jarras",name:"Sangría",ingr:{"Diplomático Planas":null,"Vino tinto":null,"Triple Sec Bols":null,"Terry":null,"Vermut tinto":null,"Zumo de naranja":null,"Azúcar líquido":null},
+  {cat:"Jarras",name:"Agua de Valencia",ingr:{"Vodka":"1 oz","Gin Tanqueray":"1 oz","Zumo de naranja":"2 oz","Cava":"2 oz","Triple Sec":null,"Licor mandarina MB":null,"Azúcar líquido":null},
+    prices:[{label:"copa",p:7},{label:"jarra",p:25}]}, // TODO
+  {cat:"Jarras",name:"Sangría",ingr:{"Diplomático Planas":null,"Vino tinto":null,"Triple Sec":null,"Terry":null,"Vermut tinto":null,"Zumo de naranja":null,"Azúcar líquido":null},
     prices:[{label:"copa",p:7},{label:"jarra",p:25}]},
   {cat:"Jarras",name:"Tinto de verano",ingr:{"Vino tinto":null,"Schweppes limón":null,"Zumo de limón":null},
     prices:[{label:"copa",p:5},{label:"jarra",p:20}]},
