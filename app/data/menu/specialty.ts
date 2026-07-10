@@ -24,7 +24,7 @@ const ACID_TIMES: MenuItem[] = [
     glass:"Coupe / Martini",
    prices:[{label:"cóctel",p:12}]},
   {cat:"Cócteles de autor",family:"Acid Times",name:"Berlín Green",
-    ingr:{"Vodka":"2 oz","Licor Midori":"1 oz","Manzana verde":"0.5 oz","Maracuya":"0.5 oz", "Manzana verde natural triturada":"0.75 oz"},
+    ingr:{"Vodka":"2 oz","Licor Midori":"1 oz","Maracuya":"0.5 oz", "Manzana verde natural triturada":"0.75 oz"},
     garnish:["Albahaca (5-6 hojas dentro del vaso), 0.25 manzana verde natural en el borde del vaso"],
     method:"Agitado, Colado",
     glass:"Vaso largo",
