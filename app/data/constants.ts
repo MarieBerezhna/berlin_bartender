@@ -201,13 +201,14 @@ export const INGR_GROUP: Record<string, string> = {
   "Sirope pandán":"sweet","Jalea de naranja":"sweet",
   "Arándanos":"fruit","Fresa":"fruit","Piña":"fruit","Maracuya":"fruit",
   "Lichee":"fruit","Frutos rojos":"fruit","Manzana verde natural triturada":"fruit","Calabaza asada":"fruit",
-  "Frutas tropicales":"fruit","Lima":"fruit","Naranja":"fruit", "Nata": "other", "Leche": "other", "Café": "other"
+  "Frutas tropicales":"fruit","Lima":"fruit","Naranja":"fruit", "Nata": "other", "Leche": "other", "Café": "other", 
+  "Mezcal": "spirit", " Vino blanco": "wine",
 };
 export const GARNISHMENTS = new Set([
   "Hierbabuena","Albahaca", "Rodaja de limón","Rodaja de lima", "Manzana verde", "Cereza"
  ]);
-export const GROUP_ORDER = ["spirit","liqueur","filler","bitter","sweet","other"];
+export const GROUP_ORDER = ["spirit","liqueur","filler","bitter","sweet","fruit","other"];
 export const GROUP_LABELS: Record<string, string> = {
   spirit:"Alcohol", liqueur:"Licores", filler:"Mezcladores",
-  bitter:"Amargos", sweet:"Endulzantes", other:"Otros"
+  bitter:"Amargos", sweet:"Endulzantes", fruit:"Frutas", other:"Otros"
 };
