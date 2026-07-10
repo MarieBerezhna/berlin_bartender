@@ -48,8 +48,8 @@ const SWEET_TIMES: MenuItem[] = [
     method:"Agitado, Colado",
     glass:"Vaso largo",
     prices:[{label:"cóctel",p:12}]},
-  {cat:"Cócteles de autor",family:"Sweet Times",name:"Génesis", // TODO
-    ingr:{"Ron":null,"Ginger Ale":null,"Azúcar líquido":null,"Lima":null,"Calabaza asada":null,"Naranja":null},
+  {cat:"Cócteles de autor",family:"Sweet Times",name:"Génesis",
+    ingr:{"Ron":"2 oz","Calabaza asada (sirope)":"2 oz","Azúcar líquido":"1 oz","Zumo de naranja":"1 oz", "Lima":"0.5 oz", "Ginger Ale":"top"},
    prices:[{label:"cóctel",p:12}]},
   {cat:"Cócteles de autor",family:"Sweet Times",name:"Ámbar con cacao",
     ingr:{"Ron":"2 oz","Licor Bols Butterscotch":"1 oz","Sirope de vainilla":"1 oz", "Licor Bols Chocolate":"0.5 oz"},
@@ -70,21 +70,21 @@ const SPICY_TIMES: MenuItem[] = [
     method:"Removido",
     glass:"Vaso largo",
     prices:[{label:"cóctel",p:12}]},
-  {cat:"Cócteles de autor",family:"Spicy Times",name:"Matarreyes", // TODO
-    ingr:{"Vodka Smirnoff Tamarindo":null,"Licor de humo":null,"Triple Sec Bols":null,"Sirope de agave":null,"Lima":null,"Maracuya":null},
+  {cat:"Cócteles de autor",family:"Spicy Times",name:"Matarreyes",
+    ingr:{"Vodka Smirnoff Tamarindo":"2 oz","Licor de humo":"1 oz","Triple Sec Bols":"1.5 oz","Sirope de agave":"1 oz","Zumo de lima":"1 oz","Maracuya":"1 oz"},
    prices:[{label:"cóctel",p:12}]},
 
 ];
 
 const HARD_TIMES: MenuItem[] = [
-  {cat:"Cócteles de autor",family:"Hard Times",name:"Hombro al sol", // TODO
-    ingr:{"Monkey Shoulder":null,"Fino":null,"Bitter de naranja":null},
+  {cat:"Cócteles de autor",family:"Hard Times",name:"Hombro al sol",
+    ingr:{"Monkey Shoulder":"2 oz","Fino":"2 oz","Bitter de naranja":"2 golpes"},
    prices:[{label:"cóctel",p:12}]},
-  {cat:"Cócteles de autor",family:"Hard Times",name:"Polvo de calima", // TODO
-    ingr:{"Diplomático Planas":null,"Ron jamaicano":null,"Chambord":null,"Zumo de naranja":null,"Zumo de piña":null,"Sirope falernum":null,"Zumo de lima":null},
+  {cat:"Cócteles de autor",family:"Hard Times",name:"Polvo de calima",
+    ingr:{"Mezcal":"2 oz","Cynar":"2 oz","Vino blanco":"2 oz"},
    prices:[{label:"cóctel",p:12}]},
-  {cat:"Cócteles de autor",family:"Hard Times",name:"Berlin Sling", // TODO
-    ingr:{"Gin Mare":null,"Chambord":null,"Bénédictine DOM":null,"Triple Sec Bols":null,"Piña":null,"Lima":null},
+  {cat:"Cócteles de autor",family:"Hard Times",name:"Berlin Sling",
+    ingr:{"Gin Mare":"1,5 oz","Chambord":"0.5 oz","Bénédictine DOM":"1 oz","Triple Sec Bols":"0.5 oz","Piña":"0.5 oz","Lima":"0.5 oz","Sirope de agave":"0.5 oz","Bitter de naranja":"2 golpes"},
    prices:[{label:"cóctel",p:12},{label:"cóctel con chupito de vodka",p:13}]},
 ];
 
