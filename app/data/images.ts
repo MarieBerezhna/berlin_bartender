@@ -196,6 +196,7 @@ const IMAGES: Record<string, string> = {
   "Terry": "./liqueurs/terry.webp",
   "Piña": "./ingredientes/huerto/pina.webp",
   "Cognac": "./cognac.webp",
+  "Mezcal": "./tequila/mezcal.webp",
 };
 
 export default IMAGES;
