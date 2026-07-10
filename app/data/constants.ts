@@ -122,6 +122,7 @@ export const ITEM_DESCRIPTIONS: Record<string, string> = {
   "Mezcal Unión": "Mezcal artesanal de agave Espadín y Cirial, con un ahumado suave y notas cítricas, herbales y ligeramente dulces. Perfecto para tomar solo o en cócteles.",
   "Don Julio Reposado": "Tequila reposado 100% de agave azul, suave y equilibrado, con notas de vainilla, caramelo, cítricos y especias. Ideal solo o en cócteles premium.",
   "Don Julio Silver":"Tequila 100% de agave azul, sin añejamiento, que destaca por su perfil fresco y limpio. Presenta notas de agave cocido, cítricos y un ligero toque de pimienta, con un final suave.",
+  "Mezcal": "Mezcal Santo Gusano es un mezcal artesanal mexicano elaborado principalmente con agave Espadín. Presenta un perfil equilibrado, con un ahumado suave, notas de agave cocido, cítricos, hierbas y un toque mineral.",
   // Whisky
   "Johny Walker Red Label": "un whisky escocés blended de carácter intenso y versátil. Combina notas de frutas frescas, vainilla, especias y un ligero toque ahumado, ideal para tomar con refrescos o en cócteles.",
   "Monkey Shoulder": "un whisky escocés blended de malta, suave y cremoso, con notas de vainilla, miel, frutas y un toque de especias. Perfecto para tomar solo, con hielo o en cócteles.",
