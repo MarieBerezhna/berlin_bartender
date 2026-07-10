@@ -186,10 +186,10 @@ export const INGR_GROUP: Record<string, string> = {
   "Licor Midori":"liqueur","Licor de café Bols":"liqueur",
   "Licor de humo":"liqueur","Licor Bols Vainilla":"liqueur","Licor mandarina MB":"liqueur",
   "Licor Bols Chocolate":"liqueur","Licor Bols Butterscotch":"liqueur","Licor Bols Yogurt":"liqueur",
-  "Chambord":"liqueur","Bénédictine DOM":"liqueur","Drambuie":"liqueur","Licor de maraschino":"liqueur","Crème de violette":"liqueur",
-  "Aperol":"liqueur","Campari":"liqueur","Sarti Rosa":"liqueur","Bols Saúco":"liqueur","Terry":"liqueur",
-  "Vino tinto":"wine","Vermut":"wine","Vermut tinto":"wine","Vermut seco":"wine","Cava":"wine",
-  "7UP":"filler","Soda":"filler","Soda de pomelo":"filler","Ginger Ale":"filler",
+  "Chambord":"liqueur","Bénédictine DOM":"liqueur","Drambuie":"liqueur","Licor de maraschino":"liqueur",
+  "Crème de violette":"liqueur", "Aperol":"liqueur","Campari":"liqueur","Sarti Rosa":"liqueur","Bols Saúco":"liqueur",
+  "Terry":"liqueur", "Cynar":"liqueur", "Vino tinto":"wine","Vermut":"wine","Vermut tinto":"wine","Vermut seco":"wine",
+  "Cava":"wine", "7UP":"filler","Soda":"filler","Soda de pomelo":"filler","Ginger Ale":"filler",
   "Ginger beer":"filler","Refresco de pomelo":"filler","Pepsi":"filler","Schweppes limón":"filler","Zumo de tomate":"filler",
   "Zumo de naranja":"filler","Zumo de piña":"filler","Zumo de arándanos":"filler",
   "Zumo de limón":"filler","Zumo de lima":"filler",
@@ -201,15 +201,11 @@ export const INGR_GROUP: Record<string, string> = {
   "Sirope pandán":"sweet","Jalea de naranja":"sweet",
   "Arándanos":"fruit","Fresa":"fruit","Piña":"fruit","Maracuya":"fruit",
   "Lichee":"fruit","Frutos rojos":"fruit","Manzana verde natural triturada":"fruit","Calabaza asada":"fruit",
-  "Frutas tropicales":"fruit","Lima":"fruit","Naranja":"fruit",
+  "Frutas tropicales":"fruit","Lima":"fruit","Naranja":"fruit", "Nata": "other", "Leche": "other", "Café": "other"
 };
 export const GARNISHMENTS = new Set([
-  "Hierbabuena","Albahaca","Menta","Romero","Tomillo","Perejil",
-  "Lima","Limón","Naranja","Limón verde","Rodaja de limón","Rodajas de limón","Rodajas de lima",
-  "Leche de coco","Café","Nata","Leche","Foam",
-  "Arándanos","Fresa","Piña","Manzana verde",
-  "Calabaza asada"
-]);
+  "Hierbabuena","Albahaca", "Rodaja de limón","Rodaja de lima", "Manzana verde", "Cereza"
+ ]);
 export const GROUP_ORDER = ["spirit","liqueur","filler","bitter","sweet","other"];
 export const GROUP_LABELS: Record<string, string> = {
   spirit:"Alcohol", liqueur:"Licores", filler:"Mezcladores",
