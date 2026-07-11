@@ -33,7 +33,7 @@ const ACID_TIMES: MenuItem[] = [
 
 const SWEET_TIMES: MenuItem[] = [
   {cat:"Cócteles de autor",family:"Sweet Times",name:"Porn Star Martini",
-    ingr:{"Vodka":"2 oz","Licor Bols Vainilla":"0.5 oz","Maracuya":"1 oz","Zumo de lima":"0.5 oz","sirope de vainilla":"1 golpe","Espumita":"2 golpes"},
+    ingr:{"Vodka":"2 oz","Licor Bols Vainilla":"0.5 oz","Maracuya":"1 oz","Zumo de lima":"0.5 oz","Sirope de vainilla":"1 golpe","Espumita":"2 golpes"},
     garnish:["Viene con un chupito de Cava o Prosecco"],
     method:"Agitado, Colado",
     glass:"Coupe / Martini",
