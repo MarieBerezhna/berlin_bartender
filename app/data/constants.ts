@@ -175,6 +175,7 @@ export const Q_META = {
   ratio:        "Ratio",
   category:     "Categoría",
   name:         "Nombre",
+  garnish:      "Decoración",
 };
 export const MENU_SPIRIT_HINTS = new Set(['Tequila','Tequila blanco','Tequila reposado','Tequila Don Julio','Gin','Gin Tanqueray','Gin Mare','Vodka','Moskovskaya','Vodka Smirnoff Tamarindo','Ron','Ron blanco','Ron oscuro','Ron jamaicano','Bumbu','Diplomático Planas','Jack Daniels Fire','Jack Daniels Triple Mash','Monkey Shoulder','Whisky','Whiskey','Whisky (o Bourbon)','Bourbon','Fino','Cognac']);
 export const INGR_GROUP: Record<string, string> = {

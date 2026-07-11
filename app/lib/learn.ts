@@ -131,6 +131,31 @@ export function buildRecallViewModel(item: MenuItem) {
   };
 }
 
+const ALL_GARNISHES: string[] = [
+  ...new Set(
+    (RAW as MenuItem[]).flatMap((entry) => entry.garnish || [])
+  ),
+];
+
+function buildGarnishQuestion(item: MenuItem): LearnQuestion | null {
+  if (!item.garnish?.length) return null;
+
+  const correct = item.garnish[Math.floor(Math.random() * item.garnish.length)];
+  const wrongs = shuffleArray(
+    ALL_GARNISHES.filter((g) => !item.garnish!.includes(g))
+  ).slice(0, 3);
+
+  if (wrongs.length < 3) return null;
+
+  return {
+    qtype: "garnish",
+    question: `¿Cuál es la decoración del ${item.name}?`,
+    options: shuffleArray([correct, ...wrongs]),
+    answer: correct,
+    hint: `${item.name}: ${item.garnish.join(" · ")}`,
+  };
+}
+
 function buildIngredientQuestion(item: MenuItem): LearnQuestion | null {
   const ingr = getIngr(item);
   const required = ingr.filter(
@@ -220,6 +245,9 @@ export function createLearnQuizQueue(item: MenuItem): LearnQuestion[] {
 
   const priceQuestion = buildPriceQuestion(item);
   if (priceQuestion) questions.push(priceQuestion);
+
+  const garnishQuestion = buildGarnishQuestion(item);
+  if (garnishQuestion) questions.push(garnishQuestion);
 
   return questions;
 }
