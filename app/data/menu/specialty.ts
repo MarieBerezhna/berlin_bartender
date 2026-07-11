@@ -49,7 +49,7 @@ const SWEET_TIMES: MenuItem[] = [
     glass:"Vaso largo",
     prices:[{label:"cóctel",p:12}]},
   {cat:"Cócteles de autor",family:"Sweet Times",name:"Génesis",
-    ingr:{"Ron":"2 oz","Calabaza asada (sirope)":"2 oz","Azúcar líquido":"1 oz","Zumo de naranja":"1 oz", "Lima":"0.5 oz", "Ginger Ale":"top"},
+    ingr:{"Ron":"2 oz","Calabaza asada":"2 oz","Azúcar líquido":"1 oz","Zumo de naranja":"1 oz", "Lima":"0.5 oz", "Ginger Ale":"top"},
    prices:[{label:"cóctel",p:12}]},
   {cat:"Cócteles de autor",family:"Sweet Times",name:"Ámbar con cacao",
     ingr:{"Ron":"2 oz","Licor Bols Butterscotch":"1 oz","Sirope de vainilla":"1 oz", "Licor Bols Chocolate":"0.5 oz"},
