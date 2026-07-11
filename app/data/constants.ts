@@ -119,12 +119,12 @@ export const ITEM_DESCRIPTIONS: Record<string, string> = {
   // DESTILADOS
   // Tequila
   "Rooster Rojo White": "Tequila blanco 100% de agave azul, fresco y equilibrado, con notas cítricas, pimienta y agave cocido. Ideal para Margaritas, Palomas y otros cócteles donde el tequila es el protagonista.",
-  "Mezcal Unión": "Mezcal artesanal de agave Espadín y Cirial, con un ahumado suave y notas cítricas, herbales y ligeramente dulces. Perfecto para tomar solo o en cócteles.",
+  "Mezcal Union": "Mezcal artesanal de agave Espadín y Cirial, con un ahumado suave y notas cítricas, herbales y ligeramente dulces. Perfecto para tomar solo o en cócteles.",
   "Don Julio Reposado": "Tequila reposado 100% de agave azul, suave y equilibrado, con notas de vainilla, caramelo, cítricos y especias. Ideal solo o en cócteles premium.",
   "Don Julio Silver":"Tequila 100% de agave azul, sin añejamiento, que destaca por su perfil fresco y limpio. Presenta notas de agave cocido, cítricos y un ligero toque de pimienta, con un final suave.",
   "Mezcal": "Mezcal Santo Gusano es un mezcal artesanal mexicano elaborado principalmente con agave Espadín. Presenta un perfil equilibrado, con un ahumado suave, notas de agave cocido, cítricos, hierbas y un toque mineral.",
   // Whisky
-  "Johny Walker Red Label": "un whisky escocés blended de carácter intenso y versátil. Combina notas de frutas frescas, vainilla, especias y un ligero toque ahumado, ideal para tomar con refrescos o en cócteles.",
+  "Johnnie Walker Red Label": "un whisky escocés blended de carácter intenso y versátil. Combina notas de frutas frescas, vainilla, especias y un ligero toque ahumado, ideal para tomar con refrescos o en cócteles.",
   "Monkey Shoulder": "un whisky escocés blended de malta, suave y cremoso, con notas de vainilla, miel, frutas y un toque de especias. Perfecto para tomar solo, con hielo o en cócteles.",
   "Jack Daniels Fire": "un whisky estadounidense Tennessee con sabor a canela y especias. Combina el característico sabor del Jack Daniel's con un toque picante y dulce, ideal para tomar solo, con hielo o en cócteles.",
   "Jack Daniels Triple Mash": "un whisky estadounidense Tennessee elaborado a partir de una mezcla de tres tipos de grano (maíz, cebada y centeno). Suave y equilibrado, con notas de vainilla, caramelo y especias. Ideal para tomar solo o en cócteles.",
@@ -147,14 +147,15 @@ export const ITEM_DESCRIPTIONS: Record<string, string> = {
   "Roku": "Ginebra japonesa elaborada con seis botánicos tradicionales de Japón, como flor y hoja de sakura, té sencha, té gyokuro, pimienta sansho y yuzu, además de botánicos clásicos. Presenta un perfil equilibrado, fresco y delicadamente floral.",
   "Hendrick's": "Ginebra escocesa con notas de pepino, pétalos de rosa, enebro y cítricos. Suave, floral y refrescante, ideal para Gin & Tonic y cócteles clásicos.",
   "Tanqueray Nº Ten": "Ginebra super premium elaborada con cítricos frescos y botánicos seleccionados, destilados en pequeños lotes. Destaca por su perfil suave, fresco y muy aromático, con notas de pomelo, lima, naranja, enebro y manzanilla.",
+  "Larios Rose": "Ginebra premium española elaborada con enebro y una selección de frutos rojos, especialmente fresas. Presenta un perfil suave, fresco y afrutado, con notas de frutos rojos, cítricos y un delicado toque floral.",
   // Vodka
   "Moskovskaya": "Vodka de estilo clásico europeo, elaborado a partir de alcohol de grano y agua purificada. Presenta un perfil limpio, seco y suave, con un final fresco y un ligero toque de cereal.",
   "Cîroc":"Vodka premium francés elaborado a partir de uvas, en lugar de cereales, y destilado cinco veces. Destaca por su textura sedosa y un perfil suave, con delicadas notas cítricas y frutales.",
   "Beluga":"Vodka premium suave y elegante, con notas de cereal, miel y vainilla. Ideal para disfrutar solo, con hielo o en cócteles de alta gama.",
   // Ron
-  "Barceló Añejo": "",
-  "Barceló Imperial": "",
-  "Zacapa Centenario 23": "",
+  "Barceló Añejo": "Ron dominicano envejecido en barricas de roble, de perfil suave y equilibrado. Presenta notas de vainilla, caramelo, cacao y madera tostada, con un final cálido.",
+  "Barceló Imperial": "Ron premium dominicano elaborado con caña de azúcar de origen local y envejecido en barricas de roble. Destaca por su perfil elegante y complejo, con notas de vainilla, caramelo, frutas secas, cacao y especias dulces.",
+  "Zacapa Centenario 23": "Ron guatemalteco premium envejecido mediante un sistema de solera. Ofrece un perfil complejo y sedoso, con notas de vainilla, caramelo, cacao, frutas pasas y especias, acompañadas de un elegante toque de roble.",
   "Diplomático Planas": "un ron venezolano blanco premium, suave y cremoso, con notas de vainilla, coco, frutas tropicales y un toque de especias. Perfecto para tomar solo, con hielo o en cócteles.",
   // LICORES
   "Amaretto": "Licor italiano dulce con notas de almendra, caramelo y vainilla. Ideal solo, con hielo o en cócteles y postres.",
