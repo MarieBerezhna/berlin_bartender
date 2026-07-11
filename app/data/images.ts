@@ -198,7 +198,7 @@ const IMAGES: Record<string, string> = {
   "Cynar": "./liqueurs/cynar.webp",
   "Aguafaba": "./ingredientes/aguafaba.webp",
   "Bitter apio": "./ingredientes/bitters/apio.webp",
-  "Calabaza asada": "./ingredientes/calabaza_asada.webp",
+  "Calabaza asada": "./ingredientes/pumpkin_spice.webp",
 };
 
 export default IMAGES;
