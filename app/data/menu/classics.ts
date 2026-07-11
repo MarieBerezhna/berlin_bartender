@@ -36,7 +36,7 @@ const UNCLASSIFIED: MenuItem[] = [
    glass:"Coupe / Martini",
    prices:[{label:"cóctel",p:11}]},
      {cat:"Coctelería clásica",family:"Inclasificables",name:"Bloody Mary",
-    ingr:{"Vodka":"3+ oz","Zumo de tomate":"top","Salsa Worcestershire":"2 dashes","Salsa Picante":"2 golpes","Bitter Apio":"2 dashes"},
+    ingr:{"Vodka":"3+ oz","Zumo de tomate":"top","Salsa Inglesa":"2 dashes","Salsa Picante":"2 golpes","Bitter Apio":"2 dashes"},
     garnish:["Sal","Pimienta","Apio","Rodaja de limón"],
     method:"Removido",
     prices:[{label:"cóctel",p:11}]},

@@ -193,9 +193,11 @@ const CERVEZAS: MenuItem[] = [
 ];
 
 const MICHELADAS: MenuItem[] = [
-  {cat:"Micheladas",name:"Michelada Berlín",ingr:{"Cerveza":"top","Zumo de limón":"1 oz","Sal":null,"Salsa inglesa":"1/2 tbsp","Tabasco":"6-8 dashes"},
+  {cat:"Micheladas",name:"Michelada Berlín",ingr:{"Cerveza":"top","Zumo de limón":"1 oz","Salsa Inglesa":"2 golpes","Tabasco":"4 golpes"},
+    garnish:["Sal","Pimienta","Rodaja de limón"],
    prices:[{label:"500 ml",p:8}]},
-  {cat:"Micheladas",name:"Michelada de Tequila",ingr:{"Cerveza":"top","Tequila":"1.5 oz","Bitter habanero":"4-6 dashes","Zumo de limón":"1 oz","Sal":null},
+  {cat:"Micheladas",name:"Michelada de Tequila",ingr:{"Cerveza":"top","Tequila":"1.5 oz","Bitter habanero":"4 golpes","Zumo de limón":"1 oz"},
+  garnish:["Sal","Pimienta","Rodaja de limón"],
    prices:[{label:"500 ml",p:9}]},
 ];
 
