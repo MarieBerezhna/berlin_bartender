@@ -185,7 +185,7 @@ const IMAGES: Record<string, string> = {
   "Tabasco": "./ingredientes/tabasco.webp",
   "Café": "./ingredientes/coffee.webp",
   "Tullamore Dew": "./whisky/tullamore_dew.webp",
-  "Foam": "./ingredientes/foam.webp",
+  "Espumita": "./ingredientes/foam.webp",
   "Nata": "./ingredientes/nata.webp",
   "Leche": "./ingredientes/leche.webp",
   "Leche de coco": "./ingredientes/coco.webp",
