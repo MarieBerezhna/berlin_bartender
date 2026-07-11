@@ -26,19 +26,15 @@ function buildSystemPrompt(menu: MenuItem[]): string {
 		.filter((item) => aiCats.has(item.cat))
 		.map((item) => {
 			const price = item.prices?.[0] ? `${item.prices[0].p}€` : "";
-			const recipe = item.ingr
-				? Object.entries(item.ingr)
-						.slice(0, 4)
-						.map(([ing, amt]) => amt ? `${ing} ${amt}` : ing)
-						.join(", ")
+			const ingrs = item.ingr
+				? Object.keys(item.ingr).slice(0, 3).join(",")
 				: "";
-			return `${item.name}|${item.cat}|${price}${recipe ? ` — ${recipe}` : ""}`;
+			return `${item.name}|${price}${ingrs ? `|${ingrs}` : ""}`;
 		})
 		.join("\n");
 
-	return `Eres el asistente de barra del Café Berlín (Valencia). Recomienda bebidas del menú o cócteles clásicos preparables con nuestros ingredientes. Sé breve y directo. Usa **negrita** para nombres. Responde en español. Máximo 3-4 opciones.
-
-MENÚ (nombre|categoría|precio — ingredientes principales):
+	return `Asistente de barra Café Berlín (Valencia). Recomienda del menú o clásicos preparables. Breve, **negrita** para nombres, español, máx 3 opciones.
+MENÚ(nombre|precio|ingredientes):
 ${menuSummary}`;
 }
 
@@ -92,13 +88,14 @@ export default function ChatPanel() {
 		setIsSending(true);
 		setMessages(nextHistory);
 
+		const recentMessages = nextHistory.slice(-4);
 		try {
 			const res = await fetch("/api/chat", {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
 				body: JSON.stringify({
 					system: systemPrompt,
-					messages: nextHistory,
+					messages: recentMessages,
 				}),
 			});
 

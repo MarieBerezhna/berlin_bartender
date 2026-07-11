@@ -19,7 +19,7 @@ export async function POST(request: Request) {
     },
     body: JSON.stringify({
       model: 'llama-3.1-8b-instant',
-      max_tokens: 1000,
+      max_tokens: 450,
       messages: [
         { role: 'system', content: body.system },
         ...body.messages,
