@@ -94,7 +94,6 @@ const IMAGES: Record<string, string> = {
   "Bitter de naranja": "./ingredientes/bitters/orange.webp",
   "Angostura Bitters": "./ingredientes/bitters/angostura.webp",
   "Cava": "./ingredientes/alcohol/cava.webp",
-  "Calabaza asada": "./ingredientes/huerto/calabaza_asada.webp",
   "Hierbabuena": "./ingredientes/huerto/hierbabuena.webp",
   "Albahaca": "./ingredientes/huerto/albahaca.webp",
   "Fresa": "./ingredientes/huerto/fresa.webp",
@@ -200,6 +199,7 @@ const IMAGES: Record<string, string> = {
   "Cynar": "./liqueurs/cynar.webp",
   "Aguafaba": "./ingredientes/aguafaba.webp",
   "Bitter apio": "./ingredientes/bitters/apio.webp",
+  "Calabaza asada": "./ingredientes/calabaza_asada.webp",
 };
 
 export default IMAGES;
