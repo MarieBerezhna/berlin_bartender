@@ -102,7 +102,6 @@ const IMAGES: Record<string, string> = {
   "Frutas tropicales": "./ingredientes/huerto/frutas_tropicales.webp",
   "Frutos rojos": "./ingredientes/huerto/frutos_rojos.webp",
   "Lichee": "./ingredientes/huerto/lichee.webp",
-  "Lima": "./ingredientes/huerto/lima.webp",
   "Limón": "./ingredientes/huerto/limon.webp",
   "Limon": "./ingredientes/huerto/limon.webp",
   "Manzana verde": "./ingredientes/huerto/manzana_verde.webp",

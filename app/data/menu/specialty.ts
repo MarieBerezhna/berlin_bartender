@@ -9,7 +9,7 @@ const ACID_TIMES: MenuItem[] = [
     prices:[{label:"cóctel",p:12}]},
   {cat:"Cócteles de autor",family:"Acid Times",name:"Brote Primavera",
   ingr:{"Gin Tanqueray":"2 oz","Licor yuzu":"0.5 oz","Azúcar líquido":'0.5 oz'},
-  garnish:["Albahaca", "lima"],
+  garnish:["Albahaca", "Rodaja de lima"],
   method:"Agitado, Colado",
   glass:"Vaso bajo",
    prices:[{label:"cóctel",p:12}]},
@@ -49,7 +49,7 @@ const SWEET_TIMES: MenuItem[] = [
     glass:"Vaso largo",
     prices:[{label:"cóctel",p:12}]},
   {cat:"Cócteles de autor",family:"Sweet Times",name:"Génesis",
-    ingr:{"Ron":"2 oz","Calabaza asada":"2 oz","Azúcar líquido":"1 oz","Zumo de naranja":"1 oz", "Lima":"0.5 oz", "Ginger Ale":"top"},
+    ingr:{"Ron":"2 oz","Calabaza asada":"2 oz","Azúcar líquido":"1 oz","Zumo de naranja":"1 oz", "Zumo de lima":"0.5 oz", "Ginger Ale":"top"},
    prices:[{label:"cóctel",p:12}]},
   {cat:"Cócteles de autor",family:"Sweet Times",name:"Ámbar con cacao",
     ingr:{"Ron":"2 oz","Licor Bols Butterscotch":"1 oz","Sirope de vainilla":"1 oz", "Licor Bols Chocolate":"0.5 oz"},
@@ -84,7 +84,7 @@ const HARD_TIMES: MenuItem[] = [
     ingr:{"Mezcal":"2 oz","Cynar":"2 oz","Vino blanco":"2 oz"},
    prices:[{label:"cóctel",p:12}]},
   {cat:"Cócteles de autor",family:"Hard Times",name:"Berlin Sling",
-    ingr:{"Gin Mare":"1,5 oz","Chambord":"0.5 oz","Bénédictine DOM":"1 oz","Triple Sec":"0.5 oz","Piña":"0.5 oz","Lima":"0.5 oz","Sirope de agave":"0.5 oz","Bitter de naranja":"2 golpes"},
+    ingr:{"Gin Mare":"1,5 oz","Chambord":"0.5 oz","Bénédictine DOM":"1 oz","Triple Sec":"0.5 oz","Piña":"0.5 oz","Zumo de lima":"0.5 oz","Sirope de agave":"0.5 oz","Bitter de naranja":"2 golpes"},
    prices:[{label:"cóctel",p:12},{label:"cóctel con chupito de vodka",p:13}]},
 ];
 
