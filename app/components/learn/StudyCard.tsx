@@ -91,6 +91,11 @@ export default function StudyCard({ item, index, total, onPrimaryAction }: Study
 						) : null}
 
 						{item.method ? <div style={{ fontSize: 12, color: "#8FC1E0", marginTop: 6 }}>{item.method}</div> : null}
+						{item.garnish?.length ? (
+							<div style={{ fontSize: 12, color: "#9ED89E", marginTop: 6 }}>
+								🌿 {item.garnish.join(" · ")}
+							</div>
+						) : null}
 					</div>
 				</div>
 
