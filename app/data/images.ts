@@ -71,7 +71,6 @@ const IMAGES: Record<string, string> = {
   "Tanqueray": "./ingredientes/alcohol/tanqueray.webp",
   "Gin Tanqueray": "./ingredientes/alcohol/tanqueray.webp",
   "Triple Sec": "./ingredientes/alcohol/triple_sec_bols.webp",
-  "Triple sec": "./ingredientes/alcohol/triple_sec_bols.webp",
   "Licor yuzu": "./ingredientes/alcohol/yuzu.webp",
   "Licor Bols Vainilla": "./ingredientes/alcohol/bols_vainilla.webp",
   "Licor Bols Yogurt": "./ingredientes/alcohol/bols_yogurt.webp",
