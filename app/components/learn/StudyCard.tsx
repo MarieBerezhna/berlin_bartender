@@ -1,9 +1,10 @@
-import Image from "next/image";
+﻿import Image from "next/image";
+import { useEffect, useState } from "react";
 
 import { COUNTRY_FLAGS, type MenuItem } from "../../data/constants";
 import IMAGES from "../../data/images";
 import { formatPrice, getIngredientGroup, getIngredientGroupLabel } from "../../lib/learn";
-import { getIngr } from "../../data/constants";
+import { getIngr, ITEM_DESCRIPTIONS } from "../../data/constants";
 import { useActivateOnKeys } from "../../lib/utils";
 
 type StudyCardProps = {
@@ -12,6 +13,34 @@ type StudyCardProps = {
 	total: number;
 	onPrimaryAction: () => void;
 };
+
+function IngredientTooltip({ description }: { description: string }) {
+	const [open, setOpen] = useState(false);
+
+	useEffect(() => {
+		if (!open) return;
+		const close = () => setOpen(false);
+		document.addEventListener("click", close);
+		return () => document.removeEventListener("click", close);
+	}, [open]);
+
+	return (
+		<span className="ingr-info-wrap" data-open={open ? "true" : undefined}>
+			<button
+				type="button"
+				className="ingr-info-btn"
+				onClick={(e) => { e.stopPropagation(); setOpen((v) => !v); }}
+				aria-label="Información"
+			>
+				ⓘ
+			</button>
+			<span
+				className="ingr-info-tooltip"
+				dangerouslySetInnerHTML={{ __html: description }}
+			/>
+		</span>
+	);
+}
 
 const ROW_GROUPS = [
 	["spirit", "liqueur","wine", "beer", ],
@@ -158,6 +187,9 @@ export default function StudyCard({ item, index, total, onPrimaryAction }: Study
 															) : null}
 														</span>
 														{dose ? <span className="learn-ingr-dose">{dose}</span> : null}
+														{ITEM_DESCRIPTIONS[ingredient] ? (
+																<IngredientTooltip description={ITEM_DESCRIPTIONS[ingredient]} />
+															) : null}
 													</div>
 												);
 											})}
