@@ -7,7 +7,6 @@ const IMAGES: Record<string, string> = {
   "Sangría":          "./jarras/sangria.webp",
   "Tinto de verano":  "./jarras/tinto_de_verano.webp",
   "Whisky":                        "./whisky/johnnie_walker_red_label.webp",
-  "Whisky (o Bourbon)":            "./whisky/johnnie_walker_red_label.webp",
   "Bourbon":                       "./whisky/bulleit_bourbon_frontier.webp",
   "Bulleit Frontier Bourbon":       "./whisky/bulleit_bourbon_frontier.webp",
   "Bushmills":                      "./whisky/bushmills.webp",

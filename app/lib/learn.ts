@@ -25,6 +25,9 @@ type MenuItem = {
   method?: string;
   glass?: string;
   prices?: MenuPrice[];
+  hint?: string;
+  origin?: string;
+  comment?: string;
 };
 
 type LearnFilters = {

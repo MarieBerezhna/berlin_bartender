@@ -178,13 +178,13 @@ export const Q_META = {
   name:         "Nombre",
   garnish:      "Decoración",
 };
-export const MENU_SPIRIT_HINTS = new Set(['Tequila','Tequila blanco','Tequila reposado','Tequila Don Julio','Gin','Gin Tanqueray','Gin Mare','Vodka','Moskovskaya','Vodka Smirnoff Tamarindo','Ron','Ron blanco','Ron oscuro','Ron jamaicano','Bumbu','Diplomático Planas','Jack Daniels Fire','Jack Daniels Triple Mash','Monkey Shoulder','Whisky','Whiskey','Whisky (o Bourbon)','Bourbon','Fino','Cognac']);
+export const MENU_SPIRIT_HINTS = new Set(['Tequila','Tequila blanco','Tequila reposado','Tequila Don Julio','Gin','Gin Tanqueray','Gin Mare','Vodka','Moskovskaya','Vodka Smirnoff Tamarindo','Ron','Ron blanco','Ron oscuro','Ron jamaicano','Bumbu','Diplomático Planas','Jack Daniels Fire','Jack Daniels Triple Mash','Monkey Shoulder','Whisky','Whiskey','Bourbon','Fino','Cognac']);
 export const INGR_GROUP: Record<string, string> = {
   "Tequila":"spirit","Tequila blanco":"spirit","Tequila reposado":"spirit","Tequila Don Julio":"spirit","Gin":"spirit","Gin Tanqueray":"spirit",
   "Gin Mare":"spirit","Vodka":"spirit","Moskovskaya":"spirit","Vodka Smirnoff Tamarindo":"spirit",
   "Ron":"spirit","Ron blanco":"spirit","Ron oscuro":"spirit","Ron jamaicano":"spirit","Bumbu":"spirit","Diplomático Planas":"spirit",
   "Jack Daniels Fire":"spirit","Jack Daniels Triple Mash":"spirit","Monkey Shoulder":"spirit",
-  "Whisky":"spirit","Whiskey":"spirit","Whisky (o Bourbon)":"spirit","Bourbon":"spirit","Fino":"wine","Tanqueray 0.0":"spirit","Cognac":"spirit",
+  "Whisky":"spirit","Whiskey":"spirit", "Bourbon":"spirit","Fino":"wine","Tanqueray 0.0":"spirit","Cognac":"spirit",
   "Triple Sec":"liqueur","Licor Bols Blue Curaçao":"liqueur","Licor yuzu":"liqueur",
   "Cerveza":"beer","Guinness":"beer","Paulaner":"beer","Águila":"beer","Heineken":"beer",
   "Licor Midori":"liqueur","Licor de café Bols":"liqueur",
