@@ -96,6 +96,11 @@ export default function StudyCard({ item, index, total, onPrimaryAction }: Study
 								🌿 {item.garnish.join(" · ")}
 							</div>
 						) : null}
+					{item.comment ? (
+						<div style={{ fontSize: 12, color: "#9a9793", marginTop: 6, fontStyle: "italic" }}>
+							{item.comment}
+						</div>
+					) : null}
 					</div>
 				</div>
 

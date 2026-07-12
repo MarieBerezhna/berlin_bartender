@@ -197,6 +197,12 @@ export default function OverviewCard({ item, showCategoryLabel }: OverviewCardPr
 					</div>
 				) : null}
 
+				{item.comment ? (
+					<div style={{ fontSize: 12, color: "#9a9793", fontStyle: "italic", lineHeight: 1.4 }}>
+						{item.comment}
+					</div>
+				) : null}
+
 				{item.method || glassName ? (
 					<div
 						style={{

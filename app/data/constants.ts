@@ -15,6 +15,9 @@ export interface MenuItem {
   method?: string;
   glass?: string;
   prices?: MenuPrice[];
+  hint?: string;
+  origin?: string;
+  comment?: string;
 }
 
 export function getIngr(item: MenuItem): string[] {

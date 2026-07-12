@@ -7,28 +7,9 @@ import {
   GROUP_LABELS,
   GROUP_ORDER,
   INGR_GROUP,
+  type MenuItem,
 } from "../data/constants";
 import IMAGES from "../data/images";
-
-type MenuPrice = {
-  label: string;
-  p: number;
-};
-
-type MenuItem = {
-  cat: string;
-  name: string;
-  family?: string;
-  ingr?: Record<string, string | null>;
-  optional?: string[];
-  garnish?: string[];
-  method?: string;
-  glass?: string;
-  prices?: MenuPrice[];
-  hint?: string;
-  origin?: string;
-  comment?: string;
-};
 
 type LearnFilters = {
   activeTab?: string;
