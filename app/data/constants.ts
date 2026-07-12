@@ -121,11 +121,11 @@ export const ITEM_DESCRIPTIONS: Record<string, string> = {
   "Ramón Bilbao Rioja": "Vino tinto español, proveniente de la región de Rioja, conocido por su sabor intenso y afrutado.",
   "Bollinger Spécial Cuvée": "Vino espumoso francés, elaborado por la casa Bollinger, conocido por su sabor complejo y elegante.",
   // Vermut
-  "Vittore Blanco": "Vermut blanco español, elaborado con una mezcla de vinos y aromatizado con hierbas y especias.",
-  "Vittore Rojo": "Vermut rojo español, elaborado con una mezcla de vinos y aromatizado con hierbas y especias.",
-  "Martini Reserva Ambrato": "Vermut italiano, elaborado con una mezcla de vinos y aromatizado con hierbas y especias, conocido por su sabor suave y equilibrado.",
-  "Martini Reserva Rubino": "Vermut italiano, elaborado con una mezcla de vinos y aromatizado con hierbas y especias, conocido por su sabor intenso y afrutado.",
-  "Noilly Prat Blanco Seco": "Vermut francés, elaborado con una mezcla de vinos y aromatizado con hierbas y especias, conocido por su sabor seco y elegante.",
+  "Vittore Blanco": "Vermut semidulce, a base de vino blanco de la variedad Macabeo con 24 botánicos de procedencia mediterránea y alpina, entre los que destacan Genciana, Ajenjo, Coriandro, Ajedrea, Salvia, Oregano, Manzanilla, Sauco, Corteza de naranja y de limón.",
+  "Vittore Rojo": "Vermut dulce, a base vino blanco 24 botánicos de procedencia mediterránea y alpina, entre los que destacan Genciana, Ajenjo, Coriandro, Ajedrea, Salvia, Orégano, Manzanilla, Sauco, Corteza de naranja. Éste Vermut se elabora a partir de una base de vino blanco macabeo. El color dorado es por la adición de caramelo de mosto de uva.",
+  "Martini Reserva Ambrato": "Vermut semidulce italiano, elaborado con una mezcla de vinos y aromatizado con hierbas y especias, conocido por su sabor suave y equilibrado.",
+  "Martini Reserva Rubino": "Vermut dulce italiano, elaborado con una mezcla de vinos y aromatizado con hierbas y especias, conocido por su sabor intenso y afrutado.",
+  "Noilly Prat Blanco Seco": "Vermut seco francés, elaborado con una mezcla de vinos y aromatizado con hierbas y especias, conocido por su sabor seco y elegante.",
   // DESTILADOS
   // Tequila
   "Rooster Rojo White": "Tequila blanco 100% de agave azul, fresco y equilibrado, con notas cítricas, pimienta y agave cocido. Ideal para Margaritas, Palomas y otros cócteles donde el tequila es el protagonista.",
