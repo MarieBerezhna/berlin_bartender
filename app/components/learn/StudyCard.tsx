@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-import type { MenuItem } from "../../data/constants";
+import { COUNTRY_FLAGS, type MenuItem } from "../../data/constants";
 import IMAGES from "../../data/images";
 import { formatPrice, getIngredientGroup, getIngredientGroupLabel } from "../../lib/learn";
 import { getIngr } from "../../data/constants";
@@ -41,10 +41,21 @@ export default function StudyCard({ item, index, total, onPrimaryAction }: Study
 
 	return (
 		<>
-			<div className="learn-card">
+			<div className="learn-card" style={{ position: "relative" }}>
 				<div className="learn-counter">
 					Estudio · {index + 1} / {total}
 				</div>
+				{item.origin ? (
+					<div
+						title={item.origin}
+						style={{ position: "absolute", top: 12, right: 12, lineHeight: 1, userSelect: "none" }}
+					>
+						{COUNTRY_FLAGS[item.origin]
+							? <img src={`https://flagcdn.com/24x18/${COUNTRY_FLAGS[item.origin]}.png`} alt={item.origin} width={24} height={18} style={{ display: "block", borderRadius: 2 }} />
+							: <span style={{ fontSize: 11, color: "#9a9793" }}>{item.origin}</span>
+						}
+					</div>
+				) : null}
 
 				<div style={{ display: "flex", gap: 12, marginBottom: 12 }}>
 					{image ? (

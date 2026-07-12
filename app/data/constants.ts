@@ -222,6 +222,14 @@ export const GARNISHMENTS = new Set([
   "Hierbabuena","Albahaca", "Rodaja de limón","Rodaja de lima", "Manzana verde", "Cereza"
  ]);
 export const GROUP_ORDER = ["spirit","liqueur","filler","bitter","sweet","fruit","other"];
+export const COUNTRY_FLAGS: Record<string, string> = {
+  "Cuba": "cu", "México": "mx", "USA": "us", "Reino Unido": "gb",
+  "Francia": "fr", "Italia": "it", "España": "es", "Japón": "jp",
+  "Irlanda": "ie", "Escocia": "gb-sct", "Rusia": "ru", "Brasil": "br",
+  "Venezuela": "ve", "Guatemala": "gt", "Jamaica": "jm",
+  "República Dominicana": "do", "Alemania": "de", "Países Bajos": "nl",
+  "Canarias": "ic", "Portugal": "pt", "Argentina": "ar",
+};
 export const GROUP_LABELS: Record<string, string> = {
   spirit:"Alcohol", liqueur:"Licores", filler:"Mezcladores",
   bitter:"Amargos", sweet:"Endulzantes", fruit:"Frutas", other:"Otros"

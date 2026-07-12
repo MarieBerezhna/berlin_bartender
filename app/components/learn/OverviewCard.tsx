@@ -9,6 +9,7 @@ import {
 	CLASICA_CAT,
 	CLASICA_COLOR,
 	CLASICA_TEXT,
+	COUNTRY_FLAGS,
 	ITEM_DESCRIPTIONS,
 	type MenuItem,
 } from "../../data/constants";
@@ -102,6 +103,7 @@ export default function OverviewCard({ item, showCategoryLabel }: OverviewCardPr
 				borderRadius: 12,
 				display: "flex",
 				flexDirection: "column",
+				position: "relative",
 			}}
 		>
 			{image ? (
@@ -236,6 +238,17 @@ export default function OverviewCard({ item, showCategoryLabel }: OverviewCardPr
 					</div>
 				) : null}
 			</div>
+			{item.origin ? (
+				<div
+					title={item.origin}
+					style={{ position: "absolute", bottom: 10, right: 10, lineHeight: 1, userSelect: "none" }}
+				>
+					{COUNTRY_FLAGS[item.origin]
+						? <img src={`https://flagcdn.com/24x18/${COUNTRY_FLAGS[item.origin]}.png`} alt={item.origin} width={24} height={18} style={{ display: "block", borderRadius: 2 }} />
+						: <span style={{ fontSize: 11, color: "#9a9793" }}>{item.origin}</span>
+					}
+				</div>
+			) : null}
 		</div>
 	);
 }
