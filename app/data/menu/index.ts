@@ -4,9 +4,9 @@ import { AUTOR_COCTAILS } from "./specialty";
 
 const LEY_SECA: MenuItem[] = [
   {cat:"Sin Alcohol",name:"Virgin Mai Tai",
-    ingr:{"Tanqueray 0.0":"2 oz","Sirope de orgeat":"1.5 oz","Sirope falernum":"1.5 oz","Zumo de limón":"1 oz","Zumo de naranja":"0.5 oz","Granadina":"vestir vaso"},
-    optional:["Granadina","Rodaja de limón","Hierbabuena"],
-  method:"Removido",
+    ingr:{"Tanqueray 0.0":"2 oz","Sirope de orgeat":"1.5 oz","Sirope falernum":"1.5 oz","Zumo de limón":"1 oz","Zumo de naranja":"0.5 oz"},
+    garnish:["Granadina","Rodaja de limón","Hierbabuena"],
+    method:"Removido",
    prices:[{label:"sin alcohol",p:8},{label:"con alcohol",p:12}]},
     {cat:"Sin Alcohol",name:"Gin Fizz 0.0",
     ingr:{"Tanqueray 0.0":"2 oz","Zumo de limón":"1 oz","Azúcar líquido":"0.75 oz","Espumita": "2 golpes","Soda":"top"},
