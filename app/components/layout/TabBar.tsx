@@ -22,7 +22,6 @@ const hiddenCats = new Set([
 	CLASICA_CAT,
 	AUTOR_CAT,
 	"Spritz",
-	"Sin Alcohol",
 	DESTILADOS_TAB,
 	"Ron",
 	"Whisky",
@@ -37,7 +36,6 @@ const orderedTabs = [
 	AUTOR_CAT,
 	"Micheladas",
 	"Spritz",
-	"Sin Alcohol",
 	DESTILADOS_TAB,
 	...CATS.filter((cat) => !hiddenCats.has(cat)),
 ].filter((tab, index, list) => list.indexOf(tab) === index);
