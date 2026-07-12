@@ -203,6 +203,12 @@ export default function OverviewCard({ item, showCategoryLabel }: OverviewCardPr
 					</div>
 				) : null}
 
+				{item.funFact ? (
+					<div style={{ fontSize: 12, color: "#c8a84b", background: "rgba(200,168,75,0.08)", border: "0.5px solid rgba(200,168,75,0.25)", borderRadius: 6, padding: "6px 10px", lineHeight: 1.5, whiteSpace: "pre-line" }}>
+						<span style={{ fontWeight: 700 }}>💡 </span>{item.funFact}
+					</div>
+				) : null}
+
 				{item.method || glassName ? (
 					<div
 						style={{

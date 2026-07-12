@@ -18,6 +18,7 @@ export interface MenuItem {
   hint?: string;
   origin?: string;
   comment?: string;
+  funFact?: string;
 }
 
 export function getIngr(item: MenuItem): string[] {
@@ -63,6 +64,12 @@ Over time, U.S. bar guides clarified the difference between eggnog and a flip. E
   "Destilados": "Los destilados son bebidas alcohólicas obtenidas mediante el proceso de destilación, que consiste en separar los componentes de una mezcla líquida a través de la evaporación y condensación. Este proceso permite concentrar el alcohol y los sabores, dando lugar a bebidas con mayor graduación alcohólica y características organolépticas únicas. Algunos ejemplos de destilados son el whisky, el ron, la ginebra, el tequila y el vodka.",
   "Bourbon": "El bourbon es un tipo de whisky estadounidense, elaborado principalmente a partir de maíz y envejecido en barricas de roble carbonizado. Se caracteriza por su sabor dulce y suave, con notas de vainilla, caramelo y especias. Es la base de cócteles populares como el Mint Julep, el Old Fashioned y el Boulevardier.",
 };
+
+export const FUN_FACTS: Record<string, string> = {
+  "Vermut": `El ajenjo (Artemisia absinthium) era muy conocido en los territorios de habla alemana como Wermut, y ese nombre circulaba entre boticarios y comerciantes. 
+  Durante los siglos XVII y XVIII existían vinos aromatizados alemanes con ajenjo llamados Wermutwein ("vino de ajenjo"), que eran conocidos fuera de Alemania
+  Cuando los productores de Turín desarrollaron el vermut moderno, adoptaron ese nombre porque identificaba claramente el estilo de vino aromatizado con ajenjo.`,
+}
 export const AUTOR_FAMILIES: string[] = [
   ...new Set(
     MENU.filter((x) => x.cat === AUTOR_CAT && x.family)

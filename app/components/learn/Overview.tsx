@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-import { CAT_DESCRIPTIONS, type MenuItem } from "../../data/constants";
+import { CAT_DESCRIPTIONS, FUN_FACTS, type MenuItem } from "../../data/constants";
 import IMAGES from "../../data/images";
 import OverviewCard from "./OverviewCard";
 
@@ -62,6 +62,11 @@ export default function Overview({ items, categoryLabel, activeTab, onStart }: O
 							style={{ fontSize: 13, color: "#c8c5bf", lineHeight: 1.55 }}
 							dangerouslySetInnerHTML={{ __html: description }}
 						/>
+					) : null}
+					{FUN_FACTS[categoryLabel] ? (
+						<div style={{ fontSize: 12, color: "#c8a84b", background: "rgba(200,168,75,0.08)", border: "0.5px solid rgba(200,168,75,0.25)", borderRadius: 8, padding: "8px 12px", lineHeight: 1.55, whiteSpace: "pre-line" }}>
+							<span style={{ fontWeight: 700 }}>💡 Curiosidad · </span>{FUN_FACTS[categoryLabel]}
+						</div>
 					) : null}
 					<button
 						className="pri overview-start-btn"
