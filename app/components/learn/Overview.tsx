@@ -103,8 +103,8 @@ export default function Overview({ items, categoryLabel, activeTab, onStart }: O
 			</div>
 
 			<div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 20 }}>
-				{sortedItems.map((item) => (
-					<OverviewCard key={`${item.cat}-${item.name}`} item={item} showCategoryLabel={activeTab === "Todo"} />
+				{sortedItems.map((item, idx) => (
+					<OverviewCard key={`${item.cat}-${item.name}`} item={item} showCategoryLabel={activeTab === "Todo"} priority={idx < 2} />
 				))}
 			</div>
 		</>

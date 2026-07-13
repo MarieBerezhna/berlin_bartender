@@ -132,6 +132,7 @@ const IMAGES: Record<string, string> = {
   "Vittore Blanco": "./vermouth/vittore_blanco.webp",
   "Vermut": "./vermouth/vermut.webp",
   "Noilly Prat Blanco Seco": "./vermouth/nolly_prat_blanco_seco.webp",
+  "Vermut seco": "./vermouth/nolly_prat_blanco_seco.webp",
   "Martini Reserva Rubino": "./vermouth/martini_reserva_rubino.webp",
   "Martini Reserva Ambrato": "./vermouth/martini_reserva_ambrato.webp",
   "Mojito": "./classic_coctails/mojito.webp",

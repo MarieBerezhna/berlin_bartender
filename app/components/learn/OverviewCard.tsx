@@ -20,6 +20,7 @@ import { formatPrice, getIngredientGroup, sortIngredientsForStudy } from "../../
 type OverviewCardProps = {
 	item: MenuItem;
 	showCategoryLabel: boolean;
+	priority?: boolean;
 };
 
 const GROUP_COLOR: Record<string, string> = {
@@ -61,7 +62,7 @@ function FamilyBadge({ item }: { item: MenuItem }) {
 	);
 }
 
-export default function OverviewCard({ item, showCategoryLabel }: OverviewCardProps) {
+export default function OverviewCard({ item, showCategoryLabel, priority = false }: OverviewCardProps) {
 	const [showDescription, setShowDescription] = useState(false);
 	const infoWrapRef = useRef<HTMLDivElement | null>(null);
 	const image = toPublicPath(IMAGES[item.name]);
@@ -115,6 +116,7 @@ export default function OverviewCard({ item, showCategoryLabel }: OverviewCardPr
 						alt={item.name}
 						width={160}
 						height={160}
+						priority={priority}
 						style={{ width: 160, height: 160, objectFit: "cover", display: "block", margin: "0 auto" }}
 					/>
 				</div>
