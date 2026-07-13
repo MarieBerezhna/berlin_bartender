@@ -1,4 +1,4 @@
-﻿import type { MenuItem } from "../constants";
+﻿import type { MenuItem } from "../types";
 import { CLASSICS } from "./classics";
 import { AUTOR_COCTAILS } from "./specialty";
 

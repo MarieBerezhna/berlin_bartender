@@ -1,5 +1,5 @@
-﻿import type { MenuItem } from "../constants";
-import { Glass } from "../constants"; 
+﻿import type { MenuItem } from "../types";
+import { Glass } from "../types"; 
 
 const ACID_TIMES: MenuItem[] = [
   {cat:"Cócteles de autor",family:"Acid Times",name:"Blue Margarita",

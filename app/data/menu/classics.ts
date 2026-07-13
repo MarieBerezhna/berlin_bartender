@@ -1,5 +1,5 @@
-﻿import type { MenuItem } from "../constants";
-import { Glass } from "../constants";
+﻿import type { MenuItem } from "../types";
+import { Glass } from "../types";
 
 const UNCLASSIFIED: MenuItem[] = [
     {cat:"Coctelería clásica",family:"Inclasificables",name:"Espresso Martini",

@@ -1,38 +1,8 @@
 import RAW from "./menu";
-
-export enum Glass {
-  Coupe = "Coupe / Martini",
-  Highball = "Vaso largo",
-  Lowball = "Vaso bajo",
-  Collins = "Collins (tubo)",
-  CopperMug = "Copa de cobre",
-  Jar = "Vaso largo o jarrita de bayas (preferiblemente)",
-}
-
-export interface MenuPrice {
-  label: string;
-  p: number;
-}
-
-export interface MenuItem {
-  cat: string;
-  name: string;
-  family?: string;
-  ingr?: Record<string, string | null>;
-  garnish?: string[];
-  method?: string;
-  glass?: Glass;
-  prices?: MenuPrice[];
-  hint?: string;
-  comment?: string;
-  funFact?: string;
-}
-
-
-
-export function getIngr(item: MenuItem): string[] {
-  return Object.keys(item.ingr || {});
-}
+export { Glass, getIngr } from "./types";
+export type { MenuPrice, MenuItem } from "./types";
+import type { MenuItem } from "./types";
+import { getIngr } from "./types";
 
 const MENU: MenuItem[] = RAW as MenuItem[];
 
