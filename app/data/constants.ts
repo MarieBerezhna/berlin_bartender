@@ -159,6 +159,7 @@ export const ITEM_DESCRIPTIONS: Record<string, string> = {
   // IGREDIENTES
   "Espumita": "Velvet Foamer o aguafaba",
   "Terry": "Licor Terry es una bebida espirituosa española (licor de Jerez), conocida sobre todo como brandy de Jerez; su versión más emblemática es Terry Centenario, con sabor suave y dulce, pensado para tomarlo solo, con hielo o con café.",
+  "Licor Midori": "Licor de melón verde japonés, de color verde brillante y sabor dulce y afrutado. Ideal para cócteles tropicales y refrescantes.",
 };
 export const Q_META = {
   ingredients:  "¿Qué lleva?",
@@ -199,7 +200,9 @@ export const INGR_GROUP: Record<string, string> = {
   "Arándanos":"fruit","Fresa":"fruit","Piña":"fruit","Maracuya":"fruit",
   "Lichee":"fruit","Frutos rojos":"fruit","Manzana verde natural triturada":"fruit","Calabaza asada":"fruit",
   "Frutas tropicales":"fruit","Naranja":"fruit", "Nata": "other", "Leche": "other", "Café": "other", 
-  "Mezcal": "spirit", " Vino blanco": "wine",
+  "Mezcal": "spirit", "Vino blanco": "wine", "Bitter apio": "bitter", "Cereza": "fruit", "Hierbabuena": "other", 
+  "Albahaca": "other", "Rodaja de limón": "other", "Rodaja de lima": "other", "Manzana verde": "fruit",
+  "Licor Galliano": "liqueur"
 };
 export const GARNISHMENTS = new Set([
   "Hierbabuena","Albahaca", "Rodaja de limón","Rodaja de lima", "Manzana verde", "Cereza"
@@ -212,6 +215,7 @@ export const COUNTRY_FLAGS: Record<string, string> = {
   "Venezuela": "ve", "Guatemala": "gt", "Jamaica": "jm",
   "República Dominicana": "do", "Alemania": "de", "Países Bajos": "nl",
   "Canarias": "ic", "Portugal": "pt", "Argentina": "ar",
+  "Estados Unidos": "us", "Latvia": "lv", "Montenegro": "me"
 };
 export const GROUP_LABELS: Record<string, string> = {
   spirit:"Alcohol", liqueur:"Licores", wine:"Vermut / Vino", beer:"Cerveza", filler:"Mezcladores",
