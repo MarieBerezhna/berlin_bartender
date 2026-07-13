@@ -258,6 +258,14 @@ export const ITEM_ORIGINS: Record<string, string> = {
   "Mezcal Union": "México",
   "Don Julio Reposado": "México",
   "Don Julio Silver": "México",
+  // Vinos
+  "Ladrón de Lunas Blanco": "España",
+  "Ovejita Tinto": "España",
+  "Ovejita verde Verdejo": "España",
+  "Vento n°1": "España",
+  "Brut Cava": "España",
+  "Ramón Bilbao Rioja": "España",
+  "Bollinger Spécial Cuvée": "Francia",
 
 };
 
