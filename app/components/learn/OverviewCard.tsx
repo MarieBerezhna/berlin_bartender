@@ -115,7 +115,7 @@ export default function OverviewCard({ item, showCategoryLabel }: OverviewCardPr
 						alt={item.name}
 						width={160}
 						height={160}
-						style={{ width: "auto", height: "auto", maxHeight: 160, maxWidth: 160, margin: "0 auto", objectFit: "cover", display: "block" }}
+						style={{ width: 160, height: 160, objectFit: "cover", display: "block", margin: "0 auto" }}
 					/>
 				</div>
 			) : null}
