@@ -142,13 +142,10 @@ function buildGarnishQuestion(item: MenuItem): LearnQuestion | null {
 
 function buildIngredientQuestion(item: MenuItem): LearnQuestion | null {
   const ingr = getIngr(item);
-  const required = ingr.filter(
-    (ingredient) => !item.optional || !item.optional.includes(ingredient)
-  );
 
-  if (!required.length) return null;
+  if (!ingr.length) return null;
 
-  const correct = required[Math.floor(Math.random() * required.length)];
+  const correct = ingr[Math.floor(Math.random() * ingr.length)];
   const wrongs = shuffleArray(
     ALL_INGRS.filter((ingredient) => !ingr.includes(ingredient))
   ).slice(0, 3);
@@ -239,7 +236,6 @@ export function createLearnQuizQueue(item: MenuItem): LearnQuestion[] {
 export function scoreRecallSelection(item: MenuItem, selectedValues: string[] = []) {
   const ingr = getIngr(item);
   const correct = new Set(ingr);
-  const optional = new Set(item.optional || []);
   let hits = 0;
   let misses = 0;
   let wrongs = 0;
@@ -253,23 +249,20 @@ export function scoreRecallSelection(item: MenuItem, selectedValues: string[] = 
   });
 
   ingr.forEach((ingredient) => {
-    const wasSelected = selectedValues.includes(ingredient);
-    if (!wasSelected && !optional.has(ingredient)) {
+    if (!selectedValues.includes(ingredient)) {
       misses += 1;
     }
   });
 
-  const required = ingr.filter((ingredient) => !optional.has(ingredient)).length;
   const perfect = misses === 0 && wrongs === 0;
   const message = perfect
     ? "✓ ¡Perfecto!"
-    : `${hits}/${required} ingredientes — ${misses} olvidados, ${wrongs} incorrectos : ${selectedValues.join(", ")}`;
+    : `${hits}/${ingr.length} ingredientes — ${misses} olvidados, ${wrongs} incorrectos : ${selectedValues.join(", ")}`;
 
   return {
     hits,
     misses,
     wrongs,
-    required,
     perfect,
     message,
   };

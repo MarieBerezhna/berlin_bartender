@@ -11,6 +11,7 @@ import {
 	CLASICA_TEXT,
 	COUNTRY_FLAGS,
 	ITEM_DESCRIPTIONS,
+	ITEM_ORIGINS,
 	type MenuItem,
 } from "../../data/constants";
 import IMAGES from "../../data/images";
@@ -172,20 +173,14 @@ export default function OverviewCard({ item, showCategoryLabel }: OverviewCardPr
 					<div style={{ fontSize: 13, lineHeight: 1.8 }}>
 						{sortedIngr.map((ing, idx) => {
 							const color = GROUP_COLOR[getIngredientGroup(ing)] || GROUP_COLOR.other;
-							const isOptional = Boolean(item.optional?.includes(ing));
-							const dose = item.ingr?.[ing];
+						const dose = item.ingr?.[ing];
 
-							return (
-								<span key={`${item.name}-${ing}`}>
-									{idx > 0 ? <span style={{ color: "#3a3835" }}> · </span> : null}
-									<span style={{ color, opacity: isOptional ? 0.55 : 1, fontStyle: isOptional ? "italic" : "normal" }}>
-										{ing}
-										{dose ? <span style={{ opacity: 0.7 }}> {dose}</span> : null}
-										{isOptional ? (
-											<span style={{ fontSize: 9, opacity: 0.7, fontStyle: "normal", verticalAlign: "middle" }}>
-												{" "}(opt)
-											</span>
-										) : null}
+						return (
+							<span key={`${item.name}-${ing}`}>
+								{idx > 0 ? <span style={{ color: "#3a3835" }}> · </span> : null}
+								<span style={{ color }}>
+									{ing}
+									{dose ? <span style={{ opacity: 0.7 }}> {dose}</span> : null}
 									</span>
 								</span>
 							);
@@ -238,14 +233,14 @@ export default function OverviewCard({ item, showCategoryLabel }: OverviewCardPr
 					</div>
 				) : null}
 			</div>
-			{item.origin ? (
+			{ITEM_ORIGINS[item.name] ? (
 				<div
-					title={item.origin}
-					style={{ position: "absolute", bottom: 10, right: 10, lineHeight: 1, userSelect: "none" }}
+					title={ITEM_ORIGINS[item.name]}
+					style={{ position: "absolute", top: 12, right: 12, lineHeight: 1, userSelect: "none" }}
 				>
-					{COUNTRY_FLAGS[item.origin]
-						? <img src={`https://flagcdn.com/24x18/${COUNTRY_FLAGS[item.origin]}.png`} alt={item.origin} width={24} height={18} style={{ display: "block", borderRadius: 2 }} />
-						: <span style={{ fontSize: 11, color: "#9a9793" }}>{item.origin}</span>
+					{COUNTRY_FLAGS[ITEM_ORIGINS[item.name]]
+						? <img src={`https://flagcdn.com/24x18/${COUNTRY_FLAGS[ITEM_ORIGINS[item.name]]}.png`} alt={ITEM_ORIGINS[item.name]} width={24} height={18} style={{ display: "block", borderRadius: 2 }} />
+						: <span style={{ fontSize: 11, color: "#9a9793" }}>{ITEM_ORIGINS[item.name]}</span>
 					}
 				</div>
 			) : null}

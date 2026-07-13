@@ -142,19 +142,14 @@ const LICORES: MenuItem[] = [
 
 const VERMUT: MenuItem[] = [
   {cat:"Vermut",name:"Vittore Rojo",
-    origin:"Italia",
    prices:[{label:"copa",p:4}]},
   {cat:"Vermut",name:"Vittore Blanco",
-    origin:"Italia",
    prices:[{label:"copa",p:4}]},
   {cat:"Vermut",name:"Martini Reserva Ambrato",
-    origin:"Italia",
    prices:[{label:"copa",p:5}]},
   {cat:"Vermut",name:"Martini Reserva Rubino",
-    origin:"Italia",
    prices:[{label:"copa",p:5}]},
   {cat:"Vermut",name:"Noilly Prat Blanco Seco",
-    origin:"Francia",
    prices:[{label:"copa",p:5}]},
 ];
 

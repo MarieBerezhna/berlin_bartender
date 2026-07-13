@@ -1,7 +1,7 @@
 ﻿import Image from "next/image";
 import { useEffect, useState } from "react";
 
-import { COUNTRY_FLAGS, type MenuItem } from "../../data/constants";
+import { COUNTRY_FLAGS, ITEM_ORIGINS, type MenuItem } from "../../data/constants";
 import IMAGES from "../../data/images";
 import { formatPrice, getIngredientGroup, getIngredientGroupLabel } from "../../lib/learn";
 import { getIngr, ITEM_DESCRIPTIONS } from "../../data/constants";
@@ -74,14 +74,14 @@ export default function StudyCard({ item, index, total, onPrimaryAction }: Study
 				<div className="learn-counter">
 					Estudio · {index + 1} / {total}
 				</div>
-				{item.origin ? (
+				{ITEM_ORIGINS[item.name] ? (
 					<div
-						title={item.origin}
+						title={ITEM_ORIGINS[item.name]}
 						style={{ position: "absolute", top: 12, right: 12, lineHeight: 1, userSelect: "none" }}
 					>
-						{COUNTRY_FLAGS[item.origin]
-							? <img src={`https://flagcdn.com/24x18/${COUNTRY_FLAGS[item.origin]}.png`} alt={item.origin} width={24} height={18} style={{ display: "block", borderRadius: 2 }} />
-							: <span style={{ fontSize: 11, color: "#9a9793" }}>{item.origin}</span>
+						{COUNTRY_FLAGS[ITEM_ORIGINS[item.name]]
+							? <img src={`https://flagcdn.com/24x18/${COUNTRY_FLAGS[ITEM_ORIGINS[item.name]]}.png`} alt={ITEM_ORIGINS[item.name]} width={24} height={18} style={{ display: "block", borderRadius: 2 }} />
+							: <span style={{ fontSize: 11, color: "#9a9793" }}>{ITEM_ORIGINS[item.name]}</span>
 						}
 					</div>
 				) : null}
@@ -162,12 +162,10 @@ export default function StudyCard({ item, index, total, onPrimaryAction }: Study
 										<div className="ingr-group-grid">
 											{byGroup[group].map((ingredient) => {
 												const ingredientImage = toPublicPath(IMAGES[ingredient]);
-												const isOptional = Boolean(item.optional?.includes(ingredient));
 												const dose = item.ingr?.[ingredient];
 												return (
 													<div
 														className={`learn-ingr-item${ingredientImage ? "" : " no-img"}`}
-														style={isOptional ? { opacity: 0.6 } : undefined}
 														key={`${item.name}-${ingredient}`}
 													>
 														{ingredientImage ? (
@@ -182,14 +180,11 @@ export default function StudyCard({ item, index, total, onPrimaryAction }: Study
 														) : null}
 														<span>
 															{ingredient}
-															{isOptional ? (
-																<span style={{ fontSize: 9, opacity: 0.6, fontStyle: "italic" }}> (opt)</span>
+															{ITEM_DESCRIPTIONS[ingredient] ? (
+																<IngredientTooltip description={ITEM_DESCRIPTIONS[ingredient]} />
 															) : null}
 														</span>
 														{dose ? <span className="learn-ingr-dose">{dose}</span> : null}
-														{ITEM_DESCRIPTIONS[ingredient] ? (
-																<IngredientTooltip description={ITEM_DESCRIPTIONS[ingredient]} />
-															) : null}
 													</div>
 												);
 											})}

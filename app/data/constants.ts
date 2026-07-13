@@ -10,13 +10,11 @@ export interface MenuItem {
   name: string;
   family?: string;
   ingr?: Record<string, string | null>;
-  optional?: string[];
   garnish?: string[];
   method?: string;
   glass?: string;
   prices?: MenuPrice[];
   hint?: string;
-  origin?: string;
   comment?: string;
   funFact?: string;
 }
@@ -32,6 +30,7 @@ export const ALL_INGRS: string[] = [
     MENU.filter((x) => getIngr(x).length > 0).flatMap((x) => getIngr(x)),
   ),
 ];
+
 // Flat list of all {name, serving_es, serving_en, price} for wrong-answer pool
 export const ALL_PRICES_FLAT: number[] = MENU.flatMap((x) => (x.prices || []).map((s) => s.p));
 export const UNIQUE_PRICES: number[] = [...new Set(ALL_PRICES_FLAT)];
@@ -178,6 +177,7 @@ export const ITEM_DESCRIPTIONS: Record<string, string> = {
   "Cynar": "licor amargo italiano elaborado con alcachofa y una mezcla de 13 hierbas y plantas aromáticas. Su perfil es herbáceo, ligeramente dulce y amargo, con notas de caramelo y especias",
   // IGREDIENTES
   "Espumita": "Velvet Foamer o aguafaba",
+  "Terry": "Licor Terry es una bebida espirituosa española (licor de Jerez), conocida sobre todo como brandy de Jerez; su versión más emblemática es Terry Centenario, con sabor suave y dulce, pensado para tomarlo solo, con hielo o con café.",
 };
 export const Q_META = {
   ingredients:  "¿Qué lleva?",
@@ -236,3 +236,31 @@ export const GROUP_LABELS: Record<string, string> = {
   spirit:"Alcohol", liqueur:"Licores", wine:"Vermut / Vino", beer:"Cerveza", filler:"Mezcladores",
   bitter:"Amargos", sweet:"Endulzantes", fruit:"Frutas", other:"Otros"
 };
+
+// Centralised origin lookup — covers both menu items and individual ingredients.
+// Components use getOrigin(name) so origins don't need to live on the MenuItem object.
+export const ITEM_ORIGINS: Record<string, string> = {
+  // Vermut products
+  "Vittore Rojo": "España",
+  "Vittore Blanco": "España",
+  "Martini Reserva Ambrato": "Italia",
+  "Martini Reserva Rubino": "Italia",
+  "Noilly Prat Blanco Seco": "Francia",
+  //  Licores
+  "Amaretto": "Italia",
+  "Baileys": "Irlanda",
+  "Terry": "España",
+  "Aperol": "Italia",
+  "Campari": "Italia",
+  "Cynar": "Italia",
+  // Destilados
+  "Tequila": "México",
+  "Mezcal Union": "México",
+  "Don Julio Reposado": "México",
+  "Don Julio Silver": "México",
+
+};
+
+export function getOrigin(name: string): string | undefined {
+  return ITEM_ORIGINS[name];
+}

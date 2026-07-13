@@ -59,15 +59,13 @@ export default function RecipeCard({ item }: RecipeCardProps) {
 					<div style={{ fontSize: 13, lineHeight: 1.9 }}>
 						{sortedIngr.map((ing, idx) => {
 							const color = GROUP_COLOR[getIngredientGroup(ing)] ?? GROUP_COLOR.other;
-							const isOpt = Boolean(item.optional?.includes(ing));
-							const dose = item.ingr?.[ing];
-							return (
-								<span key={ing}>
-									{idx > 0 ? <span style={{ color: "#3a3835" }}> · </span> : null}
-									<span style={{ color, opacity: isOpt ? 0.55 : 1, fontStyle: isOpt ? "italic" : "normal" }}>
-										{ing}
-										{dose ? <span style={{ opacity: 0.65 }}> {dose}</span> : null}
-										{isOpt ? <span style={{ fontSize: 9, opacity: 0.65, fontStyle: "normal", verticalAlign: "middle" }}> (opt)</span> : null}
+						const dose = item.ingr?.[ing];
+						return (
+							<span key={ing}>
+								{idx > 0 ? <span style={{ color: "#3a3835" }}> · </span> : null}
+								<span style={{ color }}>
+									{ing}
+									{dose ? <span style={{ opacity: 0.65 }}> {dose}</span> : null}
 									</span>
 								</span>
 							);

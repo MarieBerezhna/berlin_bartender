@@ -303,12 +303,9 @@ export function genIngrQ(item: MenuItem): QuizQuestion | null {
 
   for (const type of shuffledTypes) {
     if (type === "ingredients") {
-      const required = ingr.filter(
-        (ingredient) => !item.optional || !item.optional.includes(ingredient),
-      );
-      if (required.length === 0) continue;
+      if (ingr.length === 0) continue;
 
-      const correct = required[Math.floor(Math.random() * required.length)];
+      const correct = ingr[Math.floor(Math.random() * ingr.length)];
       const wrongs = sh(ALL_INGRS.filter((ingredient) => !ingr.includes(ingredient))).slice(0, 3);
       if (wrongs.length >= 3) {
         return {
@@ -324,12 +321,9 @@ export function genIngrQ(item: MenuItem): QuizQuestion | null {
     }
 
     if (type === "ingredients2" && ingr.length >= 3) {
-      const required = ingr.filter(
-        (ingredient) => !item.optional || !item.optional.includes(ingredient),
-      );
-      if (required.length < 3) continue;
+      if (ingr.length < 3) continue;
 
-      const shuffledIngr = sh(required);
+      const shuffledIngr = sh(ingr);
       const shown = shuffledIngr.slice(0, 2);
       const c2 = shuffledIngr[2];
       const wrongs = sh(ALL_INGRS.filter((ingredient) => !ingr.includes(ingredient))).slice(0, 3);
