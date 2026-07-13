@@ -236,7 +236,7 @@ export default function OverviewCard({ item, showCategoryLabel }: OverviewCardPr
 			{ITEM_ORIGINS[item.name] ? (
 				<div
 					title={ITEM_ORIGINS[item.name]}
-					style={{ position: "absolute", top: 12, right: 12, lineHeight: 1, userSelect: "none" }}
+					style={{ position: "absolute", bottom: 12, right: 12, lineHeight: 1, userSelect: "none" }}
 				>
 					{COUNTRY_FLAGS[ITEM_ORIGINS[item.name]]
 						? <img src={`https://flagcdn.com/24x18/${COUNTRY_FLAGS[ITEM_ORIGINS[item.name]]}.png`} alt={ITEM_ORIGINS[item.name]} width={24} height={18} style={{ display: "block", borderRadius: 2 }} />
