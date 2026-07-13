@@ -88,9 +88,34 @@ const HARD_TIMES: MenuItem[] = [
    prices:[{label:"cóctel",p:12},{label:"cóctel con chupito de vodka",p:13}]},
 ];
 
+const LEY_SECA: MenuItem[] = [
+  {cat:"Cócteles de autor",family:"Ley Seca",name:"Virgin Mai Tai",
+    ingr:{"Tanqueray 0.0":"2 oz","Sirope de orgeat":"1.5 oz","Sirope falernum":"1.5 oz","Zumo de limón":"1 oz","Zumo de naranja":"0.5 oz"},
+    garnish:["Granadina","Rodaja de limón","Hierbabuena"],
+    method:"Removido",
+    glass:"Vaso largo",
+   prices:[{label:"sin alcohol",p:8},{label:"con alcohol",p:12}]},
+  {cat:"Cócteles de autor",family:"Ley Seca",name:"Gin Fizz 0.0",
+    ingr:{"Tanqueray 0.0":"2 oz","Zumo de limón":"1 oz","Azúcar líquido":"0.75 oz","Espumita": "2 golpes","Soda":"top"},
+    method:"Agitado, Colado",
+    glass:"Vaso largo",
+   prices:[{label:"cóctel",p:9}]},
+  {cat:"Cócteles de autor",family:"Ley Seca",name:"Virgin Lady",
+    ingr:{"Tanqueray 0.0":"2 oz","Zumo de limón":"1 oz","Azúcar líquido":"0.5 oz","Espumita": "2 golpes"},
+    method:"Agitado, Colado",
+        glass:"Coupe / Martini",
+    prices:[{label:"cóctel",p:9}]},
+  {cat:"Cócteles de autor",family:"Ley Seca",name:"Virgin Pink Lady",
+    ingr:{"Tanqueray 0.0":"2 oz","Zumo de limón":"1 oz","Granadina":"0.5 oz","Espumita": "2 golpes"},
+    method:"Agitado, Colado",
+    glass:"Coupe / Martini",
+   prices:[{label:"cóctel",p:9}]},
+];
+
 export const AUTOR_COCTAILS: MenuItem[] = [
   ...ACID_TIMES,
   ...SWEET_TIMES,
   ...SPICY_TIMES,
   ...HARD_TIMES,
+  ...LEY_SECA,
 ];

@@ -2,26 +2,6 @@
 import { CLASSICS } from "./classics";
 import { AUTOR_COCTAILS } from "./specialty";
 
-const LEY_SECA: MenuItem[] = [
-  {cat:"Cócteles de autor",family:"Ley Seca",name:"Virgin Mai Tai",
-    ingr:{"Tanqueray 0.0":"2 oz","Sirope de orgeat":"1.5 oz","Sirope falernum":"1.5 oz","Zumo de limón":"1 oz","Zumo de naranja":"0.5 oz"},
-    garnish:["Granadina","Rodaja de limón","Hierbabuena"],
-    method:"Removido",
-   prices:[{label:"sin alcohol",p:8},{label:"con alcohol",p:12}]},
-  {cat:"Cócteles de autor",family:"Ley Seca",name:"Gin Fizz 0.0",
-    ingr:{"Tanqueray 0.0":"2 oz","Zumo de limón":"1 oz","Azúcar líquido":"0.75 oz","Espumita": "2 golpes","Soda":"top"},
-    method:"Agitado, Colado",
-   prices:[{label:"cóctel",p:9}]},
-  {cat:"Cócteles de autor",family:"Ley Seca",name:"Virgin Lady",
-    ingr:{"Tanqueray 0.0":"2 oz","Zumo de limón":"1 oz","Azúcar líquido":"0.5 oz","Espumita": "2 golpes"},
-    method:"Agitado, Colado",
-    prices:[{label:"cóctel",p:9}]},
-  {cat:"Cócteles de autor",family:"Ley Seca",name:"Virgin Pink Lady",
-    ingr:{"Tanqueray 0.0":"2 oz","Zumo de limón":"1 oz","Granadina":"0.5 oz","Espumita": "2 golpes"},
-    method:"Agitado, Colado",
-   prices:[{label:"cóctel",p:9}]},
-];
-
 const SPRITZ: MenuItem[] = [
   {cat:"Spritz",name:"Hugo Spritz",ingr:{"Bols Saúco":"2 oz","Cava":"3 oz","Soda":"1 oz","Hierbabuena":null},
    prices:[{label:"copa",p:10}]},
@@ -232,7 +212,6 @@ const REFRESCOS: MenuItem[] = [
 const RAW: MenuItem[] = [
   ...CLASSICS,
   ...AUTOR_COCTAILS,
-  ...LEY_SECA,
   ...SPRITZ,
   ...JARRAS,
   ...RON,
