@@ -89,6 +89,15 @@ h1{font-size:18px;font-weight:500;margin-bottom:1rem;color:#e8e6e1}
   .header-main{flex-direction:row;align-items:center;justify-content:space-between;gap:1rem}
   .header-main h1{white-space:nowrap}
 }
+.overview-card {
+  background: #1f1e1b;
+  border: 0.5px solid rgba(232,230,225,0.15);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+.overview-card-img {width: 160px; height: 160px; object-fit: cover; display: block; margin: 0 auto;}
 .learn-card{background:#1f1e1b;border:0.5px solid rgba(232,230,225,0.12);border-radius:12px;padding:1.25rem;margin-bottom:1rem;position:relative;overflow:hidden}
 .learn-name{font-size:20px;font-weight:600;color:#e8e6e1;margin-bottom:1rem;text-align:center}
 .learn-price{font-size:14px;font-weight:600;color:#E0AE6B}

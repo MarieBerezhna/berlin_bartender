@@ -9,7 +9,6 @@ import {
 	CLASICA_CAT,
 	CLASICA_COLOR,
 	CLASICA_TEXT,
-	COUNTRY_FLAGS,
 	ITEM_DESCRIPTIONS,
 	ITEM_ORIGINS,
 	type MenuItem,
@@ -98,17 +97,7 @@ export default function OverviewCard({ item, showCategoryLabel, priority = false
 	}, [showDescription]);
 
 	return (
-		<div
-			className="overview-card"
-			style={{
-				background: "#1f1e1b",
-				border: "0.5px solid rgba(232,230,225,0.15)",
-				borderRadius: 12,
-				display: "flex",
-				flexDirection: "column",
-				position: "relative",
-			}}
-		>
+		<div className="overview-card">
 			{image ? (
 				<div style={{ overflow: "hidden", borderRadius: "12px 12px 0 0" }}>
 					<Image
@@ -118,7 +107,6 @@ export default function OverviewCard({ item, showCategoryLabel, priority = false
 						width={160}
 						height={160}
 						priority={priority}
-						style={{ width: 160, height: 160, objectFit: "cover", display: "block", margin: "0 auto" }}
 					/>
 				</div>
 			) : null}
