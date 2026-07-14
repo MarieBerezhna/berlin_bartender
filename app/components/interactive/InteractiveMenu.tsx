@@ -15,6 +15,7 @@ import {
 	type MenuItem,
 } from "../../data/constants";
 import RAW from "../../data/menu";
+import OverviewCard from "../learn/OverviewCard";
 
 type InteractiveFilterKey =
 	| "spirits"
@@ -45,6 +46,7 @@ type InteractiveItem = {
 	frutas: string[];
 	siropes: string[];
 	otros: string[];
+	cat: string;
 };
 
 const SPIRIT_FAMILY_PATTERNS: Array<[RegExp, string]> = [
@@ -211,6 +213,7 @@ function buildInteractiveMenuData(items: MenuItem[], preferCombinedPrice: boolea
 
 		return {
 			name: item.name,
+			cat: item.cat,
 			price: displayPrice.price,
 			priceLabel: displayPrice.priceLabel,
 			section,
@@ -436,33 +439,13 @@ export default function InteractiveMenu() {
 
 				<div className="interactive-cards">
 					{list.length ? (
-						list.map((item) => (
-							<div className="interactive-card" key={`${item.section}-${item.name}`}>
-								<div className="interactive-card-top">
-									<div className="interactive-card-name">{item.name}</div>
-									<div className="interactive-card-price">
-										{item.priceLabel ? <span style={{ textTransform: "capitalize" }}>{item.priceLabel} </span> : null}
-										{fmt(item.price)}
-									</div>
-								</div>
-								<div className="interactive-card-badges">
-									<span className="interactive-badge interactive-badge-section">{item.section}</span>
-									<span className="interactive-badge interactive-badge-spirit">{item.spiritBrand}</span>
-								</div>
-								<div className="interactive-card-desc">
-									{[
-										...item.licores,
-										...item.cervezas,
-										...item.vinosVermuts,
-										...item.bitters,
-										...item.zumosRefrescos,
-										...item.frutas,
-										...item.siropes,
-										...item.otros,
-									].join(" · ")}
-								</div>
-							</div>
-						))
+						list.map((item) => {
+
+							console.log("item", item);
+							return (
+							<OverviewCard key={`${item.section}-${item.name}`} item={item} showCategoryLabel />
+						)
+						})
 					) : (
 						<div className="interactive-empty">Ningún cóctel coincide con los filtros seleccionados.</div>
 					)}

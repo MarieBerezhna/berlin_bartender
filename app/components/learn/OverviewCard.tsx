@@ -16,6 +16,7 @@ import {
 } from "../../data/constants";
 import IMAGES from "../../data/images";
 import { formatPrice, getIngredientGroup, sortIngredientsForStudy } from "../../lib/learn";
+import OriginFlag from "../shared/OriginFlag";
 
 type OverviewCardProps = {
 	item: MenuItem;
@@ -235,17 +236,7 @@ export default function OverviewCard({ item, showCategoryLabel, priority = false
 					</div>
 				) : null}
 			</div>
-			{ITEM_ORIGINS[item.name] ? (
-				<div
-					title={ITEM_ORIGINS[item.name]}
-					style={{ position: "absolute", bottom: 12, right: 12, lineHeight: 1, userSelect: "none" }}
-				>
-					{COUNTRY_FLAGS[ITEM_ORIGINS[item.name]]
-						? <img src={`https://flagcdn.com/24x18/${COUNTRY_FLAGS[ITEM_ORIGINS[item.name]]}.png`} alt={ITEM_ORIGINS[item.name]} width={24} height={18} style={{ display: "block", borderRadius: 2 }} />
-						: <span style={{ fontSize: 11, color: "#9a9793" }}>{ITEM_ORIGINS[item.name]}</span>
-					}
-				</div>
-			) : null}
+			{ITEM_ORIGINS[item.name] ? <OriginFlag country={ITEM_ORIGINS[item.name]} /> : null}
 		</div>
 	);
 }
