@@ -31,8 +31,7 @@ type InteractiveFilterKey =
 type InteractiveState = Record<InteractiveFilterKey, string[]>;
 type AccordionState = Record<InteractiveFilterKey, boolean>;
 
-type InteractiveItem = {
-	name: string;
+type InteractiveItem = MenuItem & {
 	price: number;
 	priceLabel: string;
 	section: string;
@@ -46,7 +45,6 @@ type InteractiveItem = {
 	frutas: string[];
 	siropes: string[];
 	otros: string[];
-	cat: string;
 };
 
 const SPIRIT_FAMILY_PATTERNS: Array<[RegExp, string]> = [
@@ -83,10 +81,6 @@ const DEFAULT_ACCORDION: AccordionState = {
 
 const COMBINADOS_TAB = "Combinados";
 const interactiveCats = ["Todo", COMBINADOS_TAB, "Cócteles de autor", "Coctelería clásica", "Jarras", "Micheladas", "Spritz"];
-
-function fmt(price: number): string {
-	return `${price.toFixed(2).replace(".", ",")} €`;
-}
 
 function ingrGroup(name: string): string {
 	return INGR_GROUP[name] || "other";
@@ -212,8 +206,7 @@ function buildInteractiveMenuData(items: MenuItem[], preferCombinedPrice: boolea
 		const displayPrice = getDisplayPrice(item, preferCombinedPrice);
 
 		return {
-			name: item.name,
-			cat: item.cat,
+			...item,
 			price: displayPrice.price,
 			priceLabel: displayPrice.priceLabel,
 			section,
