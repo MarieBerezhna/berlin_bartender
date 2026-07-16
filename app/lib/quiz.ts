@@ -76,6 +76,28 @@ function ingredientsHint(item: MenuItem): string {
     .join(", ");
 }
 
+const SPIRIT_FAMILIES: string[][] = [
+  ["Tequila", "Mezcal"],
+  ["Ron"],
+  ["Whisky", "Whiskey", "Bourbon", "Jack Daniels"],
+  ["Gin"],
+  ["Vodka"],
+];
+
+function spiritFamily(ingredient: string): string | null {
+  const lower = ingredient.toLowerCase();
+  for (const family of SPIRIT_FAMILIES) {
+    if (family.some((k) => lower.includes(k.toLowerCase()))) return family[0];
+  }
+  return null;
+}
+
+function differentSpirit(candidate: string, references: string[]): boolean {
+  const fam = spiritFamily(candidate);
+  if (fam === null) return true;
+  return !references.some((r) => spiritFamily(r) === fam);
+}
+
 export function makeQs({
   pool,
   activeFilters,
@@ -90,7 +112,7 @@ export function makeQs({
     cocktails.forEach((item) => {
       const ingr = getIngr(item);
       const c1 = ingr[Math.floor(Math.random() * ingr.length)];
-      const w1 = sh(ALL_INGRS.filter((i) => !ingr.includes(i))).slice(0, 3);
+      const w1 = sh(ALL_INGRS.filter((i) => !ingr.includes(i) && differentSpirit(i, ingr))).slice(0, 3);
       if (w1.length >= 3) {
         res.push({
           qtype: "ingredients",
@@ -108,7 +130,7 @@ export function makeQs({
         const shuffledIngr = sh(ingr);
         const shown = shuffledIngr.slice(0, 2);
         const c2 = shuffledIngr[2];
-        const w2 = sh(ALL_INGRS.filter((i) => !ingr.includes(i))).slice(0, 3);
+        const w2 = sh(ALL_INGRS.filter((i) => !ingr.includes(i) && differentSpirit(i, ingr))).slice(0, 3);
         if (w2.length >= 3) {
           res.push({
             qtype: "ingredients2",
@@ -124,7 +146,7 @@ export function makeQs({
       }
 
       if (ingr.length >= 3) {
-        const intruder = sh(ALL_INGRS.filter((i) => !ingr.includes(i)))[0];
+        const intruder = sh(ALL_INGRS.filter((i) => !ingr.includes(i) && differentSpirit(i, ingr)))[0];
         const decoys = sh(ingr).slice(0, 3);
         if (intruder && decoys.length >= 3) {
           res.push({
@@ -142,7 +164,7 @@ export function makeQs({
 
       // Recall: select ALL ingredients from a mixed grid
       {
-        const distractors = sh(ALL_INGRS.filter((i) => !ingr.includes(i)))
+        const distractors = sh(ALL_INGRS.filter((i) => !ingr.includes(i) && differentSpirit(i, ingr)))
           .slice(0, Math.min(ingr.length + 2, 8));
         res.push({
           qtype: "recall",
@@ -306,7 +328,7 @@ export function genIngrQ(item: MenuItem): QuizQuestion | null {
       if (ingr.length === 0) continue;
 
       const correct = ingr[Math.floor(Math.random() * ingr.length)];
-      const wrongs = sh(ALL_INGRS.filter((ingredient) => !ingr.includes(ingredient))).slice(0, 3);
+      const wrongs = sh(ALL_INGRS.filter((ingredient) => !ingr.includes(ingredient) && differentSpirit(ingredient, ingr))).slice(0, 3);
       if (wrongs.length >= 3) {
         return {
           qtype: type,
@@ -326,7 +348,7 @@ export function genIngrQ(item: MenuItem): QuizQuestion | null {
       const shuffledIngr = sh(ingr);
       const shown = shuffledIngr.slice(0, 2);
       const c2 = shuffledIngr[2];
-      const wrongs = sh(ALL_INGRS.filter((ingredient) => !ingr.includes(ingredient))).slice(0, 3);
+      const wrongs = sh(ALL_INGRS.filter((ingredient) => !ingr.includes(ingredient) && differentSpirit(ingredient, ingr))).slice(0, 3);
 
       if (wrongs.length >= 3) {
         return {
@@ -342,7 +364,7 @@ export function genIngrQ(item: MenuItem): QuizQuestion | null {
     }
 
     if (type === "ingredients3" && ingr.length >= 3) {
-      const intruder = sh(ALL_INGRS.filter((ingredient) => !ingr.includes(ingredient)))[0];
+      const intruder = sh(ALL_INGRS.filter((ingredient) => !ingr.includes(ingredient) && differentSpirit(ingredient, ingr)))[0];
       const decoys = sh(ingr).slice(0, 3);
       if (intruder && decoys.length >= 3) {
         return {
