@@ -44,7 +44,7 @@ const SWEET_TIMES: MenuItem[] = [
     glass: Glass.Highball,
     prices:[{label:"cóctel",p:12}]},
   {cat:"Cócteles de autor",family:"Sweet Times",name:"Rubedo",
-    ingr:{"Gin":"2 oz","Vermut":"1 oz","Zumo de lima":"1 oz","Sirope de agave":"0.5 oz","Arándanos":"0.5 oz","Fresa":"0.5 oz"},
+    ingr:{"Gin":"2 oz","Vermut":"1 oz","Zumo de lima":"1 oz","Sirope de agave":"0.5 oz","Zumo de arándanos":"0.5 oz","Fresa":"0.5 oz"},
     method:"Agitado, Colado",
     glass: Glass.Highball,
     prices:[{label:"cóctel",p:12}]},

@@ -95,7 +95,6 @@ const IMAGES: Record<string, string> = {
   "Hierbabuena": "./ingredientes/huerto/hierbabuena.webp",
   "Albahaca": "./ingredientes/huerto/albahaca.webp",
   "Fresa": "./ingredientes/huerto/fresa.webp",
-  "Arándanos": "./ingredientes/huerto/blueberries.webp",
   "Cereza": "./ingredientes/huerto/cereza.webp",
   "Frutas tropicales": "./ingredientes/huerto/frutas_tropicales.webp",
   "Frutos rojos": "./ingredientes/huerto/frutos_rojos.webp",

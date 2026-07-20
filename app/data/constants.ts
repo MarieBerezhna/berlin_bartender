@@ -197,7 +197,7 @@ export const INGR_GROUP: Record<string, string> = {
   "Sirope amarena":"sweet","Sirope de agave":"sweet","Granadina":"sweet","Sirope de orgeat":"sweet",
   "Azúcar líquido":"sweet","Sirope de vainilla":"sweet","Sirope falernum":"sweet","Leche de coco":"sweet",
   "Sirope pandán":"sweet","Jalea de naranja":"sweet",
-  "Arándanos":"fruit","Fresa":"fruit","Piña":"fruit","Maracuya":"fruit",
+  "Fresa":"fruit","Piña":"fruit","Maracuya":"fruit",
   "Lichee":"fruit","Frutos rojos":"fruit","Manzana verde natural triturada":"fruit","Calabaza asada":"fruit",
   "Frutas tropicales":"fruit","Naranja":"fruit", "Nata": "other", "Leche": "other", "Café": "other", 
   "Mezcal": "spirit", "Vino blanco": "wine", "Bitter apio": "bitter", "Cereza": "fruit", "Hierbabuena": "other", 
