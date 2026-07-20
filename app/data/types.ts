@@ -7,6 +7,19 @@ export enum Glass {
   Jar = "Vaso largo o jarrita de bayas (preferiblemente)",
 }
 
+export enum Measure {
+  Oz = "oz",
+  Cl = "cl",
+  Dashes = "golpes",
+  Uds = "uds.",
+}
+
+export type Ingredient = {
+  name: string;
+  qty?: number;
+  measure?: Measure;
+};
+
 export interface MenuPrice {
   label: string;
   p: number;
