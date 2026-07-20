@@ -1,4 +1,4 @@
-﻿import type { MenuItem } from "../types";
+﻿import { Measure, type MenuItem } from "../types";
 import { CLASSICS } from "./classics";
 import { AUTOR_COCTAILS } from "./specialty";
 
@@ -20,7 +20,37 @@ const SPRITZ: MenuItem[] = [
 const JARRAS: MenuItem[] = [
   {cat:"Jarras",name:"Agua de Valencia",ingr:{"Vodka":"1 oz","Gin Tanqueray":"1 oz","Zumo de naranja":"2 oz","Cava":"2 oz","Triple Sec":null,"Licor mandarina MB":null,"Azúcar líquido":null},
     prices:[{label:"copa",p:7},{label:"jarra",p:25}]}, // TODO
-  {cat:"Jarras",name:"Sangría",ingr:{"Diplomático Planas":null,"Vino tinto":null,"Triple Sec":null,"Terry":null,"Vermut tinto":null,"Zumo de naranja":null,"Azúcar líquido":null},
+  {cat:"Jarras",name:"Sangría",ingr:{"Ron blanco":"0.5 oz","Vino tinto":"0.5 oz","Triple Sec":"0.5 oz","Terry":"0.5 oz","Vermut tinto":"0.5 oz","Zumo de naranja":"0.5 oz","Azúcar líquido":"0.5 oz"},
+  ingredients:[
+    {
+      name:"Ron blanco",
+      qty:0.5,
+      measure: Measure.Oz
+    },{
+      name:"Vino tinto",
+      qty:0.5,
+      measure: Measure.Oz
+    },{
+      name:"Triple Sec",
+      qty:0.5,
+      measure: Measure.Oz
+    },{
+      name:"Terry",
+      qty:0.5,
+      measure: Measure.Oz
+    },{
+      name:"Vermut tinto",
+      qty:0.5,
+      measure: Measure.Oz
+    },{
+      name:"Zumo de naranja",
+      qty:0.5,
+      measure: Measure.Oz
+    },{
+      name:"Azúcar líquido",
+      qty:0.5,
+      measure: Measure.Oz
+    }],
     prices:[{label:"copa",p:7},{label:"jarra",p:25}]},
   {cat:"Jarras",name:"Tinto de verano",ingr:{"Vino tinto":null,"Schweppes limón":null,"Zumo de limón":null},
     prices:[{label:"copa",p:5},{label:"jarra",p:20}]},

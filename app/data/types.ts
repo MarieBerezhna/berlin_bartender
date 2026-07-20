@@ -30,6 +30,7 @@ export interface MenuItem {
   name: string;
   family?: string;
   ingr?: Record<string, string | null>;
+  ingredients?: Ingredient[];
   garnish?: string[];
   method?: string;
   glass?: Glass;
