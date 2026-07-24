@@ -7,12 +7,17 @@ export enum Glass {
   Jar = "Vaso largo o jarrita de bayas (preferiblemente)",
 }
 
+
 export enum Measure {
   Oz = "oz",
   Cl = "cl",
+  Ml = "ml",
   Dashes = "golpes",
   Uds = "uds.",
+  Top = "Top",
 }
+
+export type LiquidMeasure = Measure.Oz | Measure.Cl | Measure.Ml;
 
 export type Ingredient = {
   name: string;
