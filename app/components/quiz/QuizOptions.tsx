@@ -1,6 +1,7 @@
 import Image from "next/image";
 
 import IMAGES from "../../data/images";
+import { toPublicPath } from "@/app/lib/utils";
 
 type QuizOptionsProps = {
 	options: string[];
@@ -28,7 +29,7 @@ export default function QuizOptions({
 				const statusClass = isCorrect ? " ok" : isWrongSelected ? " bad" : "";
 
 				if (image) {
-					const src = image.startsWith("./") ? image.replace("./", "/") : image;
+					const src = toPublicPath(image);
 					return (
 						<button
 							key={option}

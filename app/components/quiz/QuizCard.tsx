@@ -3,7 +3,7 @@ import { useEffect, useRef } from "react";
 
 import { Q_META } from "../../data/constants";
 import type { QuizQuestion } from "../../lib/quiz";
-import { useActivateOnKeys } from "../../lib/utils";
+import { toPublicPath, useActivateOnKeys } from "../../lib/utils";
 import QuizFeedback from "./QuizFeedback";
 import QuizOptions from "./QuizOptions";
 
@@ -27,8 +27,7 @@ export default function QuizCard({
 	const isCorrect = selectedOption === question.answer;
 	const nextLabel = isLastQuestion ? "Resultados →" : "Siguiente →";
 	const qTypeLabel = Q_META[question.qtype as keyof typeof Q_META] || question.qtype;
-	const questionImageSrc =
-		question.img && question.img.startsWith("./") ? question.img.replace("./", "/") : question.img;
+	const questionImageSrc = question.img && toPublicPath(question.img);
 	useActivateOnKeys(answered, onNext);
 
 	const cardRef = useRef<HTMLDivElement>(null);

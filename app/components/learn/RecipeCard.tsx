@@ -12,7 +12,7 @@ type RecipeCardProps = {
 export default function RecipeCard({ item }: RecipeCardProps) {
 	const itemImage = toPublicPath(IMAGES[item.name]);
 	const glassName = item.glass ?? null;
-	const glassImage = toPublicPath(glassName ? IMAGES[`glass:${glassName}`] : null);
+	const glassImage = glassName && toPublicPath(IMAGES[`glass:${glassName}`]);
 	const sortedIngr = sortIngredientsForStudy(item);
 	const garnishes = item.garnish ?? [];
 	const priceLabel = formatPrice(item);

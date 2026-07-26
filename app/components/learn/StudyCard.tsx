@@ -1,6 +1,4 @@
 ﻿import Image from "next/image";
-
-
 import { COUNTRY_FLAGS, ITEM_ORIGINS, type MenuItem } from "../../data/constants";
 import IMAGES from "../../data/images";
 import { formatPrice, getIngredientGroup, getIngredientGroupLabel } from "../../lib/learn";
