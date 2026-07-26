@@ -198,6 +198,7 @@ const IMAGES: Record<string, string> = {
   "Bitter apio": "./ingredientes/bitters/apio.webp",
   "Calabaza asada": "./ingredientes/pumpkin_spice.webp",
   "Salsa Picante": "./ingredientes/salsa_picante.webp",
+  "Zumos embotellados": "./refrescos/zumitos.webp",
 };
 
 export default IMAGES;

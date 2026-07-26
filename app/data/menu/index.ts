@@ -237,6 +237,8 @@ const REFRESCOS: MenuItem[] = [
    prices:[{label:"botella",p:2.5}]},
   {cat:"Refrescos",name:"Agua con gas Perrier",
    prices:[{label:"botella",p:3}]},
+  {cat:"Refrescos",name:"Zumos embotellados",
+   prices:[{label:"botella",p:3.5}]},
 ];
 
 const RAW: MenuItem[] = [
