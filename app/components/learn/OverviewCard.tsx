@@ -16,6 +16,7 @@ import {
 import IMAGES from "../../data/images";
 import { formatPrice, getIngredientGroup, sortIngredientsForStudy } from "../../lib/learn";
 import OriginFlag from "../shared/OriginFlag";
+import { toPublicPath } from "@/app/lib/utils";
 
 type OverviewCardProps = {
 	item: MenuItem;
@@ -31,11 +32,6 @@ const GROUP_COLOR: Record<string, string> = {
 	sweet: "#9ECB7A",
 	other: "#9a9793",
 };
-
-function toPublicPath(path: string | null | undefined): string | null {
-	if (!path) return null;
-	return path.startsWith("./") ? path.replace("./", "/") : path;
-}
 
 function FamilyBadge({ item }: { item: MenuItem }) {
 	if (!item.family) return null;

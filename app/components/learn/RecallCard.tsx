@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useRef } from "react";
 
 import type { MenuItem } from "../../data/constants";
+import { toPublicPath } from "../../lib/utils";
 import IMAGES from "../../data/images";
 import { formatPrice, getIngredientGroup } from "../../lib/learn";
 import RecipeCard from "./RecipeCard";
@@ -26,11 +27,6 @@ type RecallCardProps = {
 	onNext?: () => void;
 	nextLabel?: string;
 };
-
-function toPublicPath(path: string | null | undefined): string | null {
-	if (!path) return null;
-	return path.startsWith("./") ? path.replace("./", "/") : path;
-}
 
 export default function RecallCard({
 	item,

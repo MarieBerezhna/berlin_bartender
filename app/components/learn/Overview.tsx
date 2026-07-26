@@ -3,6 +3,7 @@ import Image from "next/image";
 import { CAT_DESCRIPTIONS, FUN_FACTS, type MenuItem } from "../../data/constants";
 import IMAGES from "../../data/images";
 import OverviewCard from "./OverviewCard";
+import { toPublicPath } from "@/app/lib/utils";
 
 type OverviewProps = {
 	items: MenuItem[];
@@ -10,11 +11,6 @@ type OverviewProps = {
 	activeTab: string;
 	onStart: () => void;
 };
-
-function toPublicPath(path: string | null | undefined): string | null {
-	if (!path) return null;
-	return path.startsWith("./") ? path.replace("./", "/") : path;
-}
 
 export default function Overview({ items, categoryLabel, activeTab, onStart }: OverviewProps) {
 	const sortedItems = [...items].sort((left, right) => {

@@ -33,3 +33,8 @@ export function getIngr(item: MenuItem): string[] {
 export function getIngredients(item: MenuItem): Ingredient[] {
   return (item.ingredients || []);
 }
+
+export function toPublicPath(path: string | null | undefined): string | null {
+	if (!path) return null;
+	return path.startsWith("./") ? path.replace("./", "/") : path;
+}

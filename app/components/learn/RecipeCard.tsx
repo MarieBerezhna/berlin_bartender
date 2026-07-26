@@ -3,6 +3,7 @@ import Image from "next/image";
 import type { MenuItem } from "../../data/constants";
 import IMAGES from "../../data/images";
 import { formatPrice, getIngredientGroup, sortIngredientsForStudy } from "../../lib/learn";
+import { toPublicPath } from "@/app/lib/utils";
 
 const GROUP_COLOR: Record<string, string> = {
 	spirit: "#F09595",
@@ -12,11 +13,6 @@ const GROUP_COLOR: Record<string, string> = {
 	sweet: "#9ECB7A",
 	other: "#9a9793",
 };
-
-function toPublicPath(path: string | null | undefined): string | null {
-	if (!path) return null;
-	return path.startsWith("./") ? path.replace("./", "/") : path;
-}
 
 type RecipeCardProps = {
 	item: MenuItem;

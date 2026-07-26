@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { COUNTRY_FLAGS, ITEM_ORIGINS, type MenuItem } from "../../data/constants";
 import IMAGES from "../../data/images";
 import { formatPrice, getIngredientGroup, getIngredientGroupLabel } from "../../lib/learn";
-import { getIngr } from "../../lib/utils";
+import { getIngr, toPublicPath } from "../../lib/utils";
 import {ITEM_DESCRIPTIONS } from "../../data/constants";
 import { useActivateOnKeys } from "../../lib/utils";
 
@@ -48,10 +48,6 @@ const ROW_GROUPS = [
 	["bitter", "filler", "sweet", "fruit", "other"],
 ];
 
-function toPublicPath(path: string | null | undefined): string | null {
-	if (!path) return null;
-	return path.startsWith("./") ? path.replace("./", "/") : path;
-}
 
 export default function StudyCard({ item, index, total, onPrimaryAction }: StudyCardProps) {
 	const image = toPublicPath(IMAGES[item.name]);
