@@ -1,18 +1,9 @@
 import Image from "next/image";
 
-import type { MenuItem } from "../../data/constants";
+import { type MenuItem, GROUP_COLOR } from "../../data/constants";
 import IMAGES from "../../data/images";
 import { formatPrice, getIngredientGroup, sortIngredientsForStudy } from "../../lib/learn";
 import { toPublicPath } from "@/app/lib/utils";
-
-const GROUP_COLOR: Record<string, string> = {
-	spirit: "#F09595",
-	liqueur: "#E0AE6B",
-	filler: "#8FC1E0",
-	bitter: "#C9A0DC",
-	sweet: "#9ECB7A",
-	other: "#9a9793",
-};
 
 type RecipeCardProps = {
 	item: MenuItem;

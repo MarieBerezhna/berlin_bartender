@@ -9,6 +9,7 @@ import {
 	CLASICA_CAT,
 	CLASICA_COLOR,
 	CLASICA_TEXT,
+	GROUP_COLOR,
 	ITEM_DESCRIPTIONS,
 	ITEM_ORIGINS,
 	type MenuItem,
@@ -24,14 +25,7 @@ type OverviewCardProps = {
 	priority?: boolean;
 };
 
-const GROUP_COLOR: Record<string, string> = {
-	spirit: "#F09595",
-	liqueur: "#E0AE6B",
-	filler: "#8FC1E0",
-	bitter: "#C9A0DC",
-	sweet: "#9ECB7A",
-	other: "#9a9793",
-};
+
 
 function FamilyBadge({ item }: { item: MenuItem }) {
 	if (!item.family) return null;

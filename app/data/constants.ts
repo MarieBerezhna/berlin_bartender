@@ -292,3 +292,13 @@ export const ITEM_ORIGINS: Record<string, string> = {
 export function getOrigin(name: string): string | undefined {
   return ITEM_ORIGINS[name];
 }
+
+
+export const GROUP_COLOR: Record<string, string> = {
+	spirit: "#F09595",
+	liqueur: "#E0AE6B",
+	filler: "#8FC1E0",
+	bitter: "#C9A0DC",
+	sweet: "#9ECB7A",
+	other: "#9a9793",
+};
