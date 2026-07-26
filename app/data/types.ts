@@ -15,6 +15,7 @@ export enum Measure {
   Dashes = "golpes",
   Uds = "uds.",
   Top = "Top",
+  Cdta = "cdta",
 }
 
 export type LiquidMeasure = Measure.Oz | Measure.Cl | Measure.Ml;
