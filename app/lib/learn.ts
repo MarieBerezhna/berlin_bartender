@@ -3,13 +3,13 @@ import {
   ALL_INGRS,
   CLASICA_CAT,
   GARNISHMENTS,
-  getIngr,
   GROUP_LABELS,
   GROUP_ORDER,
   INGR_GROUP,
   type MenuItem,
 } from "../data/constants";
 import IMAGES from "../data/images";
+import { getIngr } from "./utils";
 
 type LearnFilters = {
   activeTab?: string;

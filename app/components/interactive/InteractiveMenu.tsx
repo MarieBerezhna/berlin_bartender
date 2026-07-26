@@ -9,12 +9,12 @@ import {
 	CLASICA_FAMILIES,
 	DESTILADOS_CATS,
 	DESTILADOS_SUBGROUPS,
-	getIngr,
 	INGR_GROUP,
 	MENU_SPIRIT_HINTS,
 	type MenuItem,
 } from "../../data/constants";
 import RAW from "../../data/menu";
+import { getIngr } from "../../lib/utils";
 import OverviewCard from "../learn/OverviewCard";
 
 type InteractiveFilterKey =

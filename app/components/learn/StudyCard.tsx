@@ -4,7 +4,8 @@ import { useEffect, useState } from "react";
 import { COUNTRY_FLAGS, ITEM_ORIGINS, type MenuItem } from "../../data/constants";
 import IMAGES from "../../data/images";
 import { formatPrice, getIngredientGroup, getIngredientGroupLabel } from "../../lib/learn";
-import { getIngr, ITEM_DESCRIPTIONS } from "../../data/constants";
+import { getIngr } from "../../lib/utils";
+import {ITEM_DESCRIPTIONS } from "../../data/constants";
 import { useActivateOnKeys } from "../../lib/utils";
 
 type StudyCardProps = {

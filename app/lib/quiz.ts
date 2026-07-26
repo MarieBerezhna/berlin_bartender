@@ -3,10 +3,10 @@ import IMAGES from "../data/images";
 import {
   ALL_INGRS,
   CLASICA_CAT,
-  getIngr,
   type MenuItem,
   UNIQUE_PRICES,
 } from "../data/constants";
+import { getIngr } from "./utils";
 
 type QuestionType =
   | "ingredients"

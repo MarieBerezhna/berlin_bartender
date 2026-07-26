@@ -15,10 +15,11 @@ import ProgressBar from "./components/quiz/ProgressBar";
 import QuizCard from "./components/quiz/QuizCard";
 import QuizEnd from "./components/quiz/QuizEnd";
 import RAW from "./data/menu";
-import { getIngr, type MenuItem } from "./data/constants";
+import { type MenuItem } from "./data/constants";
 import { buildLearnQueue, buildRecallViewModel, createLearnQuizQueue, getLearnableItems, scoreRecallSelection } from "./lib/learn";
 import { makeQs } from "./lib/quiz";
 import LearnQuiz from "./components/learn/LearnQuiz";
+import { getIngr } from "./lib/utils";
 
 const DESTILADOS_CATS = new Set(["Ron", "Whisky", "Gin", "Tequila", "Vodka"]);
 
