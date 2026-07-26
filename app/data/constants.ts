@@ -1,8 +1,7 @@
 import RAW from "./menu";
-export { Glass, getIngr } from "./types";
 export type { MenuPrice, MenuItem } from "./types";
 import type { MenuItem } from "./types";
-import { getIngr } from "./types";
+import { getIngr } from "../lib/utils";
 
 const MENU: MenuItem[] = RAW as MenuItem[];
 

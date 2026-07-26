@@ -45,6 +45,3 @@ export interface MenuItem {
   funFact?: string;
 }
 
-export function getIngr(item: MenuItem): string[] {
-  return Object.keys(item.ingr || {});
-}
