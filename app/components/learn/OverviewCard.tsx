@@ -4,11 +4,6 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
 import {
-	AUTOR_COLOR,
-	AUTOR_TEXT,
-	CLASICA_CAT,
-	CLASICA_COLOR,
-	CLASICA_TEXT,
 	GROUP_COLOR,
 	ITEM_DESCRIPTIONS,
 	ITEM_ORIGINS,
@@ -18,39 +13,13 @@ import IMAGES from "../../data/images";
 import { formatPrice, getIngredientGroup, sortIngredientsForStudy } from "../../lib/learn";
 import OriginFlag from "../shared/OriginFlag";
 import { toPublicPath } from "@/app/lib/utils";
+import FamilyBadge from "../shared/FamilyBadge";
 
 type OverviewCardProps = {
 	item: MenuItem;
 	showCategoryLabel: boolean;
 	priority?: boolean;
 };
-
-
-
-function FamilyBadge({ item }: { item: MenuItem }) {
-	if (!item.family) return null;
-
-	const bg = item.cat === CLASICA_CAT ? CLASICA_COLOR : AUTOR_COLOR;
-	const color = item.cat === CLASICA_CAT ? CLASICA_TEXT : AUTOR_TEXT;
-
-	return (
-		<span
-			style={{
-				display: "inline-block",
-				fontSize: "10px",
-				fontWeight: 600,
-				padding: "2px 7px",
-				borderRadius: "20px",
-				background: bg,
-				color,
-				letterSpacing: ".04em",
-				textTransform: "uppercase",
-			}}
-		>
-			{item.family}
-		</span>
-	);
-}
 
 export default function OverviewCard({ item, showCategoryLabel, priority = false }: OverviewCardProps) {
 	const [showDescription, setShowDescription] = useState(false);
@@ -102,21 +71,7 @@ export default function OverviewCard({ item, showCategoryLabel, priority = false
 			) : null}
 
 			<div className="overview-card-body" style={{ padding: 14, display: "flex", flexDirection: "column", gap: 6 }}>
-				{showCategoryLabel ? (
-					<div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-						<FamilyBadge item={item} />
-						{!item.family ? (
-							<span style={{ fontSize: 11, color: "#9a9793", textTransform: "uppercase", letterSpacing: ".04em" }}>
-								{item.cat}
-							</span>
-						) : null}
-					</div>
-				) : item.family ? (
-					<div>
-						<FamilyBadge item={item} />
-					</div>
-				) : null}
-
+				<FamilyBadge itemfamily={item.family} showCategoryLabel={showCategoryLabel} cat={item.cat} />
 				<div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 8 }}>
 					<div style={{ fontSize: 16, fontWeight: 700, color: "#e8e6e1", lineHeight: 1.3 }}>{item.name}</div>
 					{description ? (
