@@ -90,7 +90,6 @@ export default function StudyCard({ item, index, total, onPrimaryAction }: Study
 							alt={item.name}
 							width={100}
 							height={100}
-							unoptimized
 							style={{ width: 100, height: 100, objectFit: "cover", borderRadius: 8, flexShrink: 0 }}
 						/>
 					) : (
@@ -171,7 +170,6 @@ export default function StudyCard({ item, index, total, onPrimaryAction }: Study
 																alt={ingredient}
 																width={150}
 																height={150}
-																unoptimized
 																style={{ width: 150, height: 150, objectFit: "cover", borderRadius: 6 }}
 															/>
 														) : null}

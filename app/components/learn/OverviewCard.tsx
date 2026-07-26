@@ -161,7 +161,7 @@ export default function OverviewCard({ item, showCategoryLabel, priority = false
 						{glassName ? (
 							<div style={{ display: "flex", alignItems: "center", gap: 6 }}>
 								{glassImage ? (
-									<Image src={glassImage} alt={glassName} width={24} height={32} unoptimized style={{ objectFit: "contain" }} />
+									<Image src={glassImage} alt={glassName} width={24} height={32} style={{ objectFit: "contain" }} />
 								) : null}
 								<span style={{ fontSize: 11, color: "#7a7875" }}>{glassName}</span>
 							</div>

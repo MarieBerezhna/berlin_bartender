@@ -59,7 +59,7 @@ export default function RecallCard({
 						{stage === "main" ? "Recordar" : "Repaso final"} · {index + 1} / {total}
 					</div>
 					{itemImage ? (
-						<Image className="qimg" src={itemImage} alt={item.name} width={150} height={150} unoptimized />
+						<Image className="qimg" src={itemImage} alt={item.name} width={150} height={150} />
 					) : null}
 					<div className="learn-name">
 						{item.name} <span className="learn-price">{formatPrice(item)}</span>
@@ -96,7 +96,6 @@ export default function RecallCard({
 											alt={option}
 											width={150}
 											height={150}
-											unoptimized
 											style={{ width: 150, height: 150, objectFit: "cover", borderRadius: 6 }}
 										/>
 									) : null}

@@ -46,7 +46,7 @@ export default function QuizCard({
 					<span className="qtag">{question.cat}</span>
 				</div>
 				{questionImageSrc ? (
-					<Image className="qimg" src={questionImageSrc} alt={question.cat} width={150} height={150} unoptimized />
+					<Image className="qimg" src={questionImageSrc} alt={question.cat} width={150} height={150} />
 				) : null}
 				<div className="qtext">{question.q}</div>
 				<QuizOptions

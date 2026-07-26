@@ -36,7 +36,7 @@ export default function QuizOptions({
 							onClick={() => onSelect(option)}
 							disabled={locked}
 						>
-							<Image src={src} alt={option} width={150} height={150} unoptimized />
+							<Image src={src} alt={option} width={150} height={150} />
 							<span>{option}</span>
 						</button>
 					);
