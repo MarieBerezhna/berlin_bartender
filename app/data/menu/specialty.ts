@@ -128,15 +128,15 @@ const ACID_TIMES: MenuItem[] = [
 
 const SWEET_TIMES: MenuItem[] = [
   {cat:"Cócteles de autor",family:"Sweet Times",name:"Porn Star Martini",
-    ingr:{"Vodka":"2 oz","Licor Bols Vainilla":"0.5 oz","Maracuya":"1 oz","Zumo de lima":"0.5 oz","Sirope de vainilla":"1 golpe","Espumita":"2 golpes"},
+    ingr:{"Vodka":"1.5 oz","Passoa":"1 oz","Maracuya":"1 oz","Zumo de lima":"1 oz","Sirope de vainilla":"1 oz","Espumita":"2 golpes"},
     ingredients:[
       {
         name:"Vodka",
-        qty:2,
+        qty:1.5,
         measure: Measure.Oz
       },{
-        name:"Licor Bols Vainilla",
-        qty:0.5,
+        name:"Passoa",
+        qty:1,
         measure: Measure.Oz
       },{
         name:"Maracuya",
@@ -144,12 +144,12 @@ const SWEET_TIMES: MenuItem[] = [
         measure: Measure.Oz
       },{
         name:"Zumo de lima",
-        qty:0.5,
+        qty:1,
         measure: Measure.Oz
       },{
         name:"Sirope de vainilla",
         qty:1,
-        measure: Measure.Dashes
+        measure: Measure.Oz
       },{
         name:"Espumita",
         qty:2,
