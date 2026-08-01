@@ -2,7 +2,7 @@ import Image from "next/image";
 
 import { CAT_DESCRIPTIONS, FUN_FACTS, type MenuItem } from "../../data/constants";
 import IMAGES from "../../data/images";
-import OverviewCard from "./OverviewCard";
+import OverviewCard from "../shared/OverviewCard";
 import { toPublicPath } from "@/app/lib/utils";
 
 type OverviewProps = {

@@ -15,7 +15,7 @@ import {
 } from "../../data/constants";
 import RAW from "../../data/menu";
 import { getIngr } from "../../lib/utils";
-import OverviewCard from "../learn/OverviewCard";
+import OverviewCard from "../shared/OverviewCard";
 
 type InteractiveFilterKey =
 	| "spirits"
