@@ -5,7 +5,7 @@ import Image from "next/image";
 import { GROUP_COLOR, type MenuItem } from "../../data/constants";
 import IMAGES from "../../data/images";
 import { formatPrice, getIngredientGroup, sortIngredientsForStudy } from "../../lib/learn";
-import { toPublicPath } from "@/app/lib/utils";
+import { getIngredientDose, toPublicPath } from "@/app/lib/utils";
 
 type RecipeCardProps = {
 	item: MenuItem;
@@ -47,7 +47,7 @@ export default function RecipeCard({ item }: RecipeCardProps) {
 					<div style={{ fontSize: 13, lineHeight: 1.9 }}>
 						{sortedIngr.map((ing, idx) => {
 							const color = GROUP_COLOR[getIngredientGroup(ing)] ?? GROUP_COLOR.other;
-							const dose = item.ingr?.[ing];
+							const dose = getIngredientDose(item, ing);
 							return (
 								<span key={ing}>
 									{idx > 0 ? <span style={{ color: "#3a3835" }}> · </span> : null}

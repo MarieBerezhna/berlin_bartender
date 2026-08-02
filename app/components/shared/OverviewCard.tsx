@@ -12,7 +12,7 @@ import {
 import IMAGES from "../../data/images";
 import { formatPrice, getIngredientGroup, sortIngredientsForStudy } from "../../lib/learn";
 import OriginFlag from "./OriginFlag";
-import { toPublicPath } from "@/app/lib/utils";
+import { getIngredientDose, toPublicPath } from "@/app/lib/utils";
 import FamilyBadge from "./FamilyBadge";
 
 type OverviewCardProps = {
@@ -109,7 +109,7 @@ export default function OverviewCard({ item, showCategoryLabel, priority = false
 					<div style={{ fontSize: 13, lineHeight: 1.8 }}>
 						{sortedIngr.map((ing, idx) => {
 							const color = GROUP_COLOR[getIngredientGroup(ing)] || GROUP_COLOR.other;
-							const dose = item.ingr?.[ing];
+							const dose = getIngredientDose(item, ing);
 
 							return (
 								<span key={`${item.name}-${ing}`}>

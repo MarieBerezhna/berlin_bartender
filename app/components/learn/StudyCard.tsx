@@ -2,7 +2,7 @@
 import { COUNTRY_FLAGS, ITEM_ORIGINS, type MenuItem } from "../../data/constants";
 import IMAGES from "../../data/images";
 import { formatPrice, getIngredientGroup, getIngredientGroupLabel } from "../../lib/learn";
-import { getIngr, toPublicPath } from "../../lib/utils";
+import { getIngr, getIngredientDose, toPublicPath } from "../../lib/utils";
 import {ITEM_DESCRIPTIONS } from "../../data/constants";
 import { useActivateOnKeys } from "../../lib/utils";
 import IngredientTooltip from "../shared/IngredientTooltip";
@@ -23,6 +23,12 @@ const ROW_GROUPS = [
 export default function StudyCard({ item, index, total, onPrimaryAction }: StudyCardProps) {
 	const image = toPublicPath(IMAGES[item.name]);
 	const hasRecipe = getIngr(item).length > 1;
+	const displayDoses = getIngr(item)
+		.map((ingredient) => ({
+			name: ingredient,
+			dose: getIngredientDose(item, ingredient),
+		}))
+		.filter((entry) => entry.dose != null);
 	useActivateOnKeys(true, onPrimaryAction);
 
 	const byGroup: Record<string, string[]> = {};
@@ -86,15 +92,15 @@ export default function StudyCard({ item, index, total, onPrimaryAction }: Study
 							{item.name} <span className="learn-price">{formatPrice(item)}</span>
 						</div>
 
-					{item.ingr && Object.values(item.ingr).some(v => v !== null) ? (
+{displayDoses.length ? (
 						<div style={{ fontSize: 12, color: "#E0AE6B", marginTop: 6, lineHeight: 1.5 }}>
-							{(Object.entries(item.ingr).filter(([,v]) => v !== null) as [string,string][]).map(([ingredient, dose]) => (
-									<div key={`${item.name}-${ingredient}`} style={{ display: "flex", gap: 4 }}>
-										<span>{ingredient}</span>
-										<span style={{ opacity: 0.7 }}>{dose}</span>
-									</div>
-								))}
-							</div>
+							{displayDoses.map(({ name, dose }) => (
+								<div key={`${item.name}-${name}`} style={{ display: "flex", gap: 4 }}>
+									<span>{name}</span>
+									<span style={{ opacity: 0.7 }}>{dose}</span>
+								</div>
+							))}
+						</div>
 						) : null}
 
 						{item.method ? <div style={{ fontSize: 12, color: "#8FC1E0", marginTop: 6 }}>{item.method}</div> : null}
@@ -129,7 +135,7 @@ export default function StudyCard({ item, index, total, onPrimaryAction }: Study
 										<div className="ingr-group-grid">
 											{byGroup[group].map((ingredient) => {
 												const ingredientImage = toPublicPath(IMAGES[ingredient]);
-												const dose = item.ingr?.[ingredient];
+												const dose = getIngredientDose(item, ingredient);
 												return (
 													<div
 														className={`learn-ingr-item${ingredientImage ? "" : " no-img"}`}

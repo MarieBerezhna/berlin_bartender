@@ -4,6 +4,7 @@ import { useMemo, useRef, useState } from "react";
 
 import RAW from "../../data/menu";
 import type { MenuItem } from "../../data/constants";
+import { getIngr } from "../../lib/utils";
 import ChatFab from "./ChatFab";
 
 type ChatRole = "user" | "assistant";
@@ -26,9 +27,7 @@ function buildSystemPrompt(menu: MenuItem[]): string {
 		.filter((item) => aiCats.has(item.cat))
 		.map((item) => {
 			const price = item.prices?.[0] ? `${item.prices[0].p}€` : "";
-			const ingrs = item.ingr
-				? Object.keys(item.ingr).slice(0, 3).join(",")
-				: "";
+			const ingrs = getIngr(item).slice(0, 3).join(",");
 			return `${item.name}|${price}${ingrs ? `|${ingrs}` : ""}`;
 		})
 		.join("\n");

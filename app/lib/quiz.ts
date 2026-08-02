@@ -6,7 +6,7 @@ import {
   type MenuItem,
   UNIQUE_PRICES,
 } from "../data/constants";
-import { getIngr } from "./utils";
+import { getIngr, getIngredientDose } from "./utils";
 
 type QuestionType =
   | "ingredients"
@@ -58,10 +58,17 @@ function hasRecipe(item: MenuItem): boolean {
   return getIngr(item).length > 1;
 }
 
+function getIngredientEntries(item: MenuItem): Array<{ name: string; dose: string | null }> {
+  return (item.ingredients || []).map((ingredient) => ({
+    name: ingredient.name,
+    dose: ingredient.qty != null ? `${ingredient.qty}${ingredient.measure ? ` ${ingredient.measure}` : ""}` : null,
+  }));
+}
+
 function ratioStr(item: MenuItem): string {
   return getIngr(item)
     .map((ing) => {
-      const dose = item.ingr?.[ing];
+      const dose = getIngredientDose(item, ing);
       return dose ? `${dose} ${ing}` : ing;
     })
     .join(", ");
@@ -70,7 +77,7 @@ function ratioStr(item: MenuItem): string {
 function ingredientsHint(item: MenuItem): string {
   return getIngr(item)
     .map((ingredient) => {
-      const dose = item.ingr?.[ingredient];
+      const dose = getIngredientDose(item, ingredient);
       return dose ? `${ingredient} (${dose})` : ingredient;
     })
     .join(", ");
@@ -221,10 +228,10 @@ export function makeQs({
 
   if (activeFilters.has("ingredients")) {
     const itemsWithDoses = pool.filter(
-      (item) => item.ingr && Object.values(item.ingr).some(v => v !== null),
+      (item) => getIngredientEntries(item).some((entry) => entry.dose != null),
     );
     const allItemsWithDoses = RAW.filter(
-      (item) => item.ingr && Object.values(item.ingr).some(v => v !== null),
+      (item) => getIngredientEntries(item).some((entry) => entry.dose != null),
     );
 
     itemsWithDoses.forEach((item) => {
@@ -236,10 +243,11 @@ export function makeQs({
         .map(ratioStr);
 
       while (otherRatios.length < 3) {
-        const shuffledDoses = sh(Object.entries(item.ingr || {}).filter(([,v]) => v !== null) as [string,string][]);
+        const shuffledDoses = sh(getIngredientEntries(item).filter((entry) => entry.dose != null));
         const fake = getIngr(item)
           .map((ing) => {
-            const dose = shuffledDoses.find(([k]) => k !== ing)?.[1];
+            const doseEntry = shuffledDoses.find((entry) => entry.name !== ing);
+            const dose = doseEntry?.dose;
             return dose ? `${dose} ${ing}` : ing;
           })
           .join(", ");
@@ -402,8 +410,9 @@ export function genPriceQ(item: MenuItem): QuizQuestion | null {
 }
 
 export function genRatioQ(item: MenuItem): QuizQuestion | null {
-  if (!item.ingr || !Object.values(item.ingr).some(v => v !== null)) return null;
-  const allWithDoses = RAW.filter((entry) => entry.ingr && Object.values(entry.ingr).some(v => v !== null));
+  const hasDoses = getIngredientEntries(item).some((entry) => entry.dose != null);
+  if (!hasDoses) return null;
+  const allWithDoses = RAW.filter((entry) => getIngredientEntries(entry).some((ingredient) => ingredient.dose != null));
   const correct = ratioStr(item);
   const wrongs = sh(allWithDoses.filter((entry) => entry.name !== item.name))
     .slice(0, 3)

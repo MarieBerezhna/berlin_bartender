@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Ingredient, MenuItem } from "../data/types";
+import { Ingredient, Measure, MenuItem } from "../data/types";
 
 function isInteractiveElement(target: EventTarget | null): boolean {
 	if (!(target instanceof HTMLElement)) return false;
@@ -26,12 +26,44 @@ export function useActivateOnKeys(enabled: boolean, action: () => void): void {
 	}, [action, enabled]);
 }
 
+function formatIngredientDose(qty?: number, measure?: Measure): string | null {
+	if (qty == null) return null;
+	const numeric = Number(qty);
+	if (Number.isNaN(numeric)) return null;
+	return measure ? `${numeric} ${measure}` : `${numeric}`;
+}
+
 export function getIngr(item: MenuItem): string[] {
-  return Object.keys(item.ingr || {});
+	return getIngredients(item).map((ingredient) => ingredient.name);
 }
 
 export function getIngredients(item: MenuItem): Ingredient[] {
-  return (item.ingredients || []);
+	if (item.ingredients?.length) {
+		return item.ingredients;
+	}
+
+	return Object.keys(item.ingr || {}).map((name) => ({ name }));
+}
+
+export function getIngredientEntries(item: MenuItem): Array<{ name: string; dose: string | null }> {
+	const structuredIngredients = item.ingredients?.length
+		? item.ingredients.map((ingredient) => ({
+			name: ingredient.name,
+			dose: formatIngredientDose(ingredient.qty, ingredient.measure),
+		}))
+		: [];
+
+	if (structuredIngredients.length) {
+		return structuredIngredients;
+	}
+
+	return Object.entries(item.ingr || {})
+		.filter(([, dose]) => dose != null)
+		.map(([name, dose]) => ({ name, dose: String(dose) }));
+}
+
+export function getIngredientDose(item: MenuItem, ingredientName: string): string | null {
+	return getIngredientEntries(item).find((entry) => entry.name === ingredientName)?.dose ?? null;
 }
 
 export function toPublicPath(path: string): string {

@@ -9,7 +9,7 @@ import {
   type MenuItem,
 } from "../data/constants";
 import IMAGES from "../data/images";
-import { getIngr } from "./utils";
+import { getIngr, getIngredientDose, getIngredientEntries } from "./utils";
 
 type LearnFilters = {
   activeTab?: string;
@@ -82,7 +82,7 @@ export function buildStudyViewModel(item: MenuItem) {
     priceLabel: formatPrice(item),
     family: item.family ?? null,
     method: item.method ?? null,
-    doses: Object.entries(item.ingr || {}).filter(([,v]) => v !== null) as [string,string][],
+    doses: getIngredientEntries(item).filter((entry) => entry.dose != null) as Array<{ name: string; dose: string }>,
     hasRecipe,
     ingredientsByGroup: groupedIngredients,
   };
@@ -154,7 +154,7 @@ function buildIngredientQuestion(item: MenuItem): LearnQuestion | null {
 
   const ingredientsWithDoses = ingr
     .map((ingredient) => {
-      const dose = item.ingr?.[ingredient];
+      const dose = getIngredientDose(item, ingredient);
       return dose ? `${ingredient} (${dose})` : ingredient;
     })
     .join(", ");
@@ -169,12 +169,16 @@ function buildIngredientQuestion(item: MenuItem): LearnQuestion | null {
 }
 
 function buildRatioQuestion(item: MenuItem): LearnQuestion | null {
-  if (!item.ingr || !Object.values(item.ingr).some(v => v !== null)) return null;
+  const hasDoses = getIngredientEntries(item).some((entry) => entry.dose != null);
+  if (!hasDoses) return null;
 
-  const allWithDoses = (RAW as MenuItem[]).filter((entry) => entry.ingr && Object.values(entry.ingr).some(v => v !== null));
+  const allWithDoses = (RAW as MenuItem[]).filter((entry) => getIngredientEntries(entry).some((ingredient) => ingredient.dose != null));
   const ratioString = (entry: MenuItem): string =>
     getIngr(entry)
-      .map((ingredient) => (entry.ingr?.[ingredient] ? `${entry.ingr[ingredient]} ${ingredient}` : ingredient))
+      .map((ingredient) => {
+        const dose = getIngredientDose(entry, ingredient);
+        return dose ? `${dose} ${ingredient}` : ingredient;
+      })
       .join(", ");
 
   const correct = ratioString(item);
@@ -294,8 +298,8 @@ export function sortIngredientsForStudy(item: MenuItem): string[] {
 
     if (isAlcoholLeft !== isAlcoholRight) return isAlcoholRight ? 1 : -1;
 
-    const hasDoseLeft = Boolean(item.ingr?.[left]);
-    const hasDoseRight = Boolean(item.ingr?.[right]);
+    const hasDoseLeft = Boolean(getIngredientDose(item, left));
+    const hasDoseRight = Boolean(getIngredientDose(item, right));
     if (hasDoseLeft !== hasDoseRight) return hasDoseRight ? 1 : -1;
 
     return 0;
