@@ -109,7 +109,29 @@ const SPRITZ: MenuItem[] = [
 
 const JARRAS: MenuItem[] = [
   {cat:"Jarras",name:"Agua de Valencia",
-    prices:[{label:"copa",p:7},{label:"jarra",p:25}]}, // TODO
+    ingredients:[
+      {
+        name:"Cava",
+        measure: Measure.Top
+      },{
+        name:"Zumo de naranja",
+        qty:4,
+        measure: Measure.Oz
+      },{
+        name:"Vodka",
+        qty:1,
+        measure: Measure.Oz
+      },{
+        name:"Gin",
+        qty:1,
+        measure: Measure.Oz
+      },{
+        name:"Azúcar líquido",
+        qty:0.5,
+        measure: Measure.Oz
+      }],
+
+    prices:[{label:"copa",p:7},{label:"jarra",p:25}]},
   {cat:"Jarras",name:"Sangría",
   ingredients:[
     {

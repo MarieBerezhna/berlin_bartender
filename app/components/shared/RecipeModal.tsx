@@ -268,42 +268,17 @@ export default function RecipeModal({ item, open, onClose }: RecipeModalProps) {
 							{hasCitrus || hasCarbonics ? (
 								<div style={{ borderTop: "0.5px solid rgba(232,230,225,0.12)", paddingTop: 8, display: "flex", flexDirection: "column", gap: 8 }}>
 									<div style={{ fontSize: 13, fontWeight: 700, color: "#8FC1E0" }}>Long-term prebatch</div>
-									<div style={{ fontSize: 12, color: "#d9e8ca", lineHeight: 1.45 }}>
-										Usa <span style={{ color: "#e8e6e1", fontWeight: 700 }}>{formatDoseInOz(prebatchPerServingMl / 30, Measure.Oz) ?? "—"}</span> de prebatch por porción{hasCitrus ? <> y añade <span style={{ color: "#e8e6e1", fontWeight: 700 }}>{formatDoseInOz(citrusPerServingMl / 30, Measure.Oz) ?? "—"}</span> de cítrico al momento del pedido.</> : null}{hasCarbonics ? <> y añade los ingredientes carbonatados al servir.</> : null}
-									</div>
-									{longTermIngredients.length ? (
-										<div style={{ display: "flex", flexDirection: "column", gap: 4, fontSize: 13, lineHeight: 1.5 }}>
-											{longTermIngredients.map((ingredient) => {
-												const color = GROUP_COLOR[getIngredientGroup(ingredient.name)] ?? GROUP_COLOR.other;
+									<div style={{ fontSize: 12, color: "#d9e8ca", lineHeight: 1.45, display: "flex", flexDirection: "column", gap: 6 }}>
+										<div>1. Prepara el prebatch con:</div>
+										<div style={{ color: "#e8e6e1", fontWeight: 700 }}>
+											{longTermIngredients.length ? longTermIngredients.map((ingredient) => {
 												const dose = formatDoseInOz(ingredient.qty, ingredient.measure);
-												return (
-													<div key={`${ingredient.name}-${ingredient.qty}`} style={{ color }}>
-														{dose ? <span style={{ opacity: 0.65 }}>{dose} </span> : null}
-														{ingredient.name}
-													</div>
-												);
-											})}
+												return `${dose ? `${dose} ` : ""}${ingredient.name}`;
+											}).join(" · ") : "—"}
 										</div>
-									) : null}
-								</div>
-							) : null}
-							{hasCarbonics ? (
-								<div style={{ borderTop: "0.5px solid rgba(232,230,225,0.12)", paddingTop: 8, display: "flex", flexDirection: "column", gap: 6 }}>
-									<div style={{ fontSize: 13, fontWeight: 700, color: "#8FC1E0" }}>Carbonated additions</div>
-									<div style={{ fontSize: 12, color: "#d9e8ca", lineHeight: 1.45 }}>
-										No se prebatchan; añádelos al servir.
-									</div>
-									<div style={{ display: "flex", flexDirection: "column", gap: 4, fontSize: 13, lineHeight: 1.5 }}>
-										{carbonatedIngredients.map((ingredient) => {
-											const color = GROUP_COLOR[getIngredientGroup(ingredient.name)] ?? GROUP_COLOR.other;
-											const dose = formatDoseInOz(ingredient.qty, ingredient.measure);
-											return (
-												<div key={`${ingredient.name}-${ingredient.qty}`} style={{ color }}>
-													{dose ? <span style={{ opacity: 0.65 }}>{dose} </span> : null}
-													{ingredient.name}
-												</div>
-											);
-										})}
+										<div>2. Por porción usa <span style={{ color: "#e8e6e1", fontWeight: 700 }}>{formatDoseInOz(prebatchPerServingMl / 30, Measure.Oz) ?? "—"}</span> de prebatch.</div>
+										{hasCitrus ? <div>3. Añade <span style={{ color: "#e8e6e1", fontWeight: 700 }}>{formatDoseInOz(citrusPerServingMl / 30, Measure.Oz) ?? "—"}</span> de <span style={{ color: "#e8e6e1", fontWeight: 700 }}>{citrusIngredients.map((ingredient) => ingredient.name).join(" · ")}</span> al momento del pedido.</div> : null}
+										{hasCarbonics ? <div>4. Añade <span style={{ color: "#e8e6e1", fontWeight: 700 }}>{carbonatedIngredients.map((ingredient) => ingredient.name).join(" · ")}</span> al servir.</div> : null}
 									</div>
 								</div>
 							) : null}
