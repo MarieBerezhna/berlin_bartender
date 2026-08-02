@@ -18,6 +18,16 @@ type RecipeModalProps = {
 export default function RecipeModal({ item, open, onClose }: RecipeModalProps) {
 	const [activeTab, setActiveTab] = useState<"receta" | "pre-batch">("receta");
 	const [bottleVolumeMl, setBottleVolumeMl] = useState(750);
+	const [selectedScaleValue, setSelectedScaleValue] = useState(750);
+	const bottleVolumeOptions = [750, 1500] as const;
+	const scaleOptions = [
+		{ label: "x2", value: 2, kind: "portion" as const },
+		{ label: "x3", value: 3, kind: "portion" as const },
+		{ label: "x4", value: 4, kind: "portion" as const },
+		{ label: "x5", value: 5, kind: "portion" as const },
+		{ label: "x6", value: 6, kind: "portion" as const },
+		...bottleVolumeOptions.map((value) => ({ label: `${value} ml`, value, kind: "bottle" as const })),
+	];
 	useEffect(() => {
 		if (!open) return;
 
@@ -46,7 +56,12 @@ export default function RecipeModal({ item, open, onClose }: RecipeModalProps) {
 	const cocktailVolumeMl = volumeOz != null ? volumeOz * 30 : 0;
 	const cocktailsCount = cocktailVolumeMl > 0 ? Math.floor(bottleVolumeMl / cocktailVolumeMl) : 0;
 	const remainderMl = cocktailVolumeMl > 0 ? bottleVolumeMl % cocktailVolumeMl : bottleVolumeMl;
-	const multiplier = cocktailVolumeMl > 0 ? bottleVolumeMl / cocktailVolumeMl : 0;
+	const selectedScaleOption = scaleOptions.find((option) => option.value === selectedScaleValue);
+	const multiplier = selectedScaleOption?.kind === "portion"
+		? Number(selectedScaleValue)
+		: cocktailVolumeMl > 0
+			? bottleVolumeMl / cocktailVolumeMl
+			: 0;
 	const scaledIngredients = (item.ingredients || []).map((ingredient) => {
 		const qty = ingredient.qty == null ? null : Number(ingredient.qty) * multiplier;
 		return {
@@ -107,37 +122,70 @@ export default function RecipeModal({ item, open, onClose }: RecipeModalProps) {
 					</button>
 				</div>
 
-				<div style={{ display: "flex", gap: 8, marginBottom: 12 }}>
-					<button
-						type="button"
-						onClick={() => setActiveTab("receta")}
-						style={{
-							border: "none",
-							borderRadius: 999,
-							padding: "8px 12px",
-							background: activeTab === "receta" ? "#e8e6e1" : "rgba(232,230,225,0.12)",
-							color: activeTab === "receta" ? "#11110f" : "#e8e6e1",
-							fontWeight: 700,
-							cursor: "pointer",
-						}}
-					>
-						Receta
-					</button>
-					<button
-						type="button"
-						onClick={() => setActiveTab("pre-batch")}
-						style={{
-							border: "none",
-							borderRadius: 999,
-							padding: "8px 12px",
-							background: activeTab === "pre-batch" ? "#e8e6e1" : "rgba(232,230,225,0.12)",
-							color: activeTab === "pre-batch" ? "#11110f" : "#e8e6e1",
-							fontWeight: 700,
-							cursor: "pointer",
-						}}
-					>
-						Pre-batch
-					</button>
+				<div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 8, marginBottom: 12, flexWrap: "wrap" }}>
+					<div style={{ display: "flex", gap: 8 }}>
+						<button
+							type="button"
+							onClick={() => setActiveTab("receta")}
+							style={{
+								border: "none",
+								borderRadius: 999,
+								padding: "8px 12px",
+								background: activeTab === "receta" ? "#e8e6e1" : "rgba(232,230,225,0.12)",
+								color: activeTab === "receta" ? "#11110f" : "#e8e6e1",
+								fontWeight: 700,
+								cursor: "pointer",
+							}}
+						>
+							Receta
+						</button>
+						<button
+							type="button"
+							onClick={() => setActiveTab("pre-batch")}
+							style={{
+								border: "none",
+								borderRadius: 999,
+								padding: "8px 12px",
+								background: activeTab === "pre-batch" ? "#e8e6e1" : "rgba(232,230,225,0.12)",
+								color: activeTab === "pre-batch" ? "#11110f" : "#e8e6e1",
+								fontWeight: 700,
+								cursor: "pointer",
+							}}
+						>
+							Pre-batch
+						</button>
+					</div>
+					{activeTab === "pre-batch" ? (
+						<label style={{ display: "flex", alignItems: "center", gap: 8, color: "#e8e6e1", fontSize: 13, fontWeight: 600 }}>
+							<span style={{ color: "#8FC1E0" }}>Botella</span>
+							<select
+								value={selectedScaleValue}
+								onChange={(event) => {
+									const nextValue = Number(event.target.value);
+									setSelectedScaleValue(nextValue);
+									if (nextValue === 750 || nextValue === 1500) {
+										setBottleVolumeMl(nextValue);
+									}
+								}}
+								style={{
+									border: "1px solid rgba(232,230,225,0.16)",
+									borderRadius: 999,
+									background: "#f2eee6",
+									color: "#11110f",
+									padding: "7px 12px",
+									fontWeight: 700,
+									cursor: "pointer",
+									fontSize: 13,
+								}}
+							>
+								{scaleOptions.map((option) => (
+									<option key={`${option.kind}-${option.value}`} value={option.value} style={{ color: "#11110f", backgroundColor: "#f2eee6" }}>
+										{option.label}
+									</option>
+								))}
+							</select>
+						</label>
+					) : null}
 				</div>
 
 				{itemImage ? (
@@ -150,26 +198,6 @@ export default function RecipeModal({ item, open, onClose }: RecipeModalProps) {
 					<RecipeCard item={item} disableModal />
 				) : (
 					<div style={{ display: "flex", flexDirection: "column", gap: 10, paddingTop: 4 }}>
-						<div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-							{[750, 1500].map((value) => (
-								<button
-									type="button"
-									key={value}
-									onClick={() => setBottleVolumeMl(value)}
-									style={{
-										border: "none",
-										borderRadius: 999,
-										padding: "8px 12px",
-										background: bottleVolumeMl === value ? "#e8e6e1" : "rgba(232,230,225,0.12)",
-										color: bottleVolumeMl === value ? "#11110f" : "#e8e6e1",
-										fontWeight: 700,
-										cursor: "pointer",
-									}}
-								>
-									{value} ml
-								</button>
-							))}
-						</div>
 						<div style={{ fontSize: 14, color: "#e8e6e1" }}>
 							Volumen del cóctel: <span style={{ fontWeight: 700 }}>{volumeLabel ?? "—"}</span>
 						</div>
