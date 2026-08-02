@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 
 import { GROUP_COLOR, type MenuItem } from "../../data/constants";
