@@ -7,7 +7,7 @@ import type { MenuItem } from "../../data/constants";
 import { toPublicPath } from "../../lib/utils";
 import IMAGES from "../../data/images";
 import { formatPrice, getIngredientGroup } from "../../lib/learn";
-import RecipeCard from "./RecipeCard";
+import RecipeCard from "../shared/RecipeCard";
 
 export type RecallOptionState = "idle" | "selected" | "correct" | "missed" | "wrong";
 

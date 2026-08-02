@@ -4,17 +4,106 @@ import { AUTOR_COCTAILS } from "./specialty";
 
 const SPRITZ: MenuItem[] = [
   {cat:"Spritz",name:"Hugo Spritz",ingr:{"Bols Saúco":"2 oz","Cava":"3 oz","Soda":"1 oz","Hierbabuena":null},
+    ingredients:[
+      {
+        name:"Bols Saúco",
+        qty:2,
+        measure: Measure.Oz
+      },{
+        name:"Cava",
+        qty:3,
+        measure: Measure.Oz
+      },{
+        name:"Soda",
+        qty:1,
+        measure: Measure.Oz
+      }],
    prices:[{label:"copa",p:10}]},
   {cat:"Spritz",name:"Aperol Spritz",ingr:{"Aperol":"2 oz","Cava":"3 oz","Soda":"1 oz"},
-   prices:[{label:"copa",p:8}]},
+  ingredients:[
+      {
+        name:"Aperol",
+        qty:2,
+        measure: Measure.Oz
+      },{
+        name:"Cava",
+        qty:3,
+        measure: Measure.Oz
+      },{
+        name:"Soda",
+        qty:1,
+        measure: Measure.Oz
+      }
+    ],
+  prices:[{label:"copa",p:8}]},
   {cat:"Spritz",name:"Yuzu Spritz",ingr:{"Licor yuzu":"2 oz","Cava":"3 oz","Soda":"1 oz"},
+  ingredients:[
+      {
+        name:"Licor yuzu",
+        qty:2,
+        measure: Measure.Oz
+      },{
+        name:"Cava",
+        qty:3,
+        measure: Measure.Oz
+      },{
+        name:"Soda",
+        qty:1,
+        measure: Measure.Oz
+      }
+    ],
    prices:[{label:"copa",p:8}]},
   {cat:"Spritz",name:"Chambord Spritz",ingr:{"Chambord":"2 oz","Cava":"3 oz","Soda":"1 oz"},
+  ingredients:[
+      {
+        name:"Chambord",
+        qty:2,
+        measure: Measure.Oz
+      },{
+        name:"Cava",
+        qty:3,
+        measure: Measure.Oz
+      },{
+        name:"Soda",
+        qty:1,
+        measure: Measure.Oz
+      }
+    ],
    prices:[{label:"copa",p:8}]},
   {cat:"Spritz",name:"Campari Spritz",ingr:{"Campari":"2 oz","Cava":"3 oz","Soda":"1 oz"},
+  ingredients:[
+      {
+        name:"Campari",
+        qty:2,
+        measure: Measure.Oz
+      },{
+        name:"Cava",
+        qty:3,
+        measure: Measure.Oz
+      },{
+        name:"Soda",
+        qty:1,
+        measure: Measure.Oz
+      }
+    ],
    prices:[{label:"copa",p:8}]},
   {cat:"Spritz",name:"Sarti Rosa Spritz",ingr:{"Sarti Rosa":"2 oz","Cava":"3 oz","Soda":"1 oz"},
-   prices:[{label:"copa",p:8}]},
+  ingredients:[
+      {
+        name:"Sarti Rosa",
+        qty:2,
+        measure: Measure.Oz
+      },{
+        name:"Cava",
+        qty:3,
+        measure: Measure.Oz
+      },{
+        name:"Soda",
+        qty:1,
+        measure: Measure.Oz
+      }
+    ],
+   prices:[{label:"copa",p:8}]}
 ];
 
 const JARRAS: MenuItem[] = [

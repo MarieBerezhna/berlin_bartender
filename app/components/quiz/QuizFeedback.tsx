@@ -3,7 +3,7 @@
 import { useRef } from "react";
 
 import type { MenuItem } from "../../data/constants";
-import RecipeCard from "../learn/RecipeCard";
+import RecipeCard from "../shared/RecipeCard";
 
 type QuizFeedbackProps = {
 	visible: boolean;
