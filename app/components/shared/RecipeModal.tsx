@@ -171,13 +171,7 @@ export default function RecipeModal({ item, open, onClose }: RecipeModalProps) {
 							))}
 						</div>
 						<div style={{ fontSize: 14, color: "#e8e6e1" }}>
-							Volumen final: <span style={{ fontWeight: 700 }}>{bottleVolumeMl} ml</span>
-						</div>
-						<div style={{ fontSize: 14, color: "#e8e6e1" }}>
 							Volumen del cóctel: <span style={{ fontWeight: 700 }}>{volumeLabel ?? "—"}</span>
-						</div>
-						<div style={{ fontSize: 14, color: "#e8e6e1" }}>
-							Equivalente en ml: <span style={{ fontWeight: 700 }}>{cocktailVolumeMl > 0 ? `${cocktailVolumeMl} ml` : "—"}</span>
 						</div>
 						<div style={{ fontSize: 14, color: "#8FC1E0", fontWeight: 700 }}>
 							Caben <span style={{ color: "#e8e6e1" }}>{cocktailsCount}</span> cócteles en una botella de {bottleVolumeMl} ml
