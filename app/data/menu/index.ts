@@ -295,8 +295,11 @@ const CERVEZAS: MenuItem[] = [
 const MICHELADAS: MenuItem[] = [
   {cat:"Micheladas",name:"Michelada Berlín",
     garnish:["Sal","Pimienta","Rodaja de limón"],
+    ingredients:[{name:"Cerveza",qty:1,measure:Measure.Top  },{name:"Salsa inglesa",qty:2,measure:Measure.Dashes},{name:"Salsa Tabasco",qty:2,measure:Measure.Dashes},{name:"Zumo de limón",qty:1,measure:Measure.Oz}],
+
    prices:[{label:"500 ml",p:8}]},
   {cat:"Micheladas",name:"Michelada de Tequila",
+    ingredients:[{name:"Cerveza",qty:1,measure:Measure.Top  },{name:"Bitter Habanero",qty:2,measure:Measure.Dashes},{name:"Zumo de limón",qty:1,measure:Measure.Oz},{name:"Tequila",qty:1,measure:Measure.Oz}],
   garnish:["Sal","Pimienta","Rodaja de limón"],
    prices:[{label:"500 ml",p:9}]},
 ];

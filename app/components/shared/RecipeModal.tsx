@@ -75,7 +75,7 @@ export default function RecipeModal({ item, open, onClose }: RecipeModalProps) {
 	const carbonatedIngredients = scaledIngredients.filter((ingredient) => isCarbonatedIngredient(ingredient.name, ingredient.measure));
 	const hasCitrus = citrusIngredients.length > 0;
 	const hasCarbonics = carbonatedIngredients.length > 0;
-	const shouldShowPrebatchTab = longTermIngredients.length > 1;
+	const shouldShowPrebatchTab = longTermIngredients.filter((ingredient) => ingredient.measure === Measure.Oz || ingredient.measure == null).length > 1;
 	const citrusPerServingMl = (item.ingredients || []).reduce((sum, ingredient) => {
 		if (!isCitrusIngredient(ingredient.name)) return sum;
 		const converted = toMl(ingredient.qty, ingredient.measure);
