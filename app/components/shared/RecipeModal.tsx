@@ -6,7 +6,8 @@ import { useEffect, useState } from "react";
 import { GROUP_COLOR, type MenuItem } from "../../data/constants";
 import IMAGES from "../../data/images";
 import { formatPrice, getIngredientGroup, sortIngredientsForStudy } from "../../lib/learn";
-import { formatVolumeOz, getIngredientDose, getVolumeOz, toPublicPath } from "@/app/lib/utils";
+import { formatVolumeOz, getIngredientDose, getVolumeOz, isCarbonatedIngredient, isCitrusIngredient, toMl, toPublicPath } from "@/app/lib/utils";
+import { Measure } from "../../data/types";
 import RecipeCard from "./RecipeCard";
 
 type RecipeModalProps = {
@@ -69,11 +70,38 @@ export default function RecipeModal({ item, open, onClose }: RecipeModalProps) {
 			qty,
 		};
 	});
+	const longTermIngredients = scaledIngredients.filter((ingredient) => !isCitrusIngredient(ingredient.name) && !isCarbonatedIngredient(ingredient.name, ingredient.measure));
+	const citrusIngredients = scaledIngredients.filter((ingredient) => isCitrusIngredient(ingredient.name));
+	const carbonatedIngredients = scaledIngredients.filter((ingredient) => isCarbonatedIngredient(ingredient.name, ingredient.measure));
+	const hasCitrus = citrusIngredients.length > 0;
+	const hasCarbonics = carbonatedIngredients.length > 0;
+	const shouldShowPrebatchTab = longTermIngredients.length > 1;
+	const citrusPerServingMl = (item.ingredients || []).reduce((sum, ingredient) => {
+		if (!isCitrusIngredient(ingredient.name)) return sum;
+		const converted = toMl(ingredient.qty, ingredient.measure);
+		return converted == null ? sum : sum + converted;
+	}, 0);
+	const prebatchPerServingMl = (item.ingredients || []).reduce((sum, ingredient) => {
+		if (isCitrusIngredient(ingredient.name)) return sum;
+		const converted = toMl(ingredient.qty, ingredient.measure);
+		return converted == null ? sum : sum + converted;
+	}, 0);
 	const sortedIngr = sortIngredientsForStudy(item);
 	const garnishes = item.garnish ?? [];
 	const priceLabel = formatPrice(item);
 	const glassName = item.glass ?? null;
 	const glassImage = glassName ? toPublicPath(IMAGES[`glass:${glassName}`]) : null;
+	const formatDoseInOz = (qty: number | null | undefined, measure?: Measure) => {
+		if (qty == null) return null;
+		const numeric = Number(qty);
+		if (Number.isNaN(numeric)) return null;
+		if (measure === Measure.Oz || measure == null) {
+			return `${Number(numeric.toFixed(2))} oz`;
+		}
+		const mlValue = toMl(numeric, measure);
+		if (mlValue == null) return `${Number(numeric.toFixed(2))} ${measure}`;
+		return `${Number((mlValue / 30).toFixed(2))} oz`;
+	};
 
 	return (
 		<div
@@ -139,21 +167,23 @@ export default function RecipeModal({ item, open, onClose }: RecipeModalProps) {
 						>
 							Receta
 						</button>
-						<button
-							type="button"
-							onClick={() => setActiveTab("pre-batch")}
-							style={{
-								border: "none",
-								borderRadius: 999,
-								padding: "8px 12px",
-								background: activeTab === "pre-batch" ? "#e8e6e1" : "rgba(232,230,225,0.12)",
-								color: activeTab === "pre-batch" ? "#11110f" : "#e8e6e1",
-								fontWeight: 700,
-								cursor: "pointer",
-							}}
-						>
-							Pre-batch
-						</button>
+						{shouldShowPrebatchTab ? (
+							<button
+								type="button"
+								onClick={() => setActiveTab("pre-batch")}
+								style={{
+									border: "none",
+									borderRadius: 999,
+									padding: "8px 12px",
+									background: activeTab === "pre-batch" ? "#e8e6e1" : "rgba(232,230,225,0.12)",
+									color: activeTab === "pre-batch" ? "#11110f" : "#e8e6e1",
+									fontWeight: 700,
+									cursor: "pointer",
+								}}
+							>
+								Pre-batch
+							</button>
+						) : null}
 					</div>
 					{activeTab === "pre-batch" ? (
 						<label style={{ display: "flex", alignItems: "center", gap: 8, color: "#e8e6e1", fontSize: 13, fontWeight: 600 }}>
@@ -188,12 +218,6 @@ export default function RecipeModal({ item, open, onClose }: RecipeModalProps) {
 					) : null}
 				</div>
 
-				{itemImage ? (
-					<div style={{ borderRadius: 16, overflow: "hidden", marginBottom: 12 }}>
-						<Image src={itemImage} alt={item.name} width={760} height={220} style={{ width: "100%", height: 220, objectFit: "cover", display: "block" }} />
-					</div>
-				) : null}
-
 				{activeTab === "receta" ? (
 					<RecipeCard item={item} disableModal />
 				) : (
@@ -209,7 +233,7 @@ export default function RecipeModal({ item, open, onClose }: RecipeModalProps) {
 								Resto: {remainderMl} ml
 							</div>
 						) : null}
-						<div style={{ border: "0.5px solid rgba(232,230,225,0.15)", borderRadius: 12, background: "#161614", padding: 12, display: "flex", flexDirection: "column", gap: 8 }}>
+						<div style={{ border: "0.5px solid rgba(232,230,225,0.15)", borderRadius: 12, background: "#161614", padding: 12, display: "flex", flexDirection: "column", gap: 10 }}>
 							<div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: 8 }}>
 								<div style={{ fontSize: 14, fontWeight: 700, color: "#e8e6e1" }}>{item.name}</div>
 								{priceLabel ? (
@@ -217,11 +241,21 @@ export default function RecipeModal({ item, open, onClose }: RecipeModalProps) {
 								) : null}
 							</div>
 							<div style={{ fontSize: 12, color: "#8FC1E0", fontWeight: 600 }}>Volumen necesario {bottleVolumeMl} ml</div>
+							{hasCitrus ? (
+								<div style={{ border: "0.5px solid rgba(224,174,107,0.3)", borderRadius: 10, padding: "8px 10px", background: "rgba(224,174,107,0.08)", color: "#E0AE6B", fontSize: 12, fontWeight: 700 }}>
+									Same day use
+								</div>
+							) : null}
+							{hasCarbonics ? (
+								<div style={{ border: "0.5px solid rgba(143,193,224,0.3)", borderRadius: 10, padding: "8px 10px", background: "rgba(143,193,224,0.08)", color: "#8FC1E0", fontSize: 12, fontWeight: 700 }}>
+									Add at serving time
+								</div>
+							) : null}
 							{sortedIngr.length ? (
 								<div style={{ display: "flex", flexDirection: "column", gap: 4, fontSize: 13, lineHeight: 1.5 }}>
 									{scaledIngredients.map((ingredient) => {
 										const color = GROUP_COLOR[getIngredientGroup(ingredient.name)] ?? GROUP_COLOR.other;
-										const dose = ingredient.qty == null ? null : `${Number(ingredient.qty.toFixed(2))} ${ingredient.measure ?? ""}`.trim();
+										const dose = formatDoseInOz(ingredient.qty, ingredient.measure);
 										return (
 											<div key={`${ingredient.name}-${ingredient.qty}`} style={{ color }}>
 												{dose ? <span style={{ opacity: 0.65 }}>{dose} </span> : null}
@@ -229,6 +263,48 @@ export default function RecipeModal({ item, open, onClose }: RecipeModalProps) {
 											</div>
 										);
 									})}
+								</div>
+							) : null}
+							{hasCitrus || hasCarbonics ? (
+								<div style={{ borderTop: "0.5px solid rgba(232,230,225,0.12)", paddingTop: 8, display: "flex", flexDirection: "column", gap: 8 }}>
+									<div style={{ fontSize: 13, fontWeight: 700, color: "#8FC1E0" }}>Long-term prebatch</div>
+									<div style={{ fontSize: 12, color: "#d9e8ca", lineHeight: 1.45 }}>
+										Usa <span style={{ color: "#e8e6e1", fontWeight: 700 }}>{formatDoseInOz(prebatchPerServingMl / 30, Measure.Oz) ?? "—"}</span> de prebatch por porción{hasCitrus ? <> y añade <span style={{ color: "#e8e6e1", fontWeight: 700 }}>{formatDoseInOz(citrusPerServingMl / 30, Measure.Oz) ?? "—"}</span> de cítrico al momento del pedido.</> : null}{hasCarbonics ? <> y añade los ingredientes carbonatados al servir.</> : null}
+									</div>
+									{longTermIngredients.length ? (
+										<div style={{ display: "flex", flexDirection: "column", gap: 4, fontSize: 13, lineHeight: 1.5 }}>
+											{longTermIngredients.map((ingredient) => {
+												const color = GROUP_COLOR[getIngredientGroup(ingredient.name)] ?? GROUP_COLOR.other;
+												const dose = formatDoseInOz(ingredient.qty, ingredient.measure);
+												return (
+													<div key={`${ingredient.name}-${ingredient.qty}`} style={{ color }}>
+														{dose ? <span style={{ opacity: 0.65 }}>{dose} </span> : null}
+														{ingredient.name}
+													</div>
+												);
+											})}
+										</div>
+									) : null}
+								</div>
+							) : null}
+							{hasCarbonics ? (
+								<div style={{ borderTop: "0.5px solid rgba(232,230,225,0.12)", paddingTop: 8, display: "flex", flexDirection: "column", gap: 6 }}>
+									<div style={{ fontSize: 13, fontWeight: 700, color: "#8FC1E0" }}>Carbonated additions</div>
+									<div style={{ fontSize: 12, color: "#d9e8ca", lineHeight: 1.45 }}>
+										No se prebatchan; añádelos al servir.
+									</div>
+									<div style={{ display: "flex", flexDirection: "column", gap: 4, fontSize: 13, lineHeight: 1.5 }}>
+										{carbonatedIngredients.map((ingredient) => {
+											const color = GROUP_COLOR[getIngredientGroup(ingredient.name)] ?? GROUP_COLOR.other;
+											const dose = formatDoseInOz(ingredient.qty, ingredient.measure);
+											return (
+												<div key={`${ingredient.name}-${ingredient.qty}`} style={{ color }}>
+													{dose ? <span style={{ opacity: 0.65 }}>{dose} </span> : null}
+													{ingredient.name}
+												</div>
+											);
+										})}
+									</div>
 								</div>
 							) : null}
 							{garnishes.length ? (

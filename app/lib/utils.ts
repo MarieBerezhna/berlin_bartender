@@ -69,6 +69,41 @@ export function formatVolumeOz(value: number | null): string | null {
 	return `${normalized} oz`;
 }
 
+export function isCitrusIngredient(name: string): boolean {
+	const normalized = name.toLowerCase().normalize("NFKD").replace(/[\u0300-\u036f]/g, "");
+	return /(limon|lima|naranja|orange|citric|citrico)/.test(normalized);
+}
+
+export function isCarbonatedIngredient(name: string, measure?: Measure): boolean {
+	if (measure === Measure.Top) return true;
+	const normalized = name.toLowerCase().normalize("NFKD").replace(/[\u0300-\u036f]/g, "");
+	return /(soda|7up|ginger beer|ginger ale|tonica|tónica|cola|pepsi|spritz|sparkling|carbonat|gaseosa|pomelo|limonada|cava|cerveza|beer|champagne)/.test(normalized);
+}
+
+export function toMl(qty: number | null | undefined, measure?: Measure): number | null {
+	if (qty == null) return null;
+	const numeric = Number(qty);
+	if (Number.isNaN(numeric)) return null;
+
+	switch (measure) {
+		case Measure.Oz:
+			return numeric * 30;
+		case Measure.Cl:
+			return numeric * 10;
+		case Measure.Ml:
+			return numeric;
+		default:
+			return null;
+	}
+}
+
+export function formatMl(value: number | null): string | null {
+	if (value == null) return null;
+	const rounded = Number(value.toFixed(2));
+	const normalized = rounded % 1 === 0 ? rounded.toFixed(0) : rounded.toFixed(2).replace(/\.0+$/, "").replace(/(\.\d*?)0+$/, "$1");
+	return `${normalized} ml`;
+}
+
 export function toPublicPath(path: string): string {
 	if (!path) return "";
 	return path.startsWith("./") ? path.replace("./", "/") : path;
