@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
+import RecipeModal from "./RecipeModal";
 import {
 	GROUP_COLOR,
 	ITEM_DESCRIPTIONS,
@@ -12,7 +13,7 @@ import {
 import IMAGES from "../../data/images";
 import { formatPrice, getIngredientGroup, sortIngredientsForStudy } from "../../lib/learn";
 import OriginFlag from "./OriginFlag";
-import { getIngredientDose, toPublicPath } from "@/app/lib/utils";
+import { formatVolumeOz, getIngredientDose, getVolumeOz, toPublicPath } from "@/app/lib/utils";
 import FamilyBadge from "./FamilyBadge";
 
 type OverviewCardProps = {
@@ -23,6 +24,7 @@ type OverviewCardProps = {
 
 export default function OverviewCard({ item, showCategoryLabel, priority = false }: OverviewCardProps) {
 	const [showDescription, setShowDescription] = useState(false);
+	const [selectedItem, setSelectedItem] = useState<MenuItem | null>(null);
 	const infoWrapRef = useRef<HTMLDivElement | null>(null);
 	const image = toPublicPath(IMAGES[item.name]);
 	const glassName = item.glass || null;
@@ -30,6 +32,7 @@ export default function OverviewCard({ item, showCategoryLabel, priority = false
 	const sortedIngr = sortIngredientsForStudy(item);
 	const garnishes = item.garnish || [];
 	const description = ITEM_DESCRIPTIONS[item.name as keyof typeof ITEM_DESCRIPTIONS] || "";
+	const volumeLabel = formatVolumeOz(getVolumeOz(item));
 
 	useEffect(() => {
 		if (!showDescription) return;
@@ -56,7 +59,13 @@ export default function OverviewCard({ item, showCategoryLabel, priority = false
 	}, [showDescription]);
 
 	return (
-		<div className="overview-card">
+		<>
+		<div className="overview-card" onClick={() => setSelectedItem(item)} role="button" tabIndex={0} onKeyDown={(event) => {
+			if (event.key === "Enter" || event.key === " ") {
+				event.preventDefault();
+				setSelectedItem(item);
+			}
+		}} style={{ cursor: "pointer" }}>
 			{image ? (
 				<div style={{ overflow: "hidden", borderRadius: "12px 12px 0 0" }}>
 					<Image
@@ -104,6 +113,9 @@ export default function OverviewCard({ item, showCategoryLabel, priority = false
 				</div>
 
 				<div style={{ fontSize: 14, color: "#E0AE6B", fontWeight: 500 }}>{formatPrice(item)}</div>
+				{volumeLabel ? (
+					<div style={{ fontSize: 12, color: "#8FC1E0", fontWeight: 600 }}>Volumen {volumeLabel}</div>
+				) : null}
 
 				{sortedIngr.length ? (
 					<div style={{ display: "flex", flexDirection: "column", gap: 4, fontSize: 13, lineHeight: 1.5 }}>
@@ -168,5 +180,7 @@ export default function OverviewCard({ item, showCategoryLabel, priority = false
 			</div>
 			{ITEM_ORIGINS[item.name] ? <OriginFlag country={ITEM_ORIGINS[item.name]} /> : null}
 		</div>
+		<RecipeModal item={item} open={selectedItem?.name === item.name} onClose={() => setSelectedItem(null)} />
+		</>
 	);
 }

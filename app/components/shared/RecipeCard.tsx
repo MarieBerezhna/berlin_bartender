@@ -1,31 +1,54 @@
 "use client";
 
 import Image from "next/image";
+import { useState } from "react";
 
 import { GROUP_COLOR, type MenuItem } from "../../data/constants";
 import IMAGES from "../../data/images";
 import { formatPrice, getIngredientGroup, sortIngredientsForStudy } from "../../lib/learn";
-import { getIngredientDose, toPublicPath } from "@/app/lib/utils";
+import { formatVolumeOz, getIngredientDose, getVolumeOz, toPublicPath } from "@/app/lib/utils";
+import RecipeModal from "./RecipeModal";
 
 type RecipeCardProps = {
 	item: MenuItem;
+	disableModal?: boolean;
 };
 
-export default function RecipeCard({ item }: RecipeCardProps) {
+export default function RecipeCard({ item, disableModal = false }: RecipeCardProps) {
+	const [selectedItem, setSelectedItem] = useState<MenuItem | null>(null);
 	const itemImage = toPublicPath(IMAGES[item.name]);
 	const glassName = item.glass ?? null;
 	const glassImage = glassName && toPublicPath(IMAGES[`glass:${glassName}`]);
 	const sortedIngr = sortIngredientsForStudy(item);
 	const garnishes = item.garnish ?? [];
 	const priceLabel = formatPrice(item);
+	const volumeLabel = formatVolumeOz(getVolumeOz(item));
 
 	return (
-		<div style={{
-			borderRadius: 10,
-			overflow: "hidden",
-			border: "0.5px solid rgba(232,230,225,0.15)",
-			background: "#161614",
-		}}>
+		<>
+		<div
+			style={{
+				borderRadius: 10,
+				overflow: "hidden",
+				border: "0.5px solid rgba(232,230,225,0.15)",
+				background: "#161614",
+				cursor: disableModal ? "default" : "pointer",
+			}}
+			onClick={() => {
+				if (!disableModal) {
+					setSelectedItem(item);
+				}
+			}}
+			role="button"
+			tabIndex={0}
+			onKeyDown={(event) => {
+				if (disableModal) return;
+				if (event.key === "Enter" || event.key === " ") {
+					event.preventDefault();
+					setSelectedItem(item);
+				}
+			}}
+		>
 			{itemImage ? (
 				<Image
 					src={itemImage}
@@ -42,7 +65,6 @@ export default function RecipeCard({ item }: RecipeCardProps) {
 						<div style={{ fontSize: 13, color: "#E0AE6B", fontWeight: 500, flexShrink: 0 }}>{priceLabel}</div>
 					) : null}
 				</div>
-
 				{sortedIngr.length ? (
 					<div style={{ display: "flex", flexDirection: "column", gap: 4, fontSize: 13, lineHeight: 1.5 }}>
 						{sortedIngr.map((ing) => {
@@ -88,7 +110,14 @@ export default function RecipeCard({ item }: RecipeCardProps) {
 						) : null}
 					</div>
 				) : null}
+				{volumeLabel ? (
+					<div style={{ fontSize: 12, color: "#8FC1E0", fontWeight: 600, marginTop: 4 }}>Volumen {volumeLabel}</div>
+				) : null}
 			</div>
 		</div>
+		{!disableModal ? (
+			<RecipeModal item={item} open={selectedItem?.name === item.name} onClose={() => setSelectedItem(null)} />
+		) : null}
+		</>
 	);
 }

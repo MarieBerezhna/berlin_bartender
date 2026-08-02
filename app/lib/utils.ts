@@ -52,6 +52,23 @@ export function getIngredientDose(item: MenuItem, ingredientName: string): strin
 	return getIngredientEntries(item).find((entry) => entry.name === ingredientName)?.dose ?? null;
 }
 
+export function getVolumeOz(item: MenuItem): number | null {
+	const total = (item.ingredients || []).reduce((sum, ingredient) => {
+		if (ingredient.measure !== Measure.Oz || ingredient.qty == null) return sum;
+		const numeric = Number(ingredient.qty);
+		return Number.isNaN(numeric) ? sum : sum + numeric;
+	}, 0);
+
+	return total > 0 ? total : null;
+}
+
+export function formatVolumeOz(value: number | null): string | null {
+	if (value == null) return null;
+	const rounded = Number(value.toFixed(2));
+	const normalized = rounded % 1 === 0 ? rounded.toFixed(0) : rounded.toFixed(2).replace(/\.0+$/, "").replace(/(\.\d*?)0+$/, "$1");
+	return `${normalized} oz`;
+}
+
 export function toPublicPath(path: string): string {
 	if (!path) return "";
 	return path.startsWith("./") ? path.replace("./", "/") : path;
