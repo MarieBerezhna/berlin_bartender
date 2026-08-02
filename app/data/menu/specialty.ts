@@ -3,7 +3,7 @@ import { Glass, Measure } from "../types";
 
 const ACID_TIMES: MenuItem[] = [
   {cat:"Cócteles de autor",family:"Acid Times",name:"Blue Margarita",
-    ingr:{"Tequila":"2 oz","Licor Bols Blue Curaçao":"1 oz","Sirope de agave":"0.5 oz","Zumo de lima":"1 oz"},
+    
     ingredients:[
       {
         name:"Tequila",
@@ -27,7 +27,7 @@ const ACID_TIMES: MenuItem[] = [
     glass: Glass.Coupe,
     prices:[{label:"cóctel",p:12}]},
   {cat:"Cócteles de autor",family:"Acid Times",name:"Brote Primavera",
-  ingr:{"Gin":"2 oz","Licor yuzu":"0.5 oz","Azúcar líquido":'0.5 oz'},
+  
   ingredients:[
     {
       name:"Gin",
@@ -48,7 +48,7 @@ const ACID_TIMES: MenuItem[] = [
     glass: Glass.Lowball,
    prices:[{label:"cóctel",p:12}]},
   {cat:"Cócteles de autor",family:"Acid Times",name:"Berlin Lemonade",
-    ingr:{"Jack Daniels Triple Mash":"1.5 oz","Triple Sec":"0.5 oz","Bitter de naranja":"2 golpes","Zumo de limón":"1.33 oz","7UP":"top"},
+    
     ingredients:[
       {
         name:"Jack Daniels Triple Mash",
@@ -76,7 +76,7 @@ const ACID_TIMES: MenuItem[] = [
     glass: Glass.Highball,
     prices:[{label:"cóctel",p:12}]},
   {cat:"Cócteles de autor",family:"Acid Times",name:"Corazón de Luna",
-    ingr:{"Tequila":"2 oz","Triple Sec":"1 oz","Zumo de lima":"1 oz","Lichee":"0.5 oz"},
+    
     ingredients:[
       {
         name:"Tequila",
@@ -100,7 +100,7 @@ const ACID_TIMES: MenuItem[] = [
     glass: Glass.Coupe,
    prices:[{label:"cóctel",p:12}]},
   {cat:"Cócteles de autor",family:"Acid Times",name:"Berlín Green",
-    ingr:{"Vodka":"2 oz","Licor Midori":"1 oz","Maracuya":"0.5 oz", "Manzana verde natural triturada":"0.75 ud."},
+    
     ingredients:[
       {
         name:"Vodka",
@@ -128,7 +128,7 @@ const ACID_TIMES: MenuItem[] = [
 
 const SWEET_TIMES: MenuItem[] = [
   {cat:"Cócteles de autor",family:"Sweet Times",name:"Porn Star Martini",
-    ingr:{"Vodka":"1.5 oz","Passoa":"1 oz","Maracuya":"1 oz","Zumo de lima":"1 oz","Sirope de vainilla":"1 oz","Espumita":"2 golpes"},
+    
     ingredients:[
       {
         name:"Vodka",
@@ -161,7 +161,7 @@ const SWEET_TIMES: MenuItem[] = [
     glass: Glass.Coupe,
     prices:[{label:"cóctel",p:12}]},
   {cat:"Cócteles de autor",family:"Sweet Times",name:"Éxodo",
-    ingr:{"Bumbu":"2 oz","Bitter caffè":"2 golpes","Sirope pandán":"0.66 oz","Leche de coco":"0.5 oz","Café":"2.66 oz"},
+    
     ingredients:[
       {
         name:"Bumbu",
@@ -189,7 +189,7 @@ const SWEET_TIMES: MenuItem[] = [
     glass: Glass.Highball,
     prices:[{label:"cóctel",p:12}]},
   {cat:"Cócteles de autor",family:"Sweet Times",name:"Rubedo",
-    ingr:{"Gin":"2 oz","Vermut":"1 oz","Zumo de lima":"1 oz","Sirope de agave":"0.5 oz","Zumo de arándanos":"0.5 oz","Fresa":"0.5 oz"},
+    
     ingredients:[
       {
         name:"Gin",
@@ -221,7 +221,7 @@ const SWEET_TIMES: MenuItem[] = [
     glass: Glass.Highball,
     prices:[{label:"cóctel",p:12}]},
   {cat:"Cócteles de autor",family:"Sweet Times",name:"Génesis",
-  ingr:{"Ron":"2 oz","Calabaza asada":"2 oz","Azúcar líquido":"1 oz","Zumo de naranja":"1 oz", "Zumo de lima":"0.5 oz", "Ginger Ale":"top"},
+  
     ingredients:[
       {
         name:"Ron",
@@ -253,7 +253,7 @@ const SWEET_TIMES: MenuItem[] = [
     glass: Glass.Highball,
     prices:[{label:"cóctel",p:12}]},
   {cat:"Cócteles de autor",family:"Sweet Times",name:"Ámbar con cacao",
-    ingr:{"Ron":"2 oz","Licor Bols Butterscotch":"1 oz","Sirope de vainilla":"1 oz", "Licor Bols Chocolate":"0.5 oz"},
+    
     ingredients:[
       {
         name:"Ron",
@@ -277,7 +277,7 @@ const SWEET_TIMES: MenuItem[] = [
     glass: Glass.Coupe,
     prices:[{label:"cóctel",p:12}]},
   {cat:"Cócteles de autor",family:"Sweet Times",name:"Diego",
-    ingr:{"Jack Daniels Fire":"1 oz","Licor Bols Yogurt":"1 oz","Licor Bols Butterscotch":"1 oz", "Zumo de arándanos":"1 oz", "Sirope amarena":"~0.8 oz"},
+    
     ingredients:[
       {
         name:"Jack Daniels Fire",
@@ -308,7 +308,7 @@ const SWEET_TIMES: MenuItem[] = [
 
 const SPICY_TIMES: MenuItem[] = [
   {cat:"Cócteles de autor",family:"Spicy Times",name:"Paloma Don Julio",
-    ingr:{"Tequila Don Julio":"2 oz","Sirope de agave":"0.5 oz","Zumo de lima":"0.5 oz","Soda de pomelo":"top"},
+    
     ingredients:[
       {
         name:"Tequila Don Julio",
@@ -333,7 +333,7 @@ const SPICY_TIMES: MenuItem[] = [
     glass: Glass.Highball,
     prices:[{label:"cóctel",p:12}]},
   {cat:"Cócteles de autor",family:"Spicy Times",name:"Matarreyes",
-    ingr:{"Vodka Smirnoff Tamarindo":"2 oz","Licor de humo":"1 oz","Triple Sec":"1.5 oz","Sirope de agave":"1 oz","Zumo de lima":"1 oz","Maracuya":"1 oz"},
+    
     ingredients:[
       {
         name:"Vodka Smirnoff Tamarindo",
@@ -367,7 +367,7 @@ const SPICY_TIMES: MenuItem[] = [
 
 const HARD_TIMES: MenuItem[] = [
   {cat:"Cócteles de autor",family:"Hard Times",name:"Hombro al sol",
-    ingr:{"Monkey Shoulder":"2 oz","Fino":"2 oz","Bitter de naranja":"2 golpes"},
+    
     ingredients:[
       {
         name:"Monkey Shoulder",
@@ -387,7 +387,7 @@ const HARD_TIMES: MenuItem[] = [
     prices:[{label:"cóctel",p:12}]},
   {cat:"Cócteles de autor",family:"Hard Times",name:"Polvo de calima",
     glass: Glass.Lowball,
-    ingr:{"Mezcal":"2 oz","Cynar":"2 oz","Vino blanco":"2 oz"},
+    
     ingredients:[
       {
         name:"Mezcal",
@@ -406,7 +406,7 @@ const HARD_TIMES: MenuItem[] = [
     prices:[{label:"cóctel",p:12}]},
   {cat:"Cócteles de autor",family:"Hard Times",name:"Berlin Sling",
     glass: Glass.Collins,
-    ingr:{"Gin Mare":"1,5 oz","Chambord":"0.5 oz","Bénédictine DOM":"1 oz","Triple Sec":"0.5 oz","Piña":"0.5 oz","Zumo de lima":"0.5 oz","Sirope de agave":"0.5 oz","Bitter de naranja":"2 golpes"},
+    
     ingredients:[
       {
         name:"Gin Mare",
@@ -447,7 +447,7 @@ const HARD_TIMES: MenuItem[] = [
 
 const LEY_SECA: MenuItem[] = [
   {cat:"Cócteles de autor",family:"Ley Seca",name:"Virgin Mai Tai",
-    ingr:{"Tanqueray 0.0":"2 oz","Sirope de orgeat":"1.5 oz","Sirope falernum":"1.5 oz","Zumo de limón":"1 oz","Zumo de naranja":"0.5 oz"},
+    
     ingredients:[
       {
         name:"Tanqueray 0.0",
@@ -476,7 +476,7 @@ const LEY_SECA: MenuItem[] = [
     glass: Glass.Highball,
    prices:[{label:"sin alcohol",p:8},{label:"con alcohol",p:12}]},
   {cat:"Cócteles de autor",family:"Ley Seca",name:"Gin Fizz 0.0",
-    ingr:{"Tanqueray 0.0":"2 oz","Zumo de limón":"1 oz","Azúcar líquido":"0.75 oz","Espumita": "2 golpes","Soda":"top"},
+    
     ingredients:[
       {
         name:"Tanqueray 0.0",
@@ -504,7 +504,7 @@ const LEY_SECA: MenuItem[] = [
     glass: Glass.Highball,
    prices:[{label:"cóctel",p:9}]},
   {cat:"Cócteles de autor",family:"Ley Seca",name:"Virgin Lady",
-    ingr:{"Tanqueray 0.0":"2 oz","Zumo de limón":"1 oz","Azúcar líquido":"0.5 oz","Espumita": "2 golpes"},
+    
     ingredients:[
       {
         name:"Tanqueray 0.0",
@@ -528,7 +528,7 @@ const LEY_SECA: MenuItem[] = [
     glass: Glass.Coupe,
     prices:[{label:"cóctel",p:9}]},
   {cat:"Cócteles de autor",family:"Ley Seca",name:"Virgin Pink Lady",
-    ingr:{"Tanqueray 0.0":"2 oz","Zumo de limón":"1 oz","Granadina":"0.5 oz","Espumita": "2 golpes"},
+    
     ingredients:[
       {
         name:"Tanqueray 0.0",
@@ -553,10 +553,12 @@ const LEY_SECA: MenuItem[] = [
     prices:[{label:"cóctel",p:9}]},
 ];
 
-export const AUTOR_COCTAILS: MenuItem[] = [
+import { normalizeMenuItems } from "./normalize";
+
+export const AUTOR_COCTAILS: MenuItem[] = normalizeMenuItems([
   ...ACID_TIMES,
   ...SWEET_TIMES,
   ...SPICY_TIMES,
   ...HARD_TIMES,
   ...LEY_SECA,
-];
+]);

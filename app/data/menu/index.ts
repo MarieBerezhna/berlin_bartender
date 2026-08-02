@@ -1,9 +1,10 @@
 ﻿import { Measure, type MenuItem } from "../types";
 import { CLASSICS } from "./classics";
 import { AUTOR_COCTAILS } from "./specialty";
+import { normalizeMenuItems } from "./normalize";
 
 const SPRITZ: MenuItem[] = [
-  {cat:"Spritz",name:"Hugo Spritz",ingr:{"Bols Saúco":"2 oz","Cava":"3 oz","Soda":"1 oz","Hierbabuena":null},
+  {cat:"Spritz",name:"Hugo Spritz",
     ingredients:[
       {
         name:"Bols Saúco",
@@ -19,7 +20,7 @@ const SPRITZ: MenuItem[] = [
         measure: Measure.Oz
       }],
    prices:[{label:"copa",p:10}]},
-  {cat:"Spritz",name:"Aperol Spritz",ingr:{"Aperol":"2 oz","Cava":"3 oz","Soda":"1 oz"},
+  {cat:"Spritz",name:"Aperol Spritz",
   ingredients:[
       {
         name:"Aperol",
@@ -36,7 +37,7 @@ const SPRITZ: MenuItem[] = [
       }
     ],
   prices:[{label:"copa",p:8}]},
-  {cat:"Spritz",name:"Yuzu Spritz",ingr:{"Licor yuzu":"2 oz","Cava":"3 oz","Soda":"1 oz"},
+  {cat:"Spritz",name:"Yuzu Spritz",
   ingredients:[
       {
         name:"Licor yuzu",
@@ -53,7 +54,7 @@ const SPRITZ: MenuItem[] = [
       }
     ],
    prices:[{label:"copa",p:8}]},
-  {cat:"Spritz",name:"Chambord Spritz",ingr:{"Chambord":"2 oz","Cava":"3 oz","Soda":"1 oz"},
+  {cat:"Spritz",name:"Chambord Spritz",
   ingredients:[
       {
         name:"Chambord",
@@ -70,7 +71,7 @@ const SPRITZ: MenuItem[] = [
       }
     ],
    prices:[{label:"copa",p:8}]},
-  {cat:"Spritz",name:"Campari Spritz",ingr:{"Campari":"2 oz","Cava":"3 oz","Soda":"1 oz"},
+  {cat:"Spritz",name:"Campari Spritz",
   ingredients:[
       {
         name:"Campari",
@@ -87,7 +88,7 @@ const SPRITZ: MenuItem[] = [
       }
     ],
    prices:[{label:"copa",p:8}]},
-  {cat:"Spritz",name:"Sarti Rosa Spritz",ingr:{"Sarti Rosa":"2 oz","Cava":"3 oz","Soda":"1 oz"},
+  {cat:"Spritz",name:"Sarti Rosa Spritz",
   ingredients:[
       {
         name:"Sarti Rosa",
@@ -107,9 +108,9 @@ const SPRITZ: MenuItem[] = [
 ];
 
 const JARRAS: MenuItem[] = [
-  {cat:"Jarras",name:"Agua de Valencia",ingr:{"Vodka":"1 oz","Gin Tanqueray":"1 oz","Zumo de naranja":"2 oz","Cava":"2 oz","Triple Sec":null,"Licor mandarina MB":null,"Azúcar líquido":null},
+  {cat:"Jarras",name:"Agua de Valencia",
     prices:[{label:"copa",p:7},{label:"jarra",p:25}]}, // TODO
-  {cat:"Jarras",name:"Sangría",ingr:{"Ron blanco":"0.5 oz","Vino tinto":"0.5 oz","Triple Sec":"0.5 oz","Terry":"0.5 oz","Vermut tinto":"0.5 oz","Zumo de naranja":"0.5 oz","Azúcar líquido":"0.5 oz"},
+  {cat:"Jarras",name:"Sangría",
   ingredients:[
     {
       name:"Ron blanco",
@@ -141,7 +142,7 @@ const JARRAS: MenuItem[] = [
       measure: Measure.Oz
     }],
     prices:[{label:"copa",p:7},{label:"jarra",p:25}]},
-  {cat:"Jarras",name:"Tinto de verano",ingr:{"Vino tinto":null,"Schweppes limón":null,"Zumo de limón":null},
+  {cat:"Jarras",name:"Tinto de verano",
     prices:[{label:"copa",p:5},{label:"jarra",p:20}]},
 ];
 
@@ -292,10 +293,10 @@ const CERVEZAS: MenuItem[] = [
 ];
 
 const MICHELADAS: MenuItem[] = [
-  {cat:"Micheladas",name:"Michelada Berlín",ingr:{"Cerveza":"top","Zumo de limón":"1 oz","Salsa Inglesa":"2 golpes","Tabasco":"4 golpes"},
+  {cat:"Micheladas",name:"Michelada Berlín",
     garnish:["Sal","Pimienta","Rodaja de limón"],
    prices:[{label:"500 ml",p:8}]},
-  {cat:"Micheladas",name:"Michelada de Tequila",ingr:{"Cerveza":"top","Tequila":"1.5 oz","Bitter habanero":"4 golpes","Zumo de limón":"1 oz"},
+  {cat:"Micheladas",name:"Michelada de Tequila",
   garnish:["Sal","Pimienta","Rodaja de limón"],
    prices:[{label:"500 ml",p:9}]},
 ];

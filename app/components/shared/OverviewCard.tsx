@@ -106,19 +106,16 @@ export default function OverviewCard({ item, showCategoryLabel, priority = false
 				<div style={{ fontSize: 14, color: "#E0AE6B", fontWeight: 500 }}>{formatPrice(item)}</div>
 
 				{sortedIngr.length ? (
-					<div style={{ fontSize: 13, lineHeight: 1.8 }}>
-						{sortedIngr.map((ing, idx) => {
+					<div style={{ display: "flex", flexDirection: "column", gap: 4, fontSize: 13, lineHeight: 1.5 }}>
+						{sortedIngr.map((ing) => {
 							const color = GROUP_COLOR[getIngredientGroup(ing)] || GROUP_COLOR.other;
 							const dose = getIngredientDose(item, ing);
 
 							return (
-								<span key={`${item.name}-${ing}`}>
-									{idx > 0 ? <span style={{ color: "#3a3835" }}> · </span> : null}
-									<span style={{ color }}>
-										{ing}
-										{dose ? <span style={{ opacity: 0.7 }}> {dose}</span> : null}
-									</span>
-								</span>
+								<div key={`${item.name}-${ing}`} style={{ color }}>
+									{dose ? <span style={{ opacity: 0.7 }}>{dose} </span> : null}
+									{ing}
+								</div>
 							);
 						})}
 					</div>

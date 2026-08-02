@@ -1,22 +1,23 @@
 ﻿import type { MenuItem } from "../types";
 import { Glass, Measure } from "../types";
+import { normalizeMenuItems } from "./normalize";
 
 const UNCLASSIFIED: MenuItem[] = [
     {cat:"Coctelería clásica",family:"Inclasificables",name:"Espresso Martini",
-    ingr:{"Vodka":"2 oz","Licor de café Bols":"1 oz","Bitter de cacao":"2 golpes","Sirope de vainilla":"0.5 oz","Café":"1 oz"},
+    
     ingredients:[{name:"Vodka",qty:2,measure:Measure.Oz},{name:"Licor de café Bols",qty:1,measure:Measure.Oz},{name:"Bitter de cacao",qty:2,measure:Measure.Dashes},{name:"Sirope de vainilla",qty:0.5,measure:Measure.Oz},{name:"Café",qty:1,measure:Measure.Oz}],
     garnish:["Granos de café"],
     method:"Agitado, Colado",
     prices:[{label:"cóctel",p:11}]},
   {cat:"Coctelería clásica",family:"Inclasificables",name:"White Russian",
-    ingr:{"Vodka":"2 oz","Licor de café Bols":"1 oz","Leche":"0.5 oz","Nata":"0.5 oz"},
+    
     ingredients:[{name:"Vodka",qty:2,measure:Measure.Oz},{name:"Licor de café Bols",qty:1,measure:Measure.Oz},{name:"Leche",qty:0.5,measure:Measure.Oz},{name:"Nata",qty:0.5,measure:Measure.Oz}],
     garnish:["Granos de café"],
     method:"Directo",
     glass: Glass.Lowball,
    prices:[{label:"cóctel",p:11}]},
   {cat:"Coctelería clásica",family:"Inclasificables",name:"Piña Colada",
-    ingr:{"Ron blanco":"2 oz","Leche de coco":"1.5 oz","Zumo de piña":"1.5 oz","Zumo de lima":"0.5 oz"},
+    
     ingredients:[{name:"Ron blanco",qty:2,measure:Measure.Oz},{name:"Leche de coco",qty:1.5,measure:Measure.Oz},{name:"Zumo de piña",qty:1.5,measure:Measure.Oz},{name:"Zumo de lima",qty:0.5,measure:Measure.Oz}],
     comment:"Opcionalmente se puede añadir zumo de limón al gusto",
     garnish:["Rodaja de piña","Cereza"],
@@ -24,28 +25,28 @@ const UNCLASSIFIED: MenuItem[] = [
     glass: Glass.Coupe,
     prices:[{label:"cóctel",p:11}]},
      {cat:"Coctelería clásica",name:"Negroni",family:"Inclasificables",
-   ingr:{"Gin":"2 oz","Campari":"2 oz","Vermut tinto":"2 oz"},
+   
    ingredients:[{name:"Gin",qty:2,measure:Measure.Oz},{name:"Campari",qty:2,measure:Measure.Oz},{name:"Vermut tinto",qty:2,measure:Measure.Oz}],
    garnish:["Twist de naranja"],
     method:"Removido",
    glass: Glass.Lowball,
    prices:[{label:"cóctel",p:11}]},
   {cat:"Coctelería clásica",name:"Boulevardier",family:"Inclasificables",
-   ingr:{"Whisky":"2 oz","Campari":"2 oz","Vermut tinto":"2 oz"},
+   
    ingredients:[{name:"Whisky",qty:2,measure:Measure.Oz},{name:"Campari",qty:2,measure:Measure.Oz},{name:"Vermut tinto",qty:2,measure:Measure.Oz}],
    garnish:["Twist de naranja"],
    method:"Removido",
    glass: Glass.Lowball,
    prices:[{label:"cóctel",p:11}]},
   {cat:"Coctelería clásica",name:"Manhattan",family:"Inclasificables",
-   ingr:{"Whisky":"2 oz","Vermut tinto":"1 oz","Angostura Bitters":"2 golpes","Cereza":null},
+   
    ingredients:[{name:"Whisky",qty:2,measure:Measure.Oz},{name:"Vermut tinto",qty:1,measure:Measure.Oz},{name:"Angostura Bitters",qty:2,measure:Measure.Dashes},{name:"Cereza",qty:1,measure:Measure.Uds}],
    garnish:["Cereza"],
     method:"Removido, Colado",
    glass: Glass.Coupe,
    prices:[{label:"cóctel",p:11}]},
      {cat:"Coctelería clásica",family:"Inclasificables",name:"Bloody Mary",
-    ingr:{"Vodka":"3+ oz","Zumo de tomate":"top","Salsa Inglesa":"2 golpes","Salsa Picante":"2 golpes","Bitter apio":"2 golpes"},
+    
     ingredients:[{name:"Vodka",qty:3,measure:Measure.Oz},{name:"Zumo de tomate",qty:1,measure:Measure.Top},{name:"Salsa Inglesa",qty:2,measure:Measure.Dashes},{name:"Salsa Picante",qty:2,measure:Measure.Dashes},{name:"Bitter apio",qty:2,measure:Measure.Dashes}],
     garnish:["Sal","Pimienta","Apio","Rodaja de limón"],
     method:"Removido",
@@ -56,34 +57,34 @@ const UNCLASSIFIED: MenuItem[] = [
 const DAIQUIRIS: MenuItem[] = [
     {cat:"Coctelería clásica",name:"Mojito",family:"Daiquiri",
   ingredients:[{name:"Ron blanco",qty:1,measure:Measure.Oz},{name:"Zumo de lima",qty:1,measure:Measure.Oz},{name:"Azúcar líquido",qty:1,measure:Measure.Oz},{name:"Soda",qty:1,measure:Measure.Top}],
-   ingr:{"Ron blanco":"1 oz","Zumo de lima":"1 oz","Azúcar líquido":"1 oz","Soda":null},
+   
    garnish: ["Hierbabuena"],
    method:"Removido",
    glass: Glass.Collins,
    prices:[{label:"cóctel",p:11}]},
   {cat:"Coctelería clásica",name:"Daiquiri",family:"Daiquiri",
   ingredients:[{name:"Ron blanco",qty:2,measure:Measure.Oz},{name:"Zumo de lima",qty:0.75,measure:Measure.Oz},{name:"Azúcar líquido",qty:0.75,measure:Measure.Oz}],
-   ingr:{"Ron blanco":"2 oz","Zumo de lima":"0.75 oz","Azúcar líquido":"0.75 oz"},
+   
    garnish: ["Rodaja de lima"],
   method:"Agitado, Colado",
    glass: Glass.Coupe,
    prices:[{label:"cóctel",p:11}]},
   {cat:"Coctelería clásica",name:"Whiskey Sour",family:"Daiquiri",
-    ingr:{"Whisky":"2 oz","Zumo de limón":"1 oz","Azúcar líquido":"0.75 oz"},
+    
     ingredients:[{name:"Whisky",qty:2,measure:Measure.Oz},{name:"Zumo de limón",qty:1,measure:Measure.Oz},{name:"Azúcar líquido",qty:0.75,measure:Measure.Oz}],
   method:"Agitado, Colado",
    glass: Glass.Lowball,
    comment:"Opcionalmente se puede usar Bourbon en lugar de Whisky",
    prices:[{label:"cóctel",p:11}]},
   {cat:"Coctelería clásica",name:"Tom Collins",family:"Daiquiri",
-    ingr:{"Gin":"2 oz","Zumo de limón":"1 oz","Azúcar líquido":"0.5 oz","Soda":"top"},
+    
     ingredients:[{name:"Gin",qty:2,measure:Measure.Oz},{name:"Zumo de limón",qty:1,measure:Measure.Oz},{name:"Azúcar líquido",qty:0.5,measure:Measure.Oz},{name:"Soda",qty:1,measure:Measure.Top}],
     garnish:["Rodaja de limón", "cereza"],
   method:"Agitado, Colado",
    glass: Glass.Collins,
    prices:[{label:"cóctel",p:11}]},
   {cat:"Coctelería clásica",name:"Army & Navy",family:"Daiquiri",
-    ingr:{"Gin":"2 oz","Zumo de limón":"0.75 oz","Sirope de orgeat":"0.5 oz","Angostura Bitters":"2 golpes"},
+    
     ingredients:[{name:"Gin",qty:2,measure:Measure.Oz},{name:"Zumo de limón",qty:0.75,measure:Measure.Oz},{name:"Sirope de orgeat",qty:0.5,measure:Measure.Oz},{name:"Angostura Bitters",qty:2,measure:Measure.Dashes}],
     garnish:["Twist de limón"],
   method:"Agitado, Colado",
@@ -91,7 +92,7 @@ const DAIQUIRIS: MenuItem[] = [
    prices:[{label:"cóctel",p:11}]},
   {cat:"Coctelería clásica",name:"Rusty Nail",family:"Old Fashioned",
     ingredients:[{name:"Whisky",qty:1,measure:Measure.Oz},{name:"Drambuie",qty:1,measure:Measure.Oz}],
-   ingr:{"Whisky":"1 oz","Drambuie":"1 oz"},
+   
    garnish:["Twist de limón"],
    method:"Directo",
    glass: Glass.Lowball,
@@ -100,14 +101,14 @@ const DAIQUIRIS: MenuItem[] = [
 
 const HIGHBALLS: MenuItem[] = [
   {cat:"Coctelería clásica",name:"Whiskey Highball",family:"Highball",
-    ingr:{"Whisky":"2 oz","Soda":"top"},
+    
     ingredients:[{name:"Whisky",qty:2,measure:Measure.Oz},{name:"Soda",qty:1,measure:Measure.Top}],
     garnish:["Rodaja de limón"],
    method:"Removido",
    glass: Glass.Highball,
    prices:[{label:"cóctel",p:11}]},
   {cat:"Coctelería clásica",name:"Moscow Mule",family:"Highball",
-    ingr:{"Vodka":"2 oz","Zumo de limón":"0.5 oz","Ginger beer":"top"},
+    
     ingredients:[{name:"Vodka",qty:2,measure:Measure.Oz},{name:"Zumo de limón",qty:0.5,measure:Measure.Oz},{name:"Ginger beer",qty:1,measure:Measure.Top}],
     garnish:["Rodaja de limón"],
     method:"Removido",
@@ -116,34 +117,34 @@ const HIGHBALLS: MenuItem[] = [
   {cat:"Coctelería clásica",name:"Dark 'n' Stormy",family:"Highball",
     garnish:["Rodaja de lima"],
    ingredients:[{name:"Ron oscuro",qty:2,measure:Measure.Oz},{name:"Zumo de lima",qty:0.5,measure:Measure.Oz},{name:"Ginger beer",qty:1,measure:Measure.Top}],
-   ingr:{"Ron oscuro":"2 oz","Zumo de lima":"0.5 oz","Ginger beer":"top"},
+   
    comment:"Originalmente el ron oscuro debe ser Gosling's Black Seal. Opcionalmente se puede añadir zumo de limon al gusto.",
   method:"Removido",
    glass: Glass.Highball,
    prices:[{label:"cóctel",p:11}]},
   {cat:"Coctelería clásica",name:"Paloma",family:"Highball",
-    ingr:{"Tequila":"2 oz","Zumo de lima":"0.5 oz","Soda de pomelo":"top"},
+    
     ingredients:[{name:"Tequila",qty:2,measure:Measure.Oz},{name:"Zumo de lima",qty:0.5,measure:Measure.Oz},{name:"Soda de pomelo",qty:1,measure:Measure.Top}],
     garnish:["Rodaja de lima", "sal en el borde del vaso"],
     method:"Removido",
    glass: Glass.Highball,
    prices:[{label:"cóctel",p:11}]},
   {cat:"Coctelería clásica",name:"Cuba Libre",family:"Highball",
-    ingr:{"Ron blanco":"2 oz","Zumo de lima":"0.5 oz","Pepsi":"top"},
+    
     ingredients:[{name:"Ron blanco",qty:2,measure:Measure.Oz},{name:"Zumo de lima",qty:0.5,measure:Measure.Oz},{name:"Pepsi",qty:1,measure:Measure.Top}],
     garnish:["Rodaja de limón"],
     method:"Removido",
    glass: Glass.Highball,
    prices:[{label:"cóctel",p:11}]},
   {cat:"Coctelería clásica",name:"Screwdriver (Destornillador)",family:"Highball",
-   ingr:{"Vodka":"2 oz","Zumo de naranja":"top"},
+   
    ingredients:[{name:"Vodka",qty:2,measure:Measure.Oz},{name:"Zumo de naranja",qty:1,measure:Measure.Top}],
    garnish:["Rodaja de naranja"],
    method:"Removido",
    glass: Glass.Highball,
    prices:[{label:"cóctel",p:11}]},
   {cat:"Coctelería clásica",name:"Harvey Wallbanger (Rompetechos)",family:"Highball",
-   ingr:{"Vodka":"1 oz","Licor Galliano":"0.5 oz","Zumo de naranja":"top"},
+   
    ingredients:[{name:"Vodka",qty:1,measure:Measure.Oz},{name:"Licor Galliano",qty:0.5,measure:Measure.Oz},{name:"Zumo de naranja",qty:1,measure:Measure.Top}],
    garnish:["Rodaja de naranja"],
    method:"Removido",
@@ -153,21 +154,21 @@ const HIGHBALLS: MenuItem[] = [
 
 const OLD_FASHIONED: MenuItem[] = [
   {cat:"Coctelería clásica",name:"Old Fashioned",family:"Old Fashioned",
-   ingr:{"Whisky":"2 oz","Azúcar líquido":"1.5 tsp","Angostura Bitters":"2 golpes"},
+   
    ingredients:[{name:"Whisky",qty:2,measure:Measure.Oz},{name:"Azúcar líquido",qty:1.5,measure:Measure.Uds},{name:"Angostura Bitters",qty:2,measure:Measure.Dashes}],
    garnish:["Twist de naranja"],
   method:"Removido, Colado",
   glass: Glass.Lowball,
    prices:[{label:"cóctel",p:11}]},
   {cat:"Coctelería clásica",name:"Revolver",family:"Old Fashioned",
-   ingr:{"Bourbon":"2 oz","Licor de café Bols":"0.5 oz","Bitter de naranja":"2 golpes"},
+   
    ingredients:[{name:"Bourbon",qty:2,measure:Measure.Oz},{name:"Licor de café Bols",qty:0.5,measure:Measure.Oz},{name:"Bitter de naranja",qty:2,measure:Measure.Dashes}],
    garnish:["Twist de naranja"],
   method:"Removido, Colado",
    glass: Glass.Coupe,
    prices:[{label:"cóctel",p:11}]},
   {cat:"Coctelería clásica",name:"Tequila Old Fashioned",family:"Old Fashioned",
-   ingr:{"Tequila reposado":"2 oz","Sirope de agave":"0.25 oz","Bitter de naranja":"2 golpes"},
+   
    ingredients:[{name:"Tequila reposado",qty:2,measure:Measure.Oz},{name:"Sirope de agave",qty:0.25,measure:Measure.Oz},{name:"Bitter de naranja",qty:2,measure:Measure.Dashes}],
    garnish:["Twist de naranja"],
   method:"Removido, Colado",
@@ -177,14 +178,14 @@ const OLD_FASHIONED: MenuItem[] = [
 
 const MARTINIS: MenuItem[] = [
   {cat:"Coctelería clásica",name:"Martini",family:"Martini",
-   ingr:{"Gin":"2 oz","Vermut":"1 oz"},
+   
    ingredients:[{name:"Gin",qty:2,measure:Measure.Oz},{name:"Vermut",qty:1,measure:Measure.Oz}],
    garnish:["Twist de limón"],
   method:"Removido, Colado",
    glass: Glass.Coupe,
    prices:[{label:"cóctel",p:11}]},
   {cat:"Coctelería clásica",name:"El Presidente",family:"Martini",
-   ingr:{"Ron blanco":"3 oz","Vermut seco":"1.5 oz","Triple Sec":"1 oz","Granadina":"1 tsp"},
+   
    ingredients:[{name:"Ron blanco",qty:3,measure:Measure.Oz},{name:"Vermut seco",qty:1.5,measure:Measure.Oz},{name:"Triple Sec",qty:1,measure:Measure.Oz},{name:"Granadina",qty:1,measure:Measure.Uds}],
    garnish:["Twist de naranja"],
   method:"Removido, Colado",
@@ -194,41 +195,41 @@ const MARTINIS: MenuItem[] = [
 
 const SIDECARS: MenuItem[] = [
   {cat:"Coctelería clásica",name:"Rusty Nail Sour",family:"Sidecar",
-   ingr:{"Whisky":"1 oz","Drambuie":"1 oz","Zumo de limón":"1 oz"},
+   
    ingredients:[{name:"Whisky",qty:1,measure:Measure.Oz},{name:"Drambuie",qty:1,measure:Measure.Oz},{name:"Zumo de limón",qty:1,measure:Measure.Oz}],
    garnish:["Twist de limón"],
   method:"Agitado",
    glass: Glass.Lowball,
    prices:[{label:"cóctel",p:11}]},
   {cat:"Coctelería clásica",name:"Sidecar",family:"Sidecar",
-   ingr:{"Cognac":"2 oz","Triple Sec":"1 oz","Zumo de limón":"1 oz"},
+   
    ingredients:[{name:"Cognac",qty:2,measure:Measure.Oz},{name:"Triple Sec",qty:1,measure:Measure.Oz},{name:"Zumo de limón",qty:1,measure:Measure.Oz}],
   method:"Agitado",
    glass: Glass.Coupe,
    prices:[{label:"cóctel",p:11}]},
   {cat:"Coctelería clásica",name:"Margarita",family:"Sidecar",
-   ingr:{"Tequila blanco":"2 oz","Triple Sec":"1 oz","Zumo de lima":"1 oz"},
+   
    ingredients:[{name:"Tequila blanco",qty:2,measure:Measure.Oz},{name:"Triple Sec",qty:1,measure:Measure.Oz},{name:"Zumo de lima",qty:1,measure:Measure.Oz}],
    garnish:["Sal"],
   method:"Agitado, Colado",
    glass: Glass.Coupe,
    prices:[{label:"cóctel",p:11}]},
   {cat:"Coctelería clásica",name:"White Lady",family:"Sidecar",
-    ingr:{"Gin":"2 oz","Triple Sec":"1 oz","Zumo de limón":"0.75 oz"},
+    
     ingredients:[{name:"Gin",qty:2,measure:Measure.Oz},{name:"Triple Sec",qty:1,measure:Measure.Oz},{name:"Zumo de limón",qty:0.75,measure:Measure.Oz}],
     garnish:["Rodaja de limón"],
   method:"Agitado, Colado",
    glass: Glass.Coupe,
    prices:[{label:"cóctel",p:11}]},
   {cat:"Coctelería clásica",name:"Aviation",family:"Sidecar",
-    ingr:{"Gin":"2 oz","Licor de maraschino":"0.5 oz","Crème de violette":"0.25 oz","Zumo de limón":"0.75 oz"},
+    
     ingredients:[{name:"Gin",qty:2,measure:Measure.Oz},{name:"Licor de maraschino",qty:0.5,measure:Measure.Oz},{name:"Crème de violette",qty:0.25,measure:Measure.Oz},{name:"Zumo de limón",qty:0.75,measure:Measure.Oz}],
     garnish:["Cereza maraschino"],
   method:"Agitado, Colado",
    glass: Glass.Coupe,
    prices:[{label:"cóctel",p:11}]},
   {cat:"Coctelería clásica",name:"Golden Dream",family:"Sidecar",
-   ingr:{"Licor Galliano":"2 oz","Triple Sec":"2 oz","Zumo de naranja":"2 oz","Nata":"1 oz"},
+   
    ingredients:[{name:"Licor Galliano",qty:2,measure:Measure.Oz},{name:"Triple Sec",qty:2,measure:Measure.Oz},{name:"Zumo de naranja",qty:2,measure:Measure.Oz},{name:"Nata",qty:1,measure:Measure.Oz}],
    garnish:["Rodaja de naranja"],
   method:"Agitado, Colado",
@@ -236,7 +237,7 @@ const SIDECARS: MenuItem[] = [
    prices:[{label:"cóctel",p:11}]},
 ];
 
-export const CLASSICS: MenuItem[] = [
+export const CLASSICS: MenuItem[] = normalizeMenuItems([
   ...UNCLASSIFIED,
   ...DAIQUIRIS,
   ...HIGHBALLS,
@@ -245,7 +246,7 @@ export const CLASSICS: MenuItem[] = [
   ...SIDECARS,
   {cat:"Coctelería clásica",family:"Flip",name:"Vegan Lemon Gin Flip",
     garnish:["Rodaja de limón"],
-    ingr:{"Gin":"2 oz","Zumo de limón":"1.5 oz","Azúcar líquido":"0.5 oz","Aguafaba":"3 tbs"},
+    
     ingredients:[{name:"Gin",qty:2,measure:Measure.Oz},{name:"Zumo de limón",qty:1.5,measure:Measure.Oz},{name:"Azúcar líquido",qty:0.5,measure:Measure.Oz},{name:"Aguafaba",qty:3,measure:Measure.Cdta}],
     prices:[{label:"cóctel",p:11}]},
-];
+]);

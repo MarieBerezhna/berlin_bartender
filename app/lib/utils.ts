@@ -38,28 +38,14 @@ export function getIngr(item: MenuItem): string[] {
 }
 
 export function getIngredients(item: MenuItem): Ingredient[] {
-	if (item.ingredients?.length) {
-		return item.ingredients;
-	}
-
-	return Object.keys(item.ingr || {}).map((name) => ({ name }));
+	return item.ingredients || [];
 }
 
 export function getIngredientEntries(item: MenuItem): Array<{ name: string; dose: string | null }> {
-	const structuredIngredients = item.ingredients?.length
-		? item.ingredients.map((ingredient) => ({
-			name: ingredient.name,
-			dose: formatIngredientDose(ingredient.qty, ingredient.measure),
-		}))
-		: [];
-
-	if (structuredIngredients.length) {
-		return structuredIngredients;
-	}
-
-	return Object.entries(item.ingr || {})
-		.filter(([, dose]) => dose != null)
-		.map(([name, dose]) => ({ name, dose: String(dose) }));
+	return (item.ingredients || []).map((ingredient) => ({
+		name: ingredient.name,
+		dose: formatIngredientDose(ingredient.qty, ingredient.measure),
+	}));
 }
 
 export function getIngredientDose(item: MenuItem, ingredientName: string): string | null {

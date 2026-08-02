@@ -35,7 +35,6 @@ export interface MenuItem {
   cat: string;
   name: string;
   family?: string;
-  ingr?: Record<string, string | null>;
   ingredients?: Ingredient[];
   garnish?: string[];
   method?: string;
