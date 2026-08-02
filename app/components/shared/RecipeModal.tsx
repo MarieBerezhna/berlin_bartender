@@ -58,11 +58,10 @@ export default function RecipeModal({ item, open, onClose }: RecipeModalProps) {
 	const cocktailsCount = cocktailVolumeMl > 0 ? Math.floor(bottleVolumeMl / cocktailVolumeMl) : 0;
 	const remainderMl = cocktailVolumeMl > 0 ? bottleVolumeMl % cocktailVolumeMl : bottleVolumeMl;
 	const selectedScaleOption = scaleOptions.find((option) => option.value === selectedScaleValue);
+	const bottleMultiplier = cocktailVolumeMl > 0 ? Math.floor(bottleVolumeMl / cocktailVolumeMl) : 0;
 	const multiplier = selectedScaleOption?.kind === "portion"
 		? Number(selectedScaleValue)
-		: cocktailVolumeMl > 0
-			? bottleVolumeMl / cocktailVolumeMl
-			: 0;
+		: bottleMultiplier;
 	const scaledIngredients = (item.ingredients || []).map((ingredient) => {
 		const qty = ingredient.qty == null ? null : Number(ingredient.qty) * multiplier;
 		return {
@@ -76,11 +75,6 @@ export default function RecipeModal({ item, open, onClose }: RecipeModalProps) {
 	const hasCitrus = citrusIngredients.length > 0;
 	const hasCarbonics = carbonatedIngredients.length > 0;
 	const shouldShowPrebatchTab = longTermIngredients.filter((ingredient) => ingredient.measure === Measure.Oz || ingredient.measure == null).length > 1;
-	const citrusPerServingMl = (item.ingredients || []).reduce((sum, ingredient) => {
-		if (!isCitrusIngredient(ingredient.name)) return sum;
-		const converted = toMl(ingredient.qty, ingredient.measure);
-		return converted == null ? sum : sum + converted;
-	}, 0);
 	const prebatchPerServingMl = (item.ingredients || []).reduce((sum, ingredient) => {
 		if (isCitrusIngredient(ingredient.name)) return sum;
 		const converted = toMl(ingredient.qty, ingredient.measure);
@@ -101,6 +95,12 @@ export default function RecipeModal({ item, open, onClose }: RecipeModalProps) {
 		const mlValue = toMl(numeric, measure);
 		if (mlValue == null) return `${Number(numeric.toFixed(2))} ${measure}`;
 		return `${Number((mlValue / 30).toFixed(2))} oz`;
+	};
+	const formatServingTimeInstruction = (ingredients: Array<{ name: string; measure?: Measure }>) => {
+		const names = ingredients.map((ingredient) => ingredient.name).join(" · ");
+		if (!names) return null;
+		const hasTopMeasure = ingredients.some((ingredient) => ingredient.measure === Measure.Top);
+		return hasTopMeasure ? `Añade ${names} al servir, en la copa.` : `Añade ${names} al servir.`;
 	};
 
 	return (
@@ -186,8 +186,7 @@ export default function RecipeModal({ item, open, onClose }: RecipeModalProps) {
 						) : null}
 					</div>
 					{activeTab === "pre-batch" ? (
-						<label style={{ display: "flex", alignItems: "center", gap: 8, color: "#e8e6e1", fontSize: 13, fontWeight: 600 }}>
-							<span style={{ color: "#8FC1E0" }}>Botella</span>
+						<div style={{ display: "flex", alignItems: "center" }}>
 							<select
 								value={selectedScaleValue}
 								onChange={(event) => {
@@ -214,7 +213,7 @@ export default function RecipeModal({ item, open, onClose }: RecipeModalProps) {
 									</option>
 								))}
 							</select>
-						</label>
+						</div>
 					) : null}
 				</div>
 
@@ -226,9 +225,13 @@ export default function RecipeModal({ item, open, onClose }: RecipeModalProps) {
 							Volumen del cóctel: <span style={{ fontWeight: 700 }}>{volumeLabel ?? "—"}</span>
 						</div>
 						<div style={{ fontSize: 14, color: "#8FC1E0", fontWeight: 700 }}>
-							Caben <span style={{ color: "#e8e6e1" }}>{cocktailsCount}</span> cócteles en una botella de {bottleVolumeMl} ml
+							{selectedScaleOption?.kind === "bottle" ? (
+								<>Caben <span style={{ color: "#e8e6e1" }}>{cocktailsCount}</span> cócteles en una botella de {bottleVolumeMl} ml</>
+							) : (
+								<>Escala seleccionada: <span style={{ color: "#e8e6e1" }}>{selectedScaleOption?.label ?? "—"}</span></>
+							)}
 						</div>
-						{remainderMl > 0 ? (
+						{selectedScaleOption?.kind === "bottle" && remainderMl > 0 ? (
 							<div style={{ fontSize: 12, color: "#9a9793" }}>
 								Resto: {remainderMl} ml
 							</div>
@@ -240,7 +243,6 @@ export default function RecipeModal({ item, open, onClose }: RecipeModalProps) {
 									<div style={{ fontSize: 13, color: "#E0AE6B", fontWeight: 500, flexShrink: 0 }}>{priceLabel}</div>
 								) : null}
 							</div>
-							<div style={{ fontSize: 12, color: "#8FC1E0", fontWeight: 600 }}>Volumen necesario {bottleVolumeMl} ml</div>
 							{hasCitrus ? (
 								<div style={{ border: "0.5px solid rgba(224,174,107,0.3)", borderRadius: 10, padding: "8px 10px", background: "rgba(224,174,107,0.08)", color: "#E0AE6B", fontSize: 12, fontWeight: 700 }}>
 									Same day use
@@ -269,16 +271,29 @@ export default function RecipeModal({ item, open, onClose }: RecipeModalProps) {
 								<div style={{ borderTop: "0.5px solid rgba(232,230,225,0.12)", paddingTop: 8, display: "flex", flexDirection: "column", gap: 8 }}>
 									<div style={{ fontSize: 13, fontWeight: 700, color: "#8FC1E0" }}>Long-term prebatch</div>
 									<div style={{ fontSize: 12, color: "#d9e8ca", lineHeight: 1.45, display: "flex", flexDirection: "column", gap: 6 }}>
-										<div>1. Prepara el prebatch con:</div>
-										<div style={{ color: "#e8e6e1", fontWeight: 700 }}>
+										<div style={{ display: "flex", flexDirection: "column", gap: 4, fontSize: 13, lineHeight: 1.5 }}>
 											{longTermIngredients.length ? longTermIngredients.map((ingredient) => {
+												const color = GROUP_COLOR[getIngredientGroup(ingredient.name)] ?? GROUP_COLOR.other;
 												const dose = formatDoseInOz(ingredient.qty, ingredient.measure);
-												return `${dose ? `${dose} ` : ""}${ingredient.name}`;
-											}).join(" · ") : "—"}
+												return (
+													<div key={`${ingredient.name}-${ingredient.qty}`} style={{ color }}>
+														{dose ? <span style={{ opacity: 0.65 }}>{dose} </span> : null}
+														{ingredient.name}
+													</div>
+												);
+											}) : <div style={{ color: "#e8e6e1" }}>—</div>}
 										</div>
-										<div>2. Por porción usa <span style={{ color: "#e8e6e1", fontWeight: 700 }}>{formatDoseInOz(prebatchPerServingMl / 30, Measure.Oz) ?? "—"}</span> de prebatch.</div>
-										{hasCitrus ? <div>3. Añade <span style={{ color: "#e8e6e1", fontWeight: 700 }}>{formatDoseInOz(citrusPerServingMl / 30, Measure.Oz) ?? "—"}</span> de <span style={{ color: "#e8e6e1", fontWeight: 700 }}>{citrusIngredients.map((ingredient) => ingredient.name).join(" · ")}</span> al momento del pedido.</div> : null}
-										{hasCarbonics ? <div>4. Añade <span style={{ color: "#e8e6e1", fontWeight: 700 }}>{carbonatedIngredients.map((ingredient) => ingredient.name).join(" · ")}</span> al servir.</div> : null}
+										<div>Por porción usa <span style={{ color: "#e8e6e1", fontWeight: 700 }}>{formatDoseInOz(prebatchPerServingMl / 30, Measure.Oz) ?? "—"}</span> de prebatch.</div>
+										{hasCitrus ? (
+											<div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+												{(item.ingredients || []).filter((ingredient) => isCitrusIngredient(ingredient.name)).map((ingredient) => (
+													<div key={`${ingredient.name}-${ingredient.qty}`}>
+														Añade <span style={{ color: "#e8e6e1", fontWeight: 700 }}>{formatDoseInOz(ingredient.qty, ingredient.measure) ?? "—"}</span> de <span style={{ color: "#e8e6e1", fontWeight: 700 }}>{ingredient.name}</span> al momento del pedido.
+													</div>
+												))}
+											</div>
+										) : null}
+										{hasCarbonics ? <div>{formatServingTimeInstruction(carbonatedIngredients) ? <span style={{ color: "#e8e6e1", fontWeight: 700 }}>{formatServingTimeInstruction(carbonatedIngredients)}</span> : null}</div> : null}
 									</div>
 								</div>
 							) : null}
