@@ -85,9 +85,27 @@ h1{font-size:18px;font-weight:500;margin-bottom:1rem;color:#e8e6e1}
 .header-top{margin-bottom:1rem}
 .header-main{display:flex;flex-direction:column;gap:.5rem}
 .header-main h1{margin-bottom:0}
+.header-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-left:auto}
+.search-fab{position:fixed;bottom:20px;right:20px;display:flex;align-items:center;justify-content:center;width:52px;height:52px;border-radius:999px;border:0.5px solid rgba(232,230,225,0.16);background:#E0AE6B;color:#0f0e0c;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,.4);z-index:1100}
+.search-fab:hover{transform:scale(1.08)}
+.search-modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.72);display:flex;justify-content:center;align-items:flex-start;padding:24px 16px;z-index:1100}
+.search-modal{width:min(560px,100%);background:#11110f;border:0.5px solid rgba(232,230,225,0.16);border-radius:16px;box-shadow:0 20px 60px rgba(0,0,0,.38);overflow:hidden}
+.search-modal-header{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:0.5px solid rgba(232,230,225,0.1)}
+.search-modal-header h2{margin:0;font-size:16px;font-weight:600;color:#e8e6e1}
+.search-modal-close{border:none;background:none;color:#9a9793;font-size:18px;cursor:pointer}
+.search-modal input{width:100%;border:1px solid rgba(232,230,225,0.16);background:#1f1e1b;color:#e8e6e1;border-radius:10px;padding:10px 12px;font-size:14px;outline:none;margin:12px 16px 0;box-sizing:border-box}
+.search-results{display:flex;flex-direction:column;gap:8px;max-height:min(340px,60vh);overflow:auto;padding:12px 16px 16px}
+.search-result-item{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;padding:10px 12px;border:0.5px solid rgba(232,230,225,0.12);border-radius:10px;background:#1f1e1b;color:#e8e6e1;cursor:pointer;text-align:left}
+.search-result-item:hover{background:#2a2926}
+.search-result-name{font-weight:600}
+.search-result-cat{font-size:12px;color:#9a9793;white-space:nowrap}
+.search-empty{padding:10px 6px;color:#9a9793;font-size:13px}
 @media (min-width: 780px){
   .header-main{flex-direction:row;align-items:center;justify-content:space-between;gap:1rem}
   .header-main h1{white-space:nowrap}
+}
+@media (max-width: 780px){
+  .header-actions{width:100%;justify-content:space-between;margin-left:0}
 }
 .overview-card {
   background: #1f1e1b;
