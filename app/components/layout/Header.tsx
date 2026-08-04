@@ -2,8 +2,10 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 
+import { GROUP_COLOR } from "../../data/constants";
 import RAW from "../../data/menu";
 import type { MenuItem } from "../../data/types";
+import { getIngredientGroup } from "../../lib/learn";
 import RecipeModal from "../shared/RecipeModal";
 
 export type AppMode = "test" | "learn" | "interactive";
@@ -117,8 +119,25 @@ export default function Header({ mode, onModeChange }: HeaderProps) {
 							{results.length > 0 ? (
 								results.map((item) => (
 									<button key={item.name} type="button" className="search-result-item" onClick={() => handleSelectItem(item)}>
-										<span className="search-result-name">{item.name}</span>
-										<span className="search-result-cat">{item.cat}</span>
+										<div className="search-result-main">
+											<span className="search-result-name">{item.name}</span>
+											<span className="search-result-cat">{item.cat}</span>
+										</div>
+										<div className="search-result-ingredients">
+											{(item.ingredients ?? []).map((ingredient) => {
+												const group = getIngredientGroup(ingredient.name);
+												const color = GROUP_COLOR[group] ?? GROUP_COLOR.other;
+												return (
+													<span
+														key={`${item.name}-${ingredient.name}`}
+														className="search-result-ingredient"
+														style={{ color, borderColor: `${color}55` }}
+													>
+														{ingredient.name}
+													</span>
+												);
+											})}
+										</div>
 									</button>
 								))
 							) : (
