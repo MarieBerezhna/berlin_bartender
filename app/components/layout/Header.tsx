@@ -33,8 +33,8 @@ export default function Header({ mode, onModeChange }: HeaderProps) {
 
 	const results = useMemo(() => {
 		const normalizedQuery = query.trim().toLowerCase();
-		if (!normalizedQuery) {
-			return recipeItems.slice(0, 8);
+		if (normalizedQuery.length < 3) {
+			return [];
 		}
 
 		return recipeItems
@@ -140,9 +140,9 @@ export default function Header({ mode, onModeChange }: HeaderProps) {
 										</div>
 									</button>
 								))
-							) : (
+							) : query.trim().length >= 3 ? (
 								<div className="search-empty">No hay cócteles con receta para esta búsqueda.</div>
-							)}
+							) : null}
 						</div>
 					</div>
 				</div>
