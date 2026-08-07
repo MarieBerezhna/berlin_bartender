@@ -6,6 +6,7 @@ import { normalizeMenuItems } from "./normalize";
 const SPRITZ: MenuItem[] = [
   {
     cat: "Spritz",
+    priority: 1,
     name: "Hugo Spritz",
     ingredients: [
       {
@@ -28,6 +29,7 @@ const SPRITZ: MenuItem[] = [
   },
   {
     cat: "Spritz",
+    priority: 1,
     name: "Aperol Spritz",
     ingredients: [
       {
@@ -50,6 +52,7 @@ const SPRITZ: MenuItem[] = [
   },
   {
     cat: "Spritz",
+    priority: 1,
     name: "Yuzu Spritz",
     ingredients: [
       {
@@ -72,6 +75,7 @@ const SPRITZ: MenuItem[] = [
   },
   {
     cat: "Spritz",
+    priority: 1,
     name: "Chambord Spritz",
     ingredients: [
       {
@@ -94,6 +98,7 @@ const SPRITZ: MenuItem[] = [
   },
   {
     cat: "Spritz",
+    priority: 1,
     name: "Campari Spritz",
     ingredients: [
       {
@@ -116,6 +121,7 @@ const SPRITZ: MenuItem[] = [
   },
   {
     cat: "Spritz",
+    priority: 1,
     name: "Sarti Rosa Spritz",
     ingredients: [
       {
@@ -141,6 +147,7 @@ const SPRITZ: MenuItem[] = [
 const JARRAS: MenuItem[] = [
   {
     cat: "Jarras",
+    priority: 1,
     name: "Agua de Valencia",
     ingredients: [
       {
@@ -176,6 +183,7 @@ const JARRAS: MenuItem[] = [
   },
   {
     cat: "Jarras",
+    priority: 1,
     name: "Sangría",
     ingredients: [
       {
@@ -221,6 +229,7 @@ const JARRAS: MenuItem[] = [
   },
   {
     cat: "Jarras",
+    priority: 1,
     name: "Tinto de verano",
     prices: [
       { label: "copa", p: 5 },

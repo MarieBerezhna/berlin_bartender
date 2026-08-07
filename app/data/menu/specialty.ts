@@ -4,6 +4,7 @@ import { Glass, Measure } from "../types";
 const ACID_TIMES: MenuItem[] = [
   {
     cat: "Cócteles de autor",
+    priority: 1,
     family: "Acid Times",
     name: "Blue Margarita",
 
@@ -35,6 +36,7 @@ const ACID_TIMES: MenuItem[] = [
   },
   {
     cat: "Cócteles de autor",
+    priority: 1,
     family: "Acid Times",
     name: "Brote Primavera",
 
@@ -62,6 +64,7 @@ const ACID_TIMES: MenuItem[] = [
   },
   {
     cat: "Cócteles de autor",
+    priority: 1,
     family: "Acid Times",
     name: "Berlin Lemonade",
 
@@ -98,6 +101,7 @@ const ACID_TIMES: MenuItem[] = [
   },
   {
     cat: "Cócteles de autor",
+    priority: 1,
     family: "Acid Times",
     name: "Corazón de Luna",
 
@@ -129,6 +133,7 @@ const ACID_TIMES: MenuItem[] = [
   },
   {
     cat: "Cócteles de autor",
+    priority: 1,
     family: "Acid Times",
     name: "Berlín Green",
 
@@ -166,6 +171,7 @@ const ACID_TIMES: MenuItem[] = [
 const SWEET_TIMES: MenuItem[] = [
   {
     cat: "Cócteles de autor",
+    priority: 1,
     family: "Sweet Times",
     name: "Porn Star Martini",
 
@@ -208,6 +214,7 @@ const SWEET_TIMES: MenuItem[] = [
   },
   {
     cat: "Cócteles de autor",
+    priority: 1,
     family: "Sweet Times",
     name: "Éxodo",
 
@@ -244,6 +251,7 @@ const SWEET_TIMES: MenuItem[] = [
   },
   {
     cat: "Cócteles de autor",
+    priority: 1,
     family: "Sweet Times",
     name: "Rubedo",
 
@@ -285,6 +293,7 @@ const SWEET_TIMES: MenuItem[] = [
   },
   {
     cat: "Cócteles de autor",
+    priority: 1,
     family: "Sweet Times",
     name: "Génesis",
 
@@ -326,6 +335,7 @@ const SWEET_TIMES: MenuItem[] = [
   },
   {
     cat: "Cócteles de autor",
+    priority: 1,
     family: "Sweet Times",
     name: "Ámbar con cacao",
 
@@ -357,6 +367,7 @@ const SWEET_TIMES: MenuItem[] = [
   },
   {
     cat: "Cócteles de autor",
+    priority: 1,
     family: "Sweet Times",
     name: "Diego",
 
@@ -396,6 +407,7 @@ const SWEET_TIMES: MenuItem[] = [
 const SPICY_TIMES: MenuItem[] = [
   {
     cat: "Cócteles de autor",
+    priority: 1,
     family: "Spicy Times",
     name: "Paloma Don Julio",
 
@@ -428,6 +440,7 @@ const SPICY_TIMES: MenuItem[] = [
   },
   {
     cat: "Cócteles de autor",
+    priority: 1,
     family: "Spicy Times",
     name: "Matarreyes",
 
@@ -470,6 +483,7 @@ const SPICY_TIMES: MenuItem[] = [
 const HARD_TIMES: MenuItem[] = [
   {
     cat: "Cócteles de autor",
+    priority: 1,
     family: "Hard Times",
     name: "Hombro al sol",
 
@@ -495,6 +509,7 @@ const HARD_TIMES: MenuItem[] = [
   },
   {
     cat: "Cócteles de autor",
+    priority: 1,
     family: "Hard Times",
     name: "Polvo de calima",
     glass: Glass.Lowball,
@@ -520,6 +535,7 @@ const HARD_TIMES: MenuItem[] = [
   },
   {
     cat: "Cócteles de autor",
+    priority: 1,
     family: "Hard Times",
     name: "Berlin Sling",
     glass: Glass.Collins,
@@ -576,6 +592,7 @@ const HARD_TIMES: MenuItem[] = [
 const LEY_SECA: MenuItem[] = [
   {
     cat: "Cócteles de autor",
+    priority: 1,
     family: "Ley Seca",
     name: "Virgin Mai Tai",
 
@@ -616,6 +633,7 @@ const LEY_SECA: MenuItem[] = [
   },
   {
     cat: "Cócteles de autor",
+    priority: 1,
     family: "Ley Seca",
     name: "Gin Fizz 0.0",
 
@@ -652,6 +670,7 @@ const LEY_SECA: MenuItem[] = [
   },
   {
     cat: "Cócteles de autor",
+    priority: 1,
     family: "Ley Seca",
     name: "Virgin Lady",
 
@@ -683,6 +702,7 @@ const LEY_SECA: MenuItem[] = [
   },
   {
     cat: "Cócteles de autor",
+    priority: 1,
     family: "Ley Seca",
     name: "Virgin Pink Lady",
 

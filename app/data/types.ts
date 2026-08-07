@@ -42,4 +42,5 @@ export interface MenuItem {
   hint?: string;
   comment?: string;
   funFact?: string;
+  priority?: number;
 }

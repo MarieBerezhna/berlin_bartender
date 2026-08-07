@@ -4,6 +4,7 @@ import { normalizeMenuItems } from "./normalize";
 
 const UNCLASSIFIED: MenuItem[] = [
   {
+    priority: 1,
     cat: "Coctelería clásica",
     family: "Inclasificables",
     name: "Espresso Martini",
@@ -20,6 +21,7 @@ const UNCLASSIFIED: MenuItem[] = [
   },
   {
     cat: "Coctelería clásica",
+    priority: 2,
     family: "Inclasificables",
     name: "White Russian",
     ingredients: [
@@ -34,6 +36,7 @@ const UNCLASSIFIED: MenuItem[] = [
     prices: [{ label: "cóctel", p: 11 }],
   },
   {
+    priority: 1,
     cat: "Coctelería clásica",
     family: "Inclasificables",
     name: "Piña Colada",
@@ -51,6 +54,7 @@ const UNCLASSIFIED: MenuItem[] = [
   },
   {
     cat: "Coctelería clásica",
+    priority: 1,
     name: "Negroni",
     family: "Inclasificables",
     ingredients: [
@@ -65,6 +69,7 @@ const UNCLASSIFIED: MenuItem[] = [
   },
   {
     cat: "Coctelería clásica",
+    priority: 2,
     name: "Boulevardier",
     family: "Inclasificables",
     ingredients: [
@@ -79,6 +84,7 @@ const UNCLASSIFIED: MenuItem[] = [
   },
   {
     cat: "Coctelería clásica",
+    priority: 1,
     name: "Manhattan",
     family: "Inclasificables",
     ingredients: [
@@ -92,6 +98,7 @@ const UNCLASSIFIED: MenuItem[] = [
     prices: [{ label: "cóctel", p: 11 }],
   },
   {
+    priority: 1,
     cat: "Coctelería clásica",
     family: "Inclasificables",
     name: "Bloody Mary",
@@ -110,6 +117,7 @@ const UNCLASSIFIED: MenuItem[] = [
 
 const DAIQUIRIS: MenuItem[] = [
   {
+    priority: 1,
     cat: "Coctelería clásica",
     name: "Mojito",
     family: "Daiquiri",
@@ -125,6 +133,7 @@ const DAIQUIRIS: MenuItem[] = [
     prices: [{ label: "cóctel", p: 11 }],
   },
   {
+    priority: 1,
     cat: "Coctelería clásica",
     name: "Daiquiri",
     family: "Daiquiri",
@@ -139,6 +148,7 @@ const DAIQUIRIS: MenuItem[] = [
     prices: [{ label: "cóctel", p: 11 }],
   },
   {
+    priority: 1,
     cat: "Coctelería clásica",
     name: "Whiskey Sour",
     family: "Daiquiri",
@@ -153,6 +163,7 @@ const DAIQUIRIS: MenuItem[] = [
     prices: [{ label: "cóctel", p: 11 }],
   },
   {
+    priority: 2,
     cat: "Coctelería clásica",
     name: "Tom Collins",
     family: "Daiquiri",
@@ -168,6 +179,7 @@ const DAIQUIRIS: MenuItem[] = [
     prices: [{ label: "cóctel", p: 11 }],
   },
   {
+    priority: 2,
     cat: "Coctelería clásica",
     name: "Army & Navy",
     family: "Daiquiri",
@@ -183,6 +195,7 @@ const DAIQUIRIS: MenuItem[] = [
     prices: [{ label: "cóctel", p: 11 }],
   },
   {
+    priority: 2,
     cat: "Coctelería clásica",
     name: "Rusty Nail",
     family: "Old Fashioned",
@@ -199,6 +212,7 @@ const DAIQUIRIS: MenuItem[] = [
 
 const HIGHBALLS: MenuItem[] = [
   {
+    priority: 2,
     cat: "Coctelería clásica",
     name: "Whiskey Highball",
     family: "Highball",
@@ -212,6 +226,7 @@ const HIGHBALLS: MenuItem[] = [
     prices: [{ label: "cóctel", p: 11 }],
   },
   {
+    priority: 1,
     cat: "Coctelería clásica",
     name: "Moscow Mule",
     family: "Highball",
@@ -226,6 +241,7 @@ const HIGHBALLS: MenuItem[] = [
     prices: [{ label: "cóctel", p: 11 }],
   },
   {
+    priority: 2,
     cat: "Coctelería clásica",
     name: "Dark 'n' Stormy",
     family: "Highball",
@@ -242,6 +258,7 @@ const HIGHBALLS: MenuItem[] = [
     prices: [{ label: "cóctel", p: 11 }],
   },
   {
+    priority: 1,
     cat: "Coctelería clásica",
     name: "Paloma",
     family: "Highball",
@@ -256,6 +273,7 @@ const HIGHBALLS: MenuItem[] = [
     prices: [{ label: "cóctel", p: 11 }],
   },
   {
+    priority: 1,
     cat: "Coctelería clásica",
     name: "Cuba Libre",
     family: "Highball",
@@ -270,6 +288,7 @@ const HIGHBALLS: MenuItem[] = [
     prices: [{ label: "cóctel", p: 11 }],
   },
   {
+    priority: 2,
     cat: "Coctelería clásica",
     name: "Screwdriver (Destornillador)",
     family: "Highball",
@@ -283,6 +302,7 @@ const HIGHBALLS: MenuItem[] = [
     prices: [{ label: "cóctel", p: 11 }],
   },
   {
+    priority: 2,
     cat: "Coctelería clásica",
     name: "Harvey Wallbanger (Rompetechos)",
     family: "Highball",
@@ -300,6 +320,7 @@ const HIGHBALLS: MenuItem[] = [
 
 const OLD_FASHIONED: MenuItem[] = [
   {
+    priority: 1,
     cat: "Coctelería clásica",
     name: "Old Fashioned",
     family: "Old Fashioned",
@@ -314,6 +335,7 @@ const OLD_FASHIONED: MenuItem[] = [
     prices: [{ label: "cóctel", p: 11 }],
   },
   {
+    priority: 2,
     cat: "Coctelería clásica",
     name: "Revolver",
     family: "Old Fashioned",
@@ -328,6 +350,7 @@ const OLD_FASHIONED: MenuItem[] = [
     prices: [{ label: "cóctel", p: 11 }],
   },
   {
+    priority: 2,
     cat: "Coctelería clásica",
     name: "Tequila Old Fashioned",
     family: "Old Fashioned",
@@ -345,6 +368,7 @@ const OLD_FASHIONED: MenuItem[] = [
 
 const MARTINIS: MenuItem[] = [
   {
+    priority: 1,
     cat: "Coctelería clásica",
     name: "Martini",
     family: "Martini",
@@ -358,6 +382,7 @@ const MARTINIS: MenuItem[] = [
     prices: [{ label: "cóctel", p: 11 }],
   },
   {
+    priority: 2,
     cat: "Coctelería clásica",
     name: "El Presidente",
     family: "Martini",
@@ -376,6 +401,7 @@ const MARTINIS: MenuItem[] = [
 
 const SIDECARS: MenuItem[] = [
   {
+    priority: 2,
     cat: "Coctelería clásica",
     name: "Rusty Nail Sour",
     family: "Sidecar",
@@ -390,6 +416,7 @@ const SIDECARS: MenuItem[] = [
     prices: [{ label: "cóctel", p: 11 }],
   },
   {
+    priority: 2,
     cat: "Coctelería clásica",
     name: "Sidecar",
     family: "Sidecar",
@@ -403,6 +430,7 @@ const SIDECARS: MenuItem[] = [
     prices: [{ label: "cóctel", p: 11 }],
   },
   {
+    priority: 1,
     cat: "Coctelería clásica",
     name: "Margarita",
     family: "Sidecar",
@@ -417,6 +445,7 @@ const SIDECARS: MenuItem[] = [
     prices: [{ label: "cóctel", p: 11 }],
   },
   {
+    priority: 2,
     cat: "Coctelería clásica",
     name: "White Lady",
     family: "Sidecar",
@@ -431,6 +460,7 @@ const SIDECARS: MenuItem[] = [
     prices: [{ label: "cóctel", p: 11 }],
   },
   {
+    priority: 2,
     cat: "Coctelería clásica",
     name: "Aviation",
     family: "Sidecar",
@@ -446,6 +476,7 @@ const SIDECARS: MenuItem[] = [
     prices: [{ label: "cóctel", p: 11 }],
   },
   {
+    priority: 2,
     cat: "Coctelería clásica",
     name: "Golden Dream",
     family: "Sidecar",
