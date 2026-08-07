@@ -6,15 +6,23 @@ import { useState } from "react";
 import { GROUP_COLOR, type MenuItem } from "../../data/constants";
 import IMAGES from "../../data/images";
 import { formatPrice, getIngredientGroup, sortIngredientsForStudy } from "../../lib/learn";
-import { formatVolumeOz, getIngredientDose, getVolumeOz, toPublicPath } from "@/app/lib/utils";
+import { formatVolumeOz, getVolumeOz, toPublicPath } from "@/app/lib/utils";
+import CocktailCardBody from "./CocktailCardBody";
 import RecipeModal from "./RecipeModal";
 
 type RecipeCardProps = {
   item: MenuItem;
   disableModal?: boolean;
+  showVolumeLabel?: boolean;
+  volumeLabel?: string | null;
 };
 
-export default function RecipeCard({ item, disableModal = false }: RecipeCardProps) {
+export default function RecipeCard({
+  item,
+  disableModal = false,
+  showVolumeLabel = true,
+  volumeLabel: providedVolumeLabel,
+}: RecipeCardProps) {
   const [selectedItem, setSelectedItem] = useState<MenuItem | null>(null);
   const itemImage = toPublicPath(IMAGES[item.name]);
   const glassName = item.glass ?? null;
@@ -22,7 +30,7 @@ export default function RecipeCard({ item, disableModal = false }: RecipeCardPro
   const sortedIngr = sortIngredientsForStudy(item);
   const garnishes = item.garnish ?? [];
   const priceLabel = formatPrice(item);
-  const volumeLabel = formatVolumeOz(getVolumeOz(item));
+  const volumeLabel = providedVolumeLabel ?? formatVolumeOz(getVolumeOz(item));
 
   return (
     <>
@@ -59,91 +67,19 @@ export default function RecipeCard({ item, disableModal = false }: RecipeCardPro
           />
         ) : null}
         <div style={{ padding: "10px 12px", display: "flex", flexDirection: "column", gap: 6 }}>
-          <div
-            style={{
-              display: "flex",
-              alignItems: "baseline",
-              justifyContent: "space-between",
-              gap: 8,
-            }}
-          >
-            <div style={{ fontSize: 14, fontWeight: 700, color: "#e8e6e1" }}>{item.name}</div>
-            {priceLabel ? (
-              <div style={{ fontSize: 13, color: "#E0AE6B", fontWeight: 500, flexShrink: 0 }}>
-                {priceLabel}
-              </div>
-            ) : null}
-          </div>
-          {sortedIngr.length ? (
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                gap: 4,
-                fontSize: 13,
-                lineHeight: 1.5,
-              }}
-            >
-              {sortedIngr.map((ing) => {
-                const color = GROUP_COLOR[getIngredientGroup(ing)] ?? GROUP_COLOR.other;
-                const dose = getIngredientDose(item, ing);
-                return (
-                  <div key={ing} style={{ color }}>
-                    {dose ? <span style={{ opacity: 0.65 }}>{dose} </span> : null}
-                    {ing}
-                  </div>
-                );
-              })}
-            </div>
-          ) : null}
-
-          {garnishes.length ? (
-            <div style={{ fontSize: 12, color: "#9ECB7A", lineHeight: 1.4 }}>
-              Guarnición <span style={{ color: "#d9e8ca" }}>{garnishes.join(" · ")}</span>
-            </div>
-          ) : null}
-
-          {item.method || glassName ? (
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-                gap: 8,
-                fontSize: 12,
-                borderTop: "0.5px solid rgba(232,230,225,0.1)",
-                paddingTop: 6,
-                marginTop: 2,
-              }}
-            >
-              {item.method ? (
-                <span>
-                  Método <span style={{ color: "#8FC1E0", fontWeight: 600 }}>{item.method}</span>
-                </span>
-              ) : (
-                <span />
-              )}
-              {glassName ? (
-                <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                  {glassImage ? (
-                    <Image
-                      src={glassImage}
-                      alt={glassName}
-                      width={24}
-                      height={32}
-                      style={{ objectFit: "contain" }}
-                    />
-                  ) : null}
-                  <span style={{ fontSize: 11, color: "#7a7875" }}>{glassName}</span>
-                </div>
-              ) : null}
-            </div>
-          ) : null}
-          {volumeLabel ? (
-            <div style={{ fontSize: 12, color: "#8FC1E0", fontWeight: 600, marginTop: 4 }}>
-              Volumen {volumeLabel}
-            </div>
-          ) : null}
+          <CocktailCardBody
+            title={item.name}
+            priceLabel={priceLabel}
+            ingredientRows={sortedIngr.map((ing) => ({
+              label: ing,
+              color: GROUP_COLOR[getIngredientGroup(ing)] ?? GROUP_COLOR.other,
+            }))}
+            garnishes={garnishes}
+            volumeLabel={showVolumeLabel ? volumeLabel : null}
+            method={item.method}
+            glassName={glassName}
+            glassImage={glassImage}
+          />
         </div>
       </div>
       {!disableModal ? (

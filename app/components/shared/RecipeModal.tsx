@@ -1,14 +1,11 @@
 "use client";
 
-import Image from "next/image";
-import { useEffect, useState } from "react";
-
+import { useEffect, useState, type ReactNode } from "react";
 import { GROUP_COLOR, type MenuItem } from "../../data/constants";
 import IMAGES from "../../data/images";
-import { formatPrice, getIngredientGroup, sortIngredientsForStudy } from "../../lib/learn";
+import { formatPrice, getIngredientGroup } from "../../lib/learn";
 import {
   formatVolumeOz,
-  getIngredientDose,
   getVolumeOz,
   isCarbonatedIngredient,
   isCitrusIngredient,
@@ -17,6 +14,7 @@ import {
 } from "@/app/lib/utils";
 import { Measure } from "../../data/types";
 import RecipeCard from "./RecipeCard";
+import CocktailCardBody from "./CocktailCardBody";
 
 type RecipeModalProps = {
   item: MenuItem;
@@ -24,8 +22,49 @@ type RecipeModalProps = {
   onClose: () => void;
 };
 
+type TabMode = "receta" | "pre-batch";
+
+type BadgeProps = {
+  children: ReactNode;
+  color: string;
+  borderColor: string;
+  background: string;
+};
+
+function getTabButtonStyle(active: boolean) {
+  return {
+    border: "none",
+    borderRadius: 999,
+    padding: "8px 12px",
+    background: active ? "#e8e6e1" : "rgba(232,230,225,0.12)",
+    color: active ? "#11110f" : "#e8e6e1",
+    fontWeight: 700,
+    cursor: "pointer",
+  } as const;
+}
+
+function getBadgeStyle(color: string, borderColor: string, background: string) {
+  return {
+    display: "inline-flex",
+    alignItems: "center",
+    alignSelf: "flex-start",
+    border: `0.5px solid ${borderColor}`,
+    borderRadius: 999,
+    padding: "6px 10px",
+    background,
+    color,
+    fontSize: 12,
+    fontWeight: 700,
+    lineHeight: 1.2,
+  } as const;
+}
+
+function Badge({ children, color, borderColor, background }: BadgeProps) {
+  return <div style={getBadgeStyle(color, borderColor, background)}>{children}</div>;
+}
+
 export default function RecipeModal({ item, open, onClose }: RecipeModalProps) {
-  const [activeTab, setActiveTab] = useState<"receta" | "pre-batch">("receta");
+  const [activeTab, setActiveTab] = useState<TabMode>("receta");
   const [bottleVolumeMl, setBottleVolumeMl] = useState(750);
   const [selectedScaleValue, setSelectedScaleValue] = useState(750);
   const bottleVolumeOptions = [750, 1500] as const;
@@ -63,7 +102,6 @@ export default function RecipeModal({ item, open, onClose }: RecipeModalProps) {
 
   if (!open) return null;
 
-  const itemImage = toPublicPath(IMAGES[item.name]);
   const volumeOz = getVolumeOz(item);
   const volumeLabel = formatVolumeOz(volumeOz);
   const cocktailVolumeMl = volumeOz != null ? volumeOz * 30 : 0;
@@ -102,7 +140,7 @@ export default function RecipeModal({ item, open, onClose }: RecipeModalProps) {
     const converted = toMl(ingredient.qty, ingredient.measure);
     return converted == null ? sum : sum + converted;
   }, 0);
-  const sortedIngr = sortIngredientsForStudy(item);
+  const baseIngredients = item.ingredients ?? [];
   const garnishes = item.garnish ?? [];
   const priceLabel = formatPrice(item);
   const glassName = item.glass ?? null;
@@ -126,6 +164,20 @@ export default function RecipeModal({ item, open, onClose }: RecipeModalProps) {
     const hasTopMeasure = ingredients.some((ingredient) => ingredient.measure === Measure.Top);
     return hasTopMeasure ? `Añade ${names} al servir, en la copa.` : `Añade ${names} al servir.`;
   };
+  const ingredientRows = scaledIngredients.map((ingredient) => ({
+    label: ingredient.name,
+    dose: formatDoseInOz(ingredient.qty, ingredient.measure),
+    color: GROUP_COLOR[getIngredientGroup(ingredient.name)] ?? GROUP_COLOR.other,
+  }));
+  const longTermRows = longTermIngredients.map((ingredient) => ({
+    label: ingredient.name,
+    dose: formatDoseInOz(ingredient.qty, ingredient.measure),
+    color: GROUP_COLOR[getIngredientGroup(ingredient.name)] ?? GROUP_COLOR.other,
+  }));
+  const citrusAdditions = baseIngredients.filter((ingredient) =>
+    isCitrusIngredient(ingredient.name),
+  );
+  const servingTimeInstruction = formatServingTimeInstruction(carbonatedIngredients);
 
   return (
     <div
@@ -198,15 +250,7 @@ export default function RecipeModal({ item, open, onClose }: RecipeModalProps) {
             <button
               type="button"
               onClick={() => setActiveTab("receta")}
-              style={{
-                border: "none",
-                borderRadius: 999,
-                padding: "8px 12px",
-                background: activeTab === "receta" ? "#e8e6e1" : "rgba(232,230,225,0.12)",
-                color: activeTab === "receta" ? "#11110f" : "#e8e6e1",
-                fontWeight: 700,
-                cursor: "pointer",
-              }}
+              style={getTabButtonStyle(activeTab === "receta")}
             >
               Receta
             </button>
@@ -214,15 +258,7 @@ export default function RecipeModal({ item, open, onClose }: RecipeModalProps) {
               <button
                 type="button"
                 onClick={() => setActiveTab("pre-batch")}
-                style={{
-                  border: "none",
-                  borderRadius: 999,
-                  padding: "8px 12px",
-                  background: activeTab === "pre-batch" ? "#e8e6e1" : "rgba(232,230,225,0.12)",
-                  color: activeTab === "pre-batch" ? "#11110f" : "#e8e6e1",
-                  fontWeight: 700,
-                  cursor: "pointer",
-                }}
+                style={getTabButtonStyle(activeTab === "pre-batch")}
               >
                 Pre-batch
               </button>
@@ -265,12 +301,16 @@ export default function RecipeModal({ item, open, onClose }: RecipeModalProps) {
         </div>
 
         {activeTab === "receta" ? (
-          <RecipeCard item={item} disableModal />
+          <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+            <RecipeCard item={item} disableModal showVolumeLabel={false} />
+            <div style={{ display: "flex", justifyContent: "flex-end" }}>
+              <div style={{ fontSize: 12, color: "#8FC1E0", fontWeight: 600 }}>
+                Volumen {volumeLabel}
+              </div>
+            </div>
+          </div>
         ) : (
           <div style={{ display: "flex", flexDirection: "column", gap: 10, paddingTop: 4 }}>
-            <div style={{ fontSize: 14, color: "#e8e6e1" }}>
-              Volumen del cóctel: <span style={{ fontWeight: 700 }}>{volumeLabel ?? "—"}</span>
-            </div>
             <div style={{ fontSize: 14, color: "#8FC1E0", fontWeight: 700 }}>
               {selectedScaleOption?.kind === "bottle" ? (
                 <>
@@ -298,134 +338,97 @@ export default function RecipeModal({ item, open, onClose }: RecipeModalProps) {
                 gap: 10,
               }}
             >
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "baseline",
-                  justifyContent: "space-between",
-                  gap: 8,
-                }}
-              >
-                <div style={{ fontSize: 14, fontWeight: 700, color: "#e8e6e1" }}>{item.name}</div>
-                {priceLabel ? (
-                  <div style={{ fontSize: 13, color: "#E0AE6B", fontWeight: 500, flexShrink: 0 }}>
-                    {priceLabel}
-                  </div>
-                ) : null}
-              </div>
-              {hasCitrus ? (
-                <div
-                  style={{
-                    border: "0.5px solid rgba(224,174,107,0.3)",
-                    borderRadius: 10,
-                    padding: "8px 10px",
-                    background: "rgba(224,174,107,0.08)",
-                    color: "#E0AE6B",
-                    fontSize: 12,
-                    fontWeight: 700,
-                  }}
-                >
-                  Same day use
-                </div>
-              ) : null}
-              {hasCarbonics ? (
-                <div
-                  style={{
-                    border: "0.5px solid rgba(143,193,224,0.3)",
-                    borderRadius: 10,
-                    padding: "8px 10px",
-                    background: "rgba(143,193,224,0.08)",
-                    color: "#8FC1E0",
-                    fontSize: 12,
-                    fontWeight: 700,
-                  }}
-                >
-                  Add at serving time
-                </div>
-              ) : null}
-              {sortedIngr.length ? (
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: 4,
-                    fontSize: 13,
-                    lineHeight: 1.5,
-                  }}
-                >
-                  {scaledIngredients.map((ingredient) => {
-                    const color =
-                      GROUP_COLOR[getIngredientGroup(ingredient.name)] ?? GROUP_COLOR.other;
-                    const dose = formatDoseInOz(ingredient.qty, ingredient.measure);
-                    return (
-                      <div key={`${ingredient.name}-${ingredient.qty}`} style={{ color }}>
-                        {dose ? <span style={{ opacity: 0.65 }}>{dose} </span> : null}
-                        {ingredient.name}
-                      </div>
-                    );
-                  })}
-                </div>
-              ) : null}
               {hasCitrus || hasCarbonics ? (
-                <div
-                  style={{
-                    borderTop: "0.5px solid rgba(232,230,225,0.12)",
-                    paddingTop: 8,
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: 8,
-                  }}
-                >
-                  <div style={{ fontSize: 13, fontWeight: 700, color: "#8FC1E0" }}>
-                    Long-term prebatch
-                  </div>
+                <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
                   <div
                     style={{
-                      fontSize: 12,
-                      color: "#d9e8ca",
-                      lineHeight: 1.45,
+                      border: "0.5px solid rgba(232,230,225,0.12)",
+                      borderRadius: 12,
+                      background: "#161614",
+                      padding: 12,
                       display: "flex",
                       flexDirection: "column",
-                      gap: 6,
+                      gap: 8,
                     }}
                   >
+                    {hasCitrus ? (
+                      <Badge
+                        color="#E0AE6B"
+                        borderColor="rgba(224,174,107,0.3)"
+                        background="rgba(224,174,107,0.08)"
+                      >
+                        Same day use
+                      </Badge>
+                    ) : null}
+                    {hasCarbonics ? (
+                      <Badge
+                        color="#8FC1E0"
+                        borderColor="rgba(143,193,224,0.3)"
+                        background="rgba(143,193,224,0.08)"
+                      >
+                        Add at serving time
+                      </Badge>
+                    ) : null}
+                    <CocktailCardBody
+                      title={item.name}
+                      priceLabel={priceLabel}
+                      ingredientRows={ingredientRows}
+                      garnishes={garnishes}
+                      volumeLabel={null}
+                      method={item.method}
+                      glassName={glassName}
+                      glassImage={glassImage}
+                    />
+                  </div>
+
+                  <div
+                    style={{
+                      border: "0.5px solid rgba(232,230,225,0.12)",
+                      borderRadius: 12,
+                      background: "#161614",
+                      padding: 12,
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: 8,
+                    }}
+                  >
+                    <Badge
+                      color="#8FC1E0"
+                      borderColor="rgba(143,193,224,0.3)"
+                      background="rgba(143,193,224,0.08)"
+                    >
+                      Long-term prebatch
+                    </Badge>
+                    <CocktailCardBody
+                      title={item.name}
+                      priceLabel={priceLabel}
+                      ingredientRows={longTermRows}
+                      garnishes={garnishes}
+                      volumeLabel={null}
+                      method={item.method}
+                      glassName={glassName}
+                      glassImage={glassImage}
+                    />
                     <div
                       style={{
+                        fontSize: 12,
+                        color: "#d9e8ca",
+                        lineHeight: 1.45,
                         display: "flex",
                         flexDirection: "column",
-                        gap: 4,
-                        fontSize: 13,
-                        lineHeight: 1.5,
+                        gap: 6,
                       }}
                     >
-                      {longTermIngredients.length ? (
-                        longTermIngredients.map((ingredient) => {
-                          const color =
-                            GROUP_COLOR[getIngredientGroup(ingredient.name)] ?? GROUP_COLOR.other;
-                          const dose = formatDoseInOz(ingredient.qty, ingredient.measure);
-                          return (
-                            <div key={`${ingredient.name}-${ingredient.qty}`} style={{ color }}>
-                              {dose ? <span style={{ opacity: 0.65 }}>{dose} </span> : null}
-                              {ingredient.name}
-                            </div>
-                          );
-                        })
-                      ) : (
-                        <div style={{ color: "#e8e6e1" }}>—</div>
-                      )}
-                    </div>
-                    <div>
-                      Por porción usa{" "}
-                      <span style={{ color: "#e8e6e1", fontWeight: 700 }}>
-                        {formatDoseInOz(prebatchPerServingMl / 30, Measure.Oz) ?? "—"}
-                      </span>{" "}
-                      de prebatch.
-                    </div>
-                    {hasCitrus ? (
-                      <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-                        {(item.ingredients || [])
-                          .filter((ingredient) => isCitrusIngredient(ingredient.name))
-                          .map((ingredient) => (
+                      <div>
+                        Por porción usa{" "}
+                        <span style={{ color: "#e8e6e1", fontWeight: 700 }}>
+                          {formatDoseInOz(prebatchPerServingMl / 30, Measure.Oz) ?? "—"}
+                        </span>{" "}
+                        de prebatch.
+                      </div>
+                      {hasCitrus ? (
+                        <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+                          {citrusAdditions.map((ingredient) => (
                             <div key={`${ingredient.name}-${ingredient.qty}`}>
                               Añade{" "}
                               <span style={{ color: "#e8e6e1", fontWeight: 700 }}>
@@ -438,62 +441,26 @@ export default function RecipeModal({ item, open, onClose }: RecipeModalProps) {
                               al momento del pedido.
                             </div>
                           ))}
-                      </div>
-                    ) : null}
-                    {hasCarbonics ? (
-                      <div>
-                        {formatServingTimeInstruction(carbonatedIngredients) ? (
-                          <span style={{ color: "#e8e6e1", fontWeight: 700 }}>
-                            {formatServingTimeInstruction(carbonatedIngredients)}
-                          </span>
-                        ) : null}
-                      </div>
-                    ) : null}
+                        </div>
+                      ) : null}
+                      {hasCarbonics ? (
+                        <div>
+                          {servingTimeInstruction ? (
+                            <span style={{ color: "#e8e6e1", fontWeight: 700 }}>
+                              {servingTimeInstruction}
+                            </span>
+                          ) : null}
+                        </div>
+                      ) : null}
+                    </div>
                   </div>
                 </div>
               ) : null}
-              {garnishes.length ? (
-                <div style={{ fontSize: 12, color: "#9ECB7A", lineHeight: 1.4 }}>
-                  Guarnición <span style={{ color: "#d9e8ca" }}>{garnishes.join(" · ")}</span>
-                </div>
-              ) : null}
-              {item.method || glassName ? (
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    gap: 8,
-                    fontSize: 12,
-                    borderTop: "0.5px solid rgba(232,230,225,0.1)",
-                    paddingTop: 6,
-                    marginTop: 2,
-                  }}
-                >
-                  {item.method ? (
-                    <span>
-                      Método{" "}
-                      <span style={{ color: "#8FC1E0", fontWeight: 600 }}>{item.method}</span>
-                    </span>
-                  ) : (
-                    <span />
-                  )}
-                  {glassName ? (
-                    <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                      {glassImage ? (
-                        <Image
-                          src={glassImage}
-                          alt={glassName}
-                          width={24}
-                          height={32}
-                          style={{ objectFit: "contain" }}
-                        />
-                      ) : null}
-                      <span style={{ fontSize: 11, color: "#7a7875" }}>{glassName}</span>
-                    </div>
-                  ) : null}
-                </div>
-              ) : null}
+            </div>
+            <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 6 }}>
+              <div style={{ fontSize: 12, color: "#8FC1E0", fontWeight: 600 }}>
+                Volumen {volumeLabel}
+              </div>
             </div>
           </div>
         )}
