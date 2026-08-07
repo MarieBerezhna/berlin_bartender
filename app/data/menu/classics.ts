@@ -4,7 +4,6 @@ import { normalizeMenuItems } from "./normalize";
 
 const UNCLASSIFIED: MenuItem[] = [
     {cat:"Coctelería clásica",family:"Inclasificables",name:"Espresso Martini",
-    
     ingredients:[{name:"Vodka",qty:2,measure:Measure.Oz},{name:"Licor de café Bols",qty:1,measure:Measure.Oz},{name:"Bitter de cacao",qty:2,measure:Measure.Dashes},{name:"Sirope de vainilla",qty:0.5,measure:Measure.Oz},{name:"Café",qty:1,measure:Measure.Oz}],
     garnish:["Granos de café"],
     method:"Agitado, Colado",
@@ -40,7 +39,7 @@ const UNCLASSIFIED: MenuItem[] = [
    prices:[{label:"cóctel",p:11}]},
   {cat:"Coctelería clásica",name:"Manhattan",family:"Inclasificables",
    
-   ingredients:[{name:"Whisky",qty:2,measure:Measure.Oz},{name:"Vermut tinto",qty:1,measure:Measure.Oz},{name:"Angostura Bitters",qty:2,measure:Measure.Dashes},{name:"Cereza",qty:1,measure:Measure.Uds}],
+   ingredients:[{name:"Whisky",qty:2,measure:Measure.Oz},{name:"Vermut tinto",qty:1,measure:Measure.Oz},{name:"Angostura Bitters",qty:2,measure:Measure.Dashes}],
    garnish:["Cereza"],
     method:"Removido, Colado",
    glass: Glass.Coupe,
