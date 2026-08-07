@@ -7,7 +7,6 @@ export enum Glass {
   Jar = "Vaso largo o jarrita de bayas (preferiblemente)",
 }
 
-
 export enum Measure {
   Oz = "oz",
   Cl = "cl",
@@ -44,4 +43,3 @@ export interface MenuItem {
   comment?: string;
   funFact?: string;
 }
-

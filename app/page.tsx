@@ -16,7 +16,13 @@ import QuizCard from "./components/quiz/QuizCard";
 import QuizEnd from "./components/quiz/QuizEnd";
 import RAW from "./data/menu";
 import { type MenuItem } from "./data/constants";
-import { buildLearnQueue, buildRecallViewModel, createLearnQuizQueue, getLearnableItems, scoreRecallSelection } from "./lib/learn";
+import {
+  buildLearnQueue,
+  buildRecallViewModel,
+  createLearnQuizQueue,
+  getLearnableItems,
+  scoreRecallSelection,
+} from "./lib/learn";
 import { makeQs } from "./lib/quiz";
 import LearnQuiz from "./components/learn/LearnQuiz";
 import { getIngr } from "./lib/utils";
@@ -87,7 +93,12 @@ export default function Home() {
 
       {mode === "learn" ? (
         <section className="rounded-2xl border border-zinc-200 bg-white p-3 shadow-sm sm:p-5 lg:p-6 dark:border-zinc-800 dark:bg-zinc-950">
-          <LearnModePanel key={`${activeTab}|${activeFamily || ""}`} pool={filteredMenu} activeTab={activeTab} activeFamily={activeFamily} />
+          <LearnModePanel
+            key={`${activeTab}|${activeFamily || ""}`}
+            pool={filteredMenu}
+            activeTab={activeTab}
+            activeFamily={activeFamily}
+          />
         </section>
       ) : null}
 
@@ -122,8 +133,13 @@ function LearnModePanel({ pool, activeTab, activeFamily }: LearnModePanelProps) 
   const [recallMode, setRecallMode] = useState(false);
   const [recallSelected, setRecallSelected] = useState<Set<string>>(new Set());
   const [recallChecked, setRecallChecked] = useState(false);
-  const [recallStatusByOption, setRecallStatusByOption] = useState<Record<string, RecallOptionState>>({});
-  const [recallFeedback, setRecallFeedback] = useState<{ message: string; perfect: boolean } | null>(null);
+  const [recallStatusByOption, setRecallStatusByOption] = useState<
+    Record<string, RecallOptionState>
+  >({});
+  const [recallFeedback, setRecallFeedback] = useState<{
+    message: string;
+    perfect: boolean;
+  } | null>(null);
   const [answered, setAnswered] = useState(false);
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
 
@@ -164,7 +180,11 @@ function LearnModePanel({ pool, activeTab, activeFamily }: LearnModePanelProps) 
   }
 
   if (learnableItems.length === 0) {
-    return <div className="text-sm text-zinc-600 dark:text-zinc-400">No hay elementos disponibles para este filtro.</div>;
+    return (
+      <div className="text-sm text-zinc-600 dark:text-zinc-400">
+        No hay elementos disponibles para este filtro.
+      </div>
+    );
   }
 
   if (!started) {
@@ -294,7 +314,9 @@ function LearnModePanel({ pool, activeTab, activeFamily }: LearnModePanelProps) 
           setAnswered(false);
           setSelectedOption(null);
         }}
-        isLastInSession={itemIndex === queue.length - 1 && questionIndex === currentQuestions.length - 1}
+        isLastInSession={
+          itemIndex === queue.length - 1 && questionIndex === currentQuestions.length - 1
+        }
       />
     );
   }
@@ -354,8 +376,13 @@ function TestModePanel({ pool, activeTab, activeFilters }: TestModePanelProps) {
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const [recallSelected, setRecallSelected] = useState<Set<string>>(new Set());
   const [recallChecked, setRecallChecked] = useState(false);
-  const [recallStatusByOption, setRecallStatusByOption] = useState<Record<string, RecallOptionState>>({});
-  const [recallFeedback, setRecallFeedback] = useState<{ message: string; perfect: boolean } | null>(null);
+  const [recallStatusByOption, setRecallStatusByOption] = useState<
+    Record<string, RecallOptionState>
+  >({});
+  const [recallFeedback, setRecallFeedback] = useState<{
+    message: string;
+    perfect: boolean;
+  } | null>(null);
 
   function resetRecall() {
     setRecallSelected(new Set());

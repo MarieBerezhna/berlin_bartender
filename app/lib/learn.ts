@@ -49,7 +49,10 @@ export function getLearnableItems(items: MenuItem[] = RAW as MenuItem[]): MenuIt
   return items.filter((item) => getIngr(item).length > 0 || item?.prices?.length);
 }
 
-export function buildLearnQueue(items: MenuItem[] = RAW as MenuItem[], filters: LearnFilters = {}): MenuItem[] {
+export function buildLearnQueue(
+  items: MenuItem[] = RAW as MenuItem[],
+  filters: LearnFilters = {},
+): MenuItem[] {
   let pool = getLearnableItems(items);
 
   if (filters.activeTab && filters.activeTab !== "Todo") {
@@ -82,7 +85,10 @@ export function buildStudyViewModel(item: MenuItem) {
     priceLabel: formatPrice(item),
     family: item.family ?? null,
     method: item.method ?? null,
-    doses: getIngredientEntries(item).filter((entry) => entry.dose != null) as Array<{ name: string; dose: string }>,
+    doses: getIngredientEntries(item).filter((entry) => entry.dose != null) as Array<{
+      name: string;
+      dose: string;
+    }>,
     hasRecipe,
     ingredientsByGroup: groupedIngredients,
   };
@@ -91,7 +97,7 @@ export function buildStudyViewModel(item: MenuItem) {
 export function buildRecallViewModel(item: MenuItem) {
   const correctIngredients = getIngr(item);
   const distractors = shuffleArray(
-    ALL_INGRS.filter((ingredient) => !correctIngredients.includes(ingredient))
+    ALL_INGRS.filter((ingredient) => !correctIngredients.includes(ingredient)),
   ).slice(0, Math.min(correctIngredients.length + 2, 8));
 
   const byGroup: Record<string, string[]> = {};
@@ -102,7 +108,7 @@ export function buildRecallViewModel(item: MenuItem) {
   });
 
   const options = GROUP_ORDER.flatMap((group) =>
-    byGroup[group] ? shuffleArray(byGroup[group]) : []
+    byGroup[group] ? shuffleArray(byGroup[group]) : [],
   );
 
   return {
@@ -116,18 +122,14 @@ export function buildRecallViewModel(item: MenuItem) {
 }
 
 const ALL_GARNISHES: string[] = [
-  ...new Set(
-    (RAW as MenuItem[]).flatMap((entry) => entry.garnish || [])
-  ),
+  ...new Set((RAW as MenuItem[]).flatMap((entry) => entry.garnish || [])),
 ];
 
 function buildGarnishQuestion(item: MenuItem): LearnQuestion | null {
   if (!item.garnish?.length) return null;
 
   const correct = item.garnish[Math.floor(Math.random() * item.garnish.length)];
-  const wrongs = shuffleArray(
-    ALL_GARNISHES.filter((g) => !item.garnish!.includes(g))
-  ).slice(0, 3);
+  const wrongs = shuffleArray(ALL_GARNISHES.filter((g) => !item.garnish!.includes(g))).slice(0, 3);
 
   if (wrongs.length < 3) return null;
 
@@ -146,9 +148,10 @@ function buildIngredientQuestion(item: MenuItem): LearnQuestion | null {
   if (!ingr.length) return null;
 
   const correct = ingr[Math.floor(Math.random() * ingr.length)];
-  const wrongs = shuffleArray(
-    ALL_INGRS.filter((ingredient) => !ingr.includes(ingredient))
-  ).slice(0, 3);
+  const wrongs = shuffleArray(ALL_INGRS.filter((ingredient) => !ingr.includes(ingredient))).slice(
+    0,
+    3,
+  );
 
   if (wrongs.length < 3) return null;
 
@@ -172,7 +175,9 @@ function buildRatioQuestion(item: MenuItem): LearnQuestion | null {
   const hasDoses = getIngredientEntries(item).some((entry) => entry.dose != null);
   if (!hasDoses) return null;
 
-  const allWithDoses = (RAW as MenuItem[]).filter((entry) => getIngredientEntries(entry).some((ingredient) => ingredient.dose != null));
+  const allWithDoses = (RAW as MenuItem[]).filter((entry) =>
+    getIngredientEntries(entry).some((ingredient) => ingredient.dose != null),
+  );
   const ratioString = (entry: MenuItem): string =>
     getIngr(entry)
       .map((ingredient) => {
@@ -202,7 +207,11 @@ function buildPriceQuestion(item: MenuItem): LearnQuestion | null {
 
   const serving = item.prices[Math.floor(Math.random() * item.prices.length)];
   const wrongPrices = shuffleArray(
-    [...new Set((RAW as MenuItem[]).flatMap((entry) => (entry.prices || []).map((price) => price.p)))].filter((price) => price !== serving.p)
+    [
+      ...new Set(
+        (RAW as MenuItem[]).flatMap((entry) => (entry.prices || []).map((price) => price.p)),
+      ),
+    ].filter((price) => price !== serving.p),
   ).slice(0, 3);
 
   if (wrongPrices.length < 3) return null;

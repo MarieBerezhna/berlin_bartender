@@ -4,76 +4,76 @@ import QuizFeedback from "../quiz/QuizFeedback";
 import QuizOptions from "../quiz/QuizOptions";
 
 type LearnQuestion = {
-	qtype: string;
-	q: string;
-	opts: string[];
-	answer: string;
-	hint: string;
+  qtype: string;
+  q: string;
+  opts: string[];
+  answer: string;
+  hint: string;
 };
 
 type LearnQuizProps = {
-	item: MenuItem;
-	index: number;
-	total: number;
-	queueIndex: number;
-	queueTotal: number;
-	question: LearnQuestion;
-	selectedOption: string | null;
-	answered: boolean;
-	onChoose: (option: string) => void;
-	onNext: () => void;
-	isLastInSession: boolean;
+  item: MenuItem;
+  index: number;
+  total: number;
+  queueIndex: number;
+  queueTotal: number;
+  question: LearnQuestion;
+  selectedOption: string | null;
+  answered: boolean;
+  onChoose: (option: string) => void;
+  onNext: () => void;
+  isLastInSession: boolean;
 };
 
 export default function LearnQuiz({
-	item,
-	index,
-	total,
-	queueIndex,
-	queueTotal,
-	question,
-	selectedOption,
-	answered,
-	onChoose,
-	onNext,
-	isLastInSession,
+  item,
+  index,
+  total,
+  queueIndex,
+  queueTotal,
+  question,
+  selectedOption,
+  answered,
+  onChoose,
+  onNext,
+  isLastInSession,
 }: LearnQuizProps) {
-	const isCorrect = selectedOption === question.answer;
-	const nextLabel = isLastInSession ? "Ver resultados →" : "Siguiente →";
-	const qTypeLabel = Q_META[question.qtype as keyof typeof Q_META] || question.qtype;
-	useActivateOnKeys(answered, onNext);
+  const isCorrect = selectedOption === question.answer;
+  const nextLabel = isLastInSession ? "Ver resultados →" : "Siguiente →";
+  const qTypeLabel = Q_META[question.qtype as keyof typeof Q_META] || question.qtype;
+  useActivateOnKeys(answered, onNext);
 
-	return (
-		<div className="learn-card">
-			<div className={`q-layer${answered ? " faded" : ""}`}>
-				<div className="learn-counter">
-					Práctica · {index + 1} / {total}
-					{queueTotal > 1 ? ` · ${queueIndex + 1}/${queueTotal}` : ""}
-				</div>
-				<div className="qtype">
-					{qTypeLabel}
-					<span className="qtag">{item.name}</span>
-				</div>
-				<div className="qtext">{question.q}</div>
+  return (
+    <div className="learn-card">
+      <div className={`q-layer${answered ? " faded" : ""}`}>
+        <div className="learn-counter">
+          Práctica · {index + 1} / {total}
+          {queueTotal > 1 ? ` · ${queueIndex + 1}/${queueTotal}` : ""}
+        </div>
+        <div className="qtype">
+          {qTypeLabel}
+          <span className="qtag">{item.name}</span>
+        </div>
+        <div className="qtext">{question.q}</div>
 
-				<QuizOptions
-					options={question.opts}
-					answer={question.answer}
-					selectedOption={selectedOption}
-					locked={answered}
-					onSelect={onChoose}
-				/>
-			</div>
+        <QuizOptions
+          options={question.opts}
+          answer={question.answer}
+          selectedOption={selectedOption}
+          locked={answered}
+          onSelect={onChoose}
+        />
+      </div>
 
-			<QuizFeedback
-				visible={answered}
-				isCorrect={isCorrect}
-				answer={question.answer}
-				hint={question.hint}
-				item={item}
-				onNext={onNext}
-				nextLabel={nextLabel}
-			/>
-		</div>
-	);
+      <QuizFeedback
+        visible={answered}
+        isCorrect={isCorrect}
+        answer={question.answer}
+        hint={question.hint}
+        item={item}
+        onNext={onNext}
+        nextLabel={nextLabel}
+      />
+    </div>
+  );
 }

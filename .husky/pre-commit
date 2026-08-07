@@ -1,0 +1,26 @@
+#!/usr/bin/env sh
+
+set -e
+
+staged_files=$(git diff --cached --name-only --diff-filter=ACMR)
+
+if [ -n "$staged_files" ]; then
+  printf '%s
+' "$staged_files" | while IFS= read -r file; do
+    case "$file" in
+      *.sh|.husky/*|.gitattributes|.gitignore)
+        continue
+        ;;
+      *.ts|*.tsx|*.js|*.jsx|*.mjs|*.cjs|*.json|*.md|*.css|*.scss|*.html|*.yaml|*.yml|*.toml)
+        ;;
+      *)
+        continue
+        ;;
+    esac
+
+    if [ -f "$file" ]; then
+      npx prettier --write --ignore-unknown "$file"
+      git add "$file"
+    fi
+  done
+fi
