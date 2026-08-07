@@ -15,7 +15,13 @@ import ProgressBar from "./components/quiz/ProgressBar";
 import QuizCard from "./components/quiz/QuizCard";
 import QuizEnd from "./components/quiz/QuizEnd";
 import RAW from "./data/menu";
-import { type MenuItem } from "./data/constants";
+import {
+  COCTELERIA_SUBTABS,
+  COCTELERIA_TAB,
+  CLASICA_CAT,
+  AUTOR_CAT,
+  type MenuItem,
+} from "./data/constants";
 import {
   buildLearnQueue,
   buildRecallViewModel,
@@ -31,13 +37,30 @@ const DESTILADOS_CATS = new Set(["Ron", "Whisky", "Gin", "Tequila", "Vodka"]);
 
 export default function Home() {
   const [mode, setMode] = useState<AppMode>("learn");
-  const [activeTab, setActiveTab] = useState<string>("Coctelería clásica");
+  const [activeTab, setActiveTab] = useState<string>(COCTELERIA_TAB);
+  const [activeSubtab, setActiveSubtab] = useState<string | null>(null);
   const [activeFamily, setActiveFamily] = useState<string | null>(null);
   const [activeFilters, setActiveFilters] = useState<Set<FilterType>>(new Set(FILTER_TYPES));
 
   const filteredMenu = useMemo(() => {
     let pool = [...RAW];
-    if (activeTab === "Destilados") {
+    if (activeTab === COCTELERIA_TAB) {
+      if (activeSubtab) {
+        pool = pool.filter((item) => item.cat === activeSubtab);
+      } else {
+        pool = pool.filter(
+          (item) =>
+            item.cat === CLASICA_CAT ||
+            item.cat === AUTOR_CAT ||
+            item.cat === "Spritz" ||
+            item.cat === "Jarras" ||
+            item.cat === "Micheladas",
+        );
+      }
+      if (activeFamily) {
+        pool = pool.filter((item) => item.family === activeFamily);
+      }
+    } else if (activeTab === "Destilados") {
       pool = pool.filter((item) => DESTILADOS_CATS.has(item.cat));
       if (activeFamily) {
         pool = pool.filter((item) => item.cat === activeFamily);
@@ -49,12 +72,18 @@ export default function Home() {
       }
     }
     return pool;
-  }, [activeFamily, activeTab]);
+  }, [activeFamily, activeSubtab, activeTab]);
 
   const activeFiltersKey = useMemo(() => [...activeFilters].sort().join("|"), [activeFilters]);
 
   function handleTabChange(tab: string): void {
     setActiveTab(tab);
+    setActiveSubtab(null);
+    setActiveFamily(null);
+  }
+
+  function handleSubtabChange(subtab: string | null): void {
+    setActiveSubtab(subtab);
     setActiveFamily(null);
   }
 
@@ -80,8 +109,10 @@ export default function Home() {
           <>
             <TabBar
               activeTab={activeTab}
+              activeSubtab={activeSubtab}
               activeFamily={activeFamily}
               onTabChange={handleTabChange}
+              onSubtabChange={handleSubtabChange}
               onFamilyChange={handleFamilyChange}
             />
             {mode === "test" ? (

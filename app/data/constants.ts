@@ -16,6 +16,14 @@ export const UNIQUE_PRICES: number[] = [...new Set(ALL_PRICES_FLAT)];
 export const CATS: string[] = ["Todo", ...[...new Set(MENU.map((x) => x.cat))]];
 export const AUTOR_CAT = "Cócteles de autor";
 export const CLASICA_CAT = "Coctelería clásica";
+export const COCTELERIA_TAB = "Coctelería";
+export const COCTELERIA_SUBTABS = [
+  CLASICA_CAT,
+  AUTOR_CAT,
+  "Spritz",
+  "Jarras",
+  "Micheladas",
+] as const;
 export const DESTILADOS_TAB = "Destilados";
 export const DESTILADOS_CATS = ["Ron", "Whisky", "Gin", "Tequila", "Vodka"];
 export const DESTILADOS_SUBGROUPS = ["Tequila", "Gin", "Vodka", "Ron", "Whisky"];
