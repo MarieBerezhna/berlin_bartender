@@ -14,6 +14,7 @@ import { getIngr, getIngredientDose, getIngredientEntries } from "./utils";
 type LearnFilters = {
   activeTab?: string;
   activeFamily?: string;
+  priority?: number | "all";
 };
 
 type LearnQuestion = {
@@ -61,6 +62,10 @@ export function buildLearnQueue(
 
   if (filters.activeFamily) {
     pool = pool.filter((item) => item.family === filters.activeFamily);
+  }
+
+  if (filters.priority && filters.priority !== "all") {
+    pool = pool.filter((item) => item.priority === filters.priority);
   }
 
   return shuffleArray(pool);

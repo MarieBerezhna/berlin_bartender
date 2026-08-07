@@ -29,6 +29,7 @@ type MakeQsOptions = {
   pool: MenuItem[];
   activeFilters: Set<string>;
   activeTab?: string;
+  priority?: number | "all";
   limit?: number;
 };
 
@@ -107,9 +108,12 @@ export function makeQs({
   pool,
   activeFilters,
   activeTab = "Todo",
+  priority = "all",
   limit = 15,
 }: MakeQsOptions): QuizQuestion[] {
-  const cocktails = pool.filter(hasRecipe);
+  const filteredPool =
+    priority && priority !== "all" ? pool.filter((item) => item.priority === priority) : pool;
+  const cocktails = filteredPool.filter(hasRecipe);
   const allCats = [...new Set(RAW.map((item) => item.cat))];
   const res: QuizQuestion[] = [];
 
@@ -196,7 +200,7 @@ export function makeQs({
   }
 
   if (activeFilters.has("price")) {
-    pool
+    filteredPool
       .filter((item) => item.prices && item.prices.length && item.cat !== CLASICA_CAT)
       .forEach((item) => {
         (item.prices || []).forEach((serving) => {
@@ -217,7 +221,7 @@ export function makeQs({
   }
 
   if (activeFilters.has("category") && activeTab === "Todo") {
-    pool.forEach((item) => {
+    filteredPool.forEach((item) => {
       const wrongCats = sh(allCats.filter((c) => c !== item.cat)).slice(0, 3);
       res.push({
         qtype: "category",
@@ -232,7 +236,7 @@ export function makeQs({
   }
 
   if (activeFilters.has("ingredients")) {
-    const itemsWithDoses = pool.filter((item) =>
+    const itemsWithDoses = filteredPool.filter((item) =>
       getIngredientEntries(item).some((entry) => entry.dose != null),
     );
     const allItemsWithDoses = RAW.filter((item) =>
@@ -276,7 +280,7 @@ export function makeQs({
   }
 
   if (activeFilters.has("name")) {
-    const cocktailItems = pool.filter((item) => getIngr(item).length > 0);
+    const cocktailItems = filteredPool.filter((item) => getIngr(item).length > 0);
 
     cocktailItems.forEach((item) => {
       const ingr = getIngr(item);

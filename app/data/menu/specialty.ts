@@ -562,7 +562,7 @@ const HARD_TIMES: MenuItem[] = [
         measure: Measure.Oz,
       },
       {
-        name: "Piña",
+        name: "Zumo de piña",
         qty: 0.5,
         measure: Measure.Oz,
       },
