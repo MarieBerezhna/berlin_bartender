@@ -231,6 +231,17 @@ const JARRAS: MenuItem[] = [
     cat: "Jarras",
     priority: 1,
     name: "Tinto de verano",
+    ingredients: [
+      {
+        name: "Vino tinto",
+        qty: 3,
+        measure: Measure.Oz,
+      },
+      {
+        name: "Soda",
+        measure: Measure.Top,
+      },
+    ],
     prices: [
       { label: "copa", p: 5 },
       { label: "jarra", p: 20 },
