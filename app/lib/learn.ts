@@ -14,7 +14,7 @@ import { getIngr, getIngredientDose, getIngredientEntries } from "./utils";
 type LearnFilters = {
   activeTab?: string;
   activeFamily?: string;
-  priority?: number | "all";
+  priority?: number | "all" | number[] | Set<number>;
 };
 
 type LearnQuestion = {
@@ -65,7 +65,16 @@ export function buildLearnQueue(
   }
 
   if (filters.priority && filters.priority !== "all") {
-    pool = pool.filter((item) => item.priority === filters.priority);
+    const selectedPriorities =
+      filters.priority instanceof Set
+        ? [...filters.priority]
+        : Array.isArray(filters.priority)
+          ? filters.priority
+          : [filters.priority];
+
+    pool = pool.filter(
+      (item) => item.priority != null && selectedPriorities.includes(item.priority),
+    );
   }
 
   return shuffleArray(pool);

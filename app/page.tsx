@@ -34,16 +34,16 @@ import LearnQuiz from "./components/learn/LearnQuiz";
 import { getIngr } from "./lib/utils";
 
 const DESTILADOS_CATS = new Set(["Ron", "Whisky", "Gin", "Tequila", "Vodka"]);
-type PriorityFilterValue = "all" | 1 | 2;
+type PriorityFilterValue = 1 | 2;
+type PriorityFilterSelection = Set<PriorityFilterValue>;
 
 type PriorityFilterBarProps = {
-  value: PriorityFilterValue;
-  onChange: (value: PriorityFilterValue) => void;
+  value: PriorityFilterSelection;
+  onChange: (value: PriorityFilterSelection) => void;
 };
 
 function PriorityFilterBar({ value, onChange }: PriorityFilterBarProps) {
   const options: Array<{ value: PriorityFilterValue; label: string }> = [
-    { value: "all", label: "1 + 2" },
     { value: 1, label: "1" },
     { value: 2, label: "2" },
   ];
@@ -51,15 +51,23 @@ function PriorityFilterBar({ value, onChange }: PriorityFilterBarProps) {
   return (
     <div className="filters" id="priority-filters" aria-label="Filtro de prioridad">
       <span className="filter-label">Prioridad</span>
-      {options.map((option) => (
-        <button
-          key={String(option.value)}
-          className={`filt${value === option.value ? " on" : ""}`}
-          onClick={() => onChange(option.value)}
-        >
-          {option.label}
-        </button>
-      ))}
+      {options.map((option) => {
+        const active = value.has(option.value);
+        return (
+          <button
+            key={String(option.value)}
+            className={`filt${active ? " on" : ""}`}
+            onClick={() => {
+              const next = new Set(value);
+              if (next.has(option.value)) next.delete(option.value);
+              else next.add(option.value);
+              onChange(next);
+            }}
+          >
+            {option.label}
+          </button>
+        );
+      })}
     </div>
   );
 }
@@ -70,7 +78,12 @@ export default function Home() {
   const [activeSubtab, setActiveSubtab] = useState<string | null>(null);
   const [activeFamily, setActiveFamily] = useState<string | null>(null);
   const [activeFilters, setActiveFilters] = useState<Set<FilterType>>(new Set(FILTER_TYPES));
-  const [priorityFilter, setPriorityFilter] = useState<PriorityFilterValue>("all");
+  const [priorityFilter, setPriorityFilter] = useState<PriorityFilterSelection>(new Set());
+
+  const effectivePriorityFilter = useMemo(
+    () => (activeTab === COCTELERIA_TAB ? priorityFilter : new Set<PriorityFilterValue>()),
+    [activeTab, priorityFilter],
+  );
 
   const filteredMenu = useMemo(() => {
     let pool = [...RAW];
@@ -102,14 +115,22 @@ export default function Home() {
       }
     }
 
-    if (priorityFilter !== "all") {
-      pool = pool.filter((item) => item.priority === priorityFilter);
+    if (activeTab === COCTELERIA_TAB && effectivePriorityFilter.size > 0) {
+      pool = pool.filter(
+        (item) =>
+          item.priority != null &&
+          effectivePriorityFilter.has(item.priority as PriorityFilterValue),
+      );
     }
 
     return pool;
-  }, [activeFamily, activeSubtab, activeTab, priorityFilter]);
+  }, [activeFamily, activeSubtab, activeTab, effectivePriorityFilter]);
 
   const activeFiltersKey = useMemo(() => [...activeFilters].sort().join("|"), [activeFilters]);
+  const priorityFilterKey = useMemo(
+    () => [...effectivePriorityFilter].sort().join("|"),
+    [effectivePriorityFilter],
+  );
 
   function handleTabChange(tab: string): void {
     setActiveTab(tab);
@@ -150,7 +171,9 @@ export default function Home() {
               onSubtabChange={handleSubtabChange}
               onFamilyChange={handleFamilyChange}
             />
-            <PriorityFilterBar value={priorityFilter} onChange={setPriorityFilter} />
+            {activeTab === COCTELERIA_TAB ? (
+              <PriorityFilterBar value={priorityFilter} onChange={setPriorityFilter} />
+            ) : null}
             {mode === "test" ? (
               <FilterBar activeFilters={activeFilters} onToggleFilter={handleToggleFilter} />
             ) : null}
@@ -161,11 +184,11 @@ export default function Home() {
       {mode === "learn" ? (
         <section className="rounded-2xl border border-zinc-200 bg-white p-3 shadow-sm sm:p-5 lg:p-6 dark:border-zinc-800 dark:bg-zinc-950">
           <LearnModePanel
-            key={`${activeTab}|${activeFamily || ""}|${priorityFilter}`}
+            key={`${activeTab}|${activeFamily || ""}|${priorityFilterKey}`}
             pool={filteredMenu}
             activeTab={activeTab}
             activeFamily={activeFamily}
-            priorityFilter={priorityFilter}
+            priorityFilter={effectivePriorityFilter}
           />
         </section>
       ) : null}
@@ -173,11 +196,11 @@ export default function Home() {
       {mode === "test" ? (
         <section className="rounded-2xl border border-zinc-200 bg-white p-3 shadow-sm sm:p-5 lg:p-6 dark:border-zinc-800 dark:bg-zinc-950">
           <TestModePanel
-            key={`${activeTab}|${activeFamily || ""}|${activeFiltersKey}|${priorityFilter}`}
+            key={`${activeTab}|${activeFamily || ""}|${activeFiltersKey}|${priorityFilterKey}`}
             pool={filteredMenu}
             activeTab={activeTab}
             activeFilters={activeFilters}
-            priorityFilter={priorityFilter}
+            priorityFilter={effectivePriorityFilter}
           />
         </section>
       ) : null}
@@ -192,7 +215,7 @@ type LearnModePanelProps = {
   pool: MenuItem[];
   activeTab: string;
   activeFamily: string | null;
-  priorityFilter: PriorityFilterValue;
+  priorityFilter: PriorityFilterSelection;
 };
 
 function LearnModePanel({ pool, activeTab, activeFamily, priorityFilter }: LearnModePanelProps) {
@@ -432,7 +455,7 @@ type TestModePanelProps = {
   pool: MenuItem[];
   activeTab: string;
   activeFilters: Set<FilterType>;
-  priorityFilter: PriorityFilterValue;
+  priorityFilter: PriorityFilterSelection;
 };
 
 function TestModePanel({ pool, activeTab, activeFilters, priorityFilter }: TestModePanelProps) {

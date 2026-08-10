@@ -29,7 +29,7 @@ type MakeQsOptions = {
   pool: MenuItem[];
   activeFilters: Set<string>;
   activeTab?: string;
-  priority?: number | "all";
+  priority?: number | "all" | number[] | Set<number>;
   limit?: number;
 };
 
@@ -111,8 +111,18 @@ export function makeQs({
   priority = "all",
   limit = 15,
 }: MakeQsOptions): QuizQuestion[] {
+  const selectedPriorities =
+    priority && priority !== "all"
+      ? priority instanceof Set
+        ? [...priority]
+        : Array.isArray(priority)
+          ? priority
+          : [priority]
+      : [];
   const filteredPool =
-    priority && priority !== "all" ? pool.filter((item) => item.priority === priority) : pool;
+    selectedPriorities.length > 0
+      ? pool.filter((item) => item.priority != null && selectedPriorities.includes(item.priority))
+      : pool;
   const cocktails = filteredPool.filter(hasRecipe);
   const allCats = [...new Set(RAW.map((item) => item.cat))];
   const res: QuizQuestion[] = [];
