@@ -15,13 +15,7 @@ import ProgressBar from "./components/quiz/ProgressBar";
 import QuizCard from "./components/quiz/QuizCard";
 import QuizEnd from "./components/quiz/QuizEnd";
 import RAW from "./data/menu";
-import {
-  COCTELERIA_SUBTABS,
-  COCTELERIA_TAB,
-  CLASICA_CAT,
-  AUTOR_CAT,
-  type MenuItem,
-} from "./data/constants";
+import { COCTELERIA_TAB, CLASICA_CAT, AUTOR_CAT, type MenuItem } from "./data/constants";
 import {
   buildLearnQueue,
   buildRecallViewModel,
@@ -78,7 +72,9 @@ export default function Home() {
   const [activeSubtab, setActiveSubtab] = useState<string | null>(null);
   const [activeFamily, setActiveFamily] = useState<string | null>(null);
   const [activeFilters, setActiveFilters] = useState<Set<FilterType>>(new Set(FILTER_TYPES));
-  const [priorityFilter, setPriorityFilter] = useState<PriorityFilterSelection>(new Set());
+  const [priorityFilter, setPriorityFilter] = useState<PriorityFilterSelection>(
+    new Set<PriorityFilterValue>([1, 2]),
+  );
 
   const effectivePriorityFilter = useMemo(
     () => (activeTab === COCTELERIA_TAB ? priorityFilter : new Set<PriorityFilterValue>()),
