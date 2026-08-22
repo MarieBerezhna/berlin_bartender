@@ -31,6 +31,8 @@ export default function RecipeCard({
   const garnishes = item.garnish ?? [];
   const priceLabel = formatPrice(item);
   const volumeLabel = providedVolumeLabel ?? formatVolumeOz(getVolumeOz(item));
+  const hasRecipe = Boolean(item.ingredients && item.ingredients.length > 0);
+  const isInteractive = !disableModal && hasRecipe;
 
   return (
     <>
@@ -40,17 +42,17 @@ export default function RecipeCard({
           overflow: "hidden",
           border: "0.5px solid rgba(232,230,225,0.15)",
           background: "#161614",
-          cursor: disableModal ? "default" : "pointer",
+          cursor: isInteractive ? "pointer" : "default",
         }}
         onClick={() => {
-          if (!disableModal) {
+          if (isInteractive) {
             setSelectedItem(item);
           }
         }}
-        role="button"
-        tabIndex={0}
+        role={isInteractive ? "button" : undefined}
+        tabIndex={isInteractive ? 0 : undefined}
         onKeyDown={(event) => {
-          if (disableModal) return;
+          if (!isInteractive) return;
           if (event.key === "Enter" || event.key === " ") {
             event.preventDefault();
             setSelectedItem(item);
@@ -83,7 +85,7 @@ export default function RecipeCard({
           />
         </div>
       </div>
-      {!disableModal ? (
+      {!disableModal && isInteractive ? (
         <RecipeModal
           item={item}
           open={selectedItem?.name === item.name}

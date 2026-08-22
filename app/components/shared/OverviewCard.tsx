@@ -32,6 +32,8 @@ export default function OverviewCard({
   const garnishes = item.garnish || [];
   const description = ITEM_DESCRIPTIONS[item.name as keyof typeof ITEM_DESCRIPTIONS] || "";
   const volumeLabel = formatVolumeOz(getVolumeOz(item));
+  const hasRecipe = Boolean(item.ingredients && item.ingredients.length > 0);
+  const isInteractive = hasRecipe;
 
   useEffect(() => {
     if (!showDescription) return;
@@ -61,16 +63,21 @@ export default function OverviewCard({
     <>
       <div
         className="overview-card"
-        onClick={() => setSelectedItem(item)}
-        role="button"
-        tabIndex={0}
+        onClick={() => {
+          if (isInteractive) {
+            setSelectedItem(item);
+          }
+        }}
+        role={isInteractive ? "button" : undefined}
+        tabIndex={isInteractive ? 0 : undefined}
         onKeyDown={(event) => {
+          if (!isInteractive) return;
           if (event.key === "Enter" || event.key === " ") {
             event.preventDefault();
             setSelectedItem(item);
           }
         }}
-        style={{ cursor: "pointer" }}
+        style={{ cursor: isInteractive ? "pointer" : "default" }}
       >
         {image ? (
           <div style={{ overflow: "hidden", borderRadius: "12px 12px 0 0" }}>
@@ -239,11 +246,13 @@ export default function OverviewCard({
         </div>
         {ITEM_ORIGINS[item.name] ? <OriginFlag country={ITEM_ORIGINS[item.name]} /> : null}
       </div>
-      <RecipeModal
-        item={item}
-        open={selectedItem?.name === item.name}
-        onClose={() => setSelectedItem(null)}
-      />
+      {isInteractive ? (
+        <RecipeModal
+          item={item}
+          open={selectedItem?.name === item.name}
+          onClose={() => setSelectedItem(null)}
+        />
+      ) : null}
     </>
   );
 }
