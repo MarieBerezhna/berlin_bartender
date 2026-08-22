@@ -641,7 +641,11 @@ const REFRESCOS: MenuItem[] = [
   { cat: "Refrescos", name: "Red Bull", prices: [{ label: "lata", p: 3.5 }] },
   { cat: "Refrescos", name: "Agua Lanjarón", prices: [{ label: "botella", p: 2.5 }] },
   { cat: "Refrescos", name: "Agua con gas Perrier", prices: [{ label: "botella", p: 3 }] },
-  { cat: "Refrescos", name: "Zumos embotellados", prices: [{ label: "botella", p: 3.5 }] },
+  {
+    cat: "Refrescos",
+    name: "Zumos embotellados (Piña - Melocotón - Tomate - Arándano)",
+    prices: [{ label: "botella", p: 3.5 }],
+  },
 ];
 
 const RAW: MenuItem[] = [
