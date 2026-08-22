@@ -72,9 +72,11 @@ export function buildLearnQueue(
           ? filters.priority
           : [filters.priority];
 
-    pool = pool.filter(
-      (item) => item.priority != null && selectedPriorities.includes(item.priority),
-    );
+    if (selectedPriorities.length > 0) {
+      pool = pool.filter(
+        (item) => item.priority != null && selectedPriorities.includes(item.priority),
+      );
+    }
   }
 
   return shuffleArray(pool);
