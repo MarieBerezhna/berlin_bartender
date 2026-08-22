@@ -2,7 +2,6 @@
 
 import { useMemo, useState } from "react";
 
-import ChatPanel from "./components/chat/ChatPanel";
 import InteractiveMenu from "./components/interactive/InteractiveMenu";
 import LearnEnd from "./components/learn/LearnEnd";
 import Overview from "./components/learn/Overview";
@@ -218,7 +217,6 @@ export default function Home() {
       ) : null}
 
       {mode === "interactive" ? <InteractiveMenu /> : null}
-      <ChatPanel />
     </main>
   );
 }
