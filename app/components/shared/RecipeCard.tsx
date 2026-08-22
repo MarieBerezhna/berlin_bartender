@@ -6,7 +6,7 @@ import { useState } from "react";
 import { GROUP_COLOR, type MenuItem } from "../../data/constants";
 import IMAGES from "../../data/images";
 import { formatPrice, getIngredientGroup, sortIngredientsForStudy } from "../../lib/learn";
-import { formatVolumeOz, getVolumeOz, toPublicPath } from "@/app/lib/utils";
+import { formatVolumeOz, getIngredientDose, getVolumeOz, toPublicPath } from "@/app/lib/utils";
 import CocktailCardBody from "./CocktailCardBody";
 import RecipeModal from "./RecipeModal";
 
@@ -72,6 +72,7 @@ export default function RecipeCard({
             priceLabel={priceLabel}
             ingredientRows={sortedIngr.map((ing) => ({
               label: ing,
+              dose: getIngredientDose(item, ing),
               color: GROUP_COLOR[getIngredientGroup(ing)] ?? GROUP_COLOR.other,
             }))}
             garnishes={garnishes}

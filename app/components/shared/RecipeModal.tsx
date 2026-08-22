@@ -131,10 +131,8 @@ export default function RecipeModal({ item, open, onClose }: RecipeModalProps) {
   );
   const hasCitrus = citrusIngredients.length > 0;
   const hasCarbonics = carbonatedIngredients.length > 0;
-  const shouldShowPrebatchTab =
-    longTermIngredients.filter(
-      (ingredient) => ingredient.measure === Measure.Oz || ingredient.measure == null,
-    ).length > 1;
+  const hasPrebatchContent = longTermIngredients.length > 0 || hasCitrus || hasCarbonics;
+  const shouldShowPrebatchTab = hasPrebatchContent;
   const prebatchPerServingMl = (item.ingredients || []).reduce((sum, ingredient) => {
     if (isCitrusIngredient(ingredient.name)) return sum;
     const converted = toMl(ingredient.qty, ingredient.measure);
@@ -338,48 +336,50 @@ export default function RecipeModal({ item, open, onClose }: RecipeModalProps) {
                 gap: 10,
               }}
             >
-              {hasCitrus || hasCarbonics ? (
+              {hasPrebatchContent ? (
                 <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-                  <div
-                    style={{
-                      border: "0.5px solid rgba(232,230,225,0.12)",
-                      borderRadius: 12,
-                      background: "#161614",
-                      padding: 12,
-                      display: "flex",
-                      flexDirection: "column",
-                      gap: 8,
-                    }}
-                  >
-                    {hasCitrus ? (
-                      <Badge
-                        color="#E0AE6B"
-                        borderColor="rgba(224,174,107,0.3)"
-                        background="rgba(224,174,107,0.08)"
-                      >
-                        Same day use
-                      </Badge>
-                    ) : null}
-                    {hasCarbonics ? (
-                      <Badge
-                        color="#8FC1E0"
-                        borderColor="rgba(143,193,224,0.3)"
-                        background="rgba(143,193,224,0.08)"
-                      >
-                        Add at serving time
-                      </Badge>
-                    ) : null}
-                    <CocktailCardBody
-                      title={item.name}
-                      priceLabel={priceLabel}
-                      ingredientRows={ingredientRows}
-                      garnishes={garnishes}
-                      volumeLabel={null}
-                      method={item.method}
-                      glassName={glassName}
-                      glassImage={glassImage}
-                    />
-                  </div>
+                  {hasCitrus || hasCarbonics ? (
+                    <div
+                      style={{
+                        border: "0.5px solid rgba(232,230,225,0.12)",
+                        borderRadius: 12,
+                        background: "#161614",
+                        padding: 12,
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: 8,
+                      }}
+                    >
+                      {hasCitrus ? (
+                        <Badge
+                          color="#E0AE6B"
+                          borderColor="rgba(224,174,107,0.3)"
+                          background="rgba(224,174,107,0.08)"
+                        >
+                          Same day use
+                        </Badge>
+                      ) : null}
+                      {hasCarbonics ? (
+                        <Badge
+                          color="#8FC1E0"
+                          borderColor="rgba(143,193,224,0.3)"
+                          background="rgba(143,193,224,0.08)"
+                        >
+                          Add at serving time
+                        </Badge>
+                      ) : null}
+                      <CocktailCardBody
+                        title={item.name}
+                        priceLabel={priceLabel}
+                        ingredientRows={ingredientRows}
+                        garnishes={garnishes}
+                        volumeLabel={null}
+                        method={item.method}
+                        glassName={glassName}
+                        glassImage={glassImage}
+                      />
+                    </div>
+                  ) : null}
 
                   <div
                     style={{
@@ -428,19 +428,23 @@ export default function RecipeModal({ item, open, onClose }: RecipeModalProps) {
                       </div>
                       {hasCitrus ? (
                         <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-                          {citrusAdditions.map((ingredient) => (
-                            <div key={`${ingredient.name}-${ingredient.qty}`}>
-                              Añade{" "}
-                              <span style={{ color: "#e8e6e1", fontWeight: 700 }}>
-                                {formatDoseInOz(ingredient.qty, ingredient.measure) ?? "—"}
-                              </span>{" "}
-                              de{" "}
-                              <span style={{ color: "#e8e6e1", fontWeight: 700 }}>
-                                {ingredient.name}
-                              </span>{" "}
-                              al momento del pedido.
-                            </div>
-                          ))}
+                          {citrusAdditions.map((ingredient) => {
+                            const ingredientColor =
+                              GROUP_COLOR[getIngredientGroup(ingredient.name)] ?? GROUP_COLOR.other;
+                            return (
+                              <div key={`${ingredient.name}-${ingredient.qty}`}>
+                                Añade{" "}
+                                <span style={{ color: "#e8e6e1", fontWeight: 700 }}>
+                                  {formatDoseInOz(ingredient.qty, ingredient.measure) ?? "—"}
+                                </span>{" "}
+                                de{" "}
+                                <span style={{ color: ingredientColor, fontWeight: 700 }}>
+                                  {ingredient.name}
+                                </span>{" "}
+                                al momento del pedido.
+                              </div>
+                            );
+                          })}
                         </div>
                       ) : null}
                       {hasCarbonics ? (
