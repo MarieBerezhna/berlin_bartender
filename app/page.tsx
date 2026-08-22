@@ -28,37 +28,33 @@ import LearnQuiz from "./components/learn/LearnQuiz";
 import { getIngr } from "./lib/utils";
 
 const DESTILADOS_CATS = new Set(["Ron", "Whisky", "Gin", "Tequila", "Vodka"]);
-type PriorityFilterValue = 1 | 2;
+type PriorityFilterValue = number;
 type PriorityFilterSelection = Set<PriorityFilterValue>;
 
 type PriorityFilterBarProps = {
+  availablePriorities: PriorityFilterValue[];
   value: PriorityFilterSelection;
   onChange: (value: PriorityFilterSelection) => void;
 };
 
-function PriorityFilterBar({ value, onChange }: PriorityFilterBarProps) {
-  const options: Array<{ value: PriorityFilterValue; label: string }> = [
-    { value: 1, label: "1" },
-    { value: 2, label: "2" },
-  ];
-
+function PriorityFilterBar({ availablePriorities, value, onChange }: PriorityFilterBarProps) {
   return (
     <div className="filters" id="priority-filters" aria-label="Filtro de prioridad">
       <span className="filter-label">Prioridad</span>
-      {options.map((option) => {
-        const active = value.has(option.value);
+      {availablePriorities.map((priority) => {
+        const active = value.has(priority);
         return (
           <button
-            key={String(option.value)}
+            key={String(priority)}
             className={`filt${active ? " on" : ""}`}
             onClick={() => {
               const next = new Set(value);
-              if (next.has(option.value)) next.delete(option.value);
-              else next.add(option.value);
+              if (next.has(priority)) next.delete(priority);
+              else next.add(priority);
               onChange(next);
             }}
           >
-            {option.label}
+            {String(priority)}
           </button>
         );
       })}
@@ -76,12 +72,7 @@ export default function Home() {
     new Set<PriorityFilterValue>([1, 2]),
   );
 
-  const effectivePriorityFilter = useMemo(
-    () => (activeTab === COCTELERIA_TAB ? priorityFilter : new Set<PriorityFilterValue>()),
-    [activeTab, priorityFilter],
-  );
-
-  const filteredMenu = useMemo(() => {
+  const menuPool = useMemo(() => {
     let pool = [...RAW];
     if (activeTab === COCTELERIA_TAB) {
       if (activeSubtab) {
@@ -111,7 +102,28 @@ export default function Home() {
       }
     }
 
-    if (activeTab === COCTELERIA_TAB && effectivePriorityFilter.size > 0) {
+    return pool;
+  }, [activeFamily, activeSubtab, activeTab]);
+
+  const availablePriorityValues = useMemo(() => {
+    const values = new Set<number>();
+    menuPool.forEach((item) => {
+      if (typeof item.priority === "number") values.add(item.priority);
+    });
+    return [...values].sort((a, b) => a - b);
+  }, [menuPool]);
+
+  const showPriorityFilter = activeTab === COCTELERIA_TAB && availablePriorityValues.length > 1;
+
+  const effectivePriorityFilter = useMemo(
+    () => (showPriorityFilter ? priorityFilter : new Set<PriorityFilterValue>()),
+    [priorityFilter, showPriorityFilter],
+  );
+
+  const filteredMenu = useMemo(() => {
+    let pool = menuPool;
+
+    if (showPriorityFilter && effectivePriorityFilter.size > 0) {
       pool = pool.filter(
         (item) =>
           item.priority != null &&
@@ -120,7 +132,7 @@ export default function Home() {
     }
 
     return pool;
-  }, [activeFamily, activeSubtab, activeTab, effectivePriorityFilter]);
+  }, [effectivePriorityFilter, menuPool, showPriorityFilter]);
 
   const activeFiltersKey = useMemo(() => [...activeFilters].sort().join("|"), [activeFilters]);
   const priorityFilterKey = useMemo(
@@ -167,8 +179,12 @@ export default function Home() {
               onSubtabChange={handleSubtabChange}
               onFamilyChange={handleFamilyChange}
             />
-            {activeTab === COCTELERIA_TAB ? (
-              <PriorityFilterBar value={priorityFilter} onChange={setPriorityFilter} />
+            {showPriorityFilter ? (
+              <PriorityFilterBar
+                availablePriorities={availablePriorityValues}
+                value={priorityFilter}
+                onChange={setPriorityFilter}
+              />
             ) : null}
             {mode === "test" ? (
               <FilterBar activeFilters={activeFilters} onToggleFilter={handleToggleFilter} />
