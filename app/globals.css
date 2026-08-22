@@ -600,8 +600,24 @@ h1 {
   gap: 2px;
   width: 100%;
 }
+.search-result-heading {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: start;
+  gap: 8px;
+  width: 100%;
+}
 .search-result-name {
   font-weight: 600;
+  min-width: 0;
+}
+.search-result-price {
+  color: #e0ae6b;
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+  text-align: right;
+  justify-self: end;
 }
 .search-result-cat {
   font-size: 12px;

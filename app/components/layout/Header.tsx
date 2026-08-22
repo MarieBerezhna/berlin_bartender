@@ -27,11 +27,7 @@ export default function Header({ mode, onModeChange }: HeaderProps) {
     return () => window.clearTimeout(timer);
   }, [isSearchOpen]);
 
-  const recipeItems = useMemo(() => {
-    return (RAW as MenuItem[]).filter(
-      (item) => Array.isArray(item.ingredients) && item.ingredients.length > 0,
-    );
-  }, []);
+  const searchableItems = useMemo(() => (RAW as MenuItem[]) ?? [], []);
 
   const results = useMemo(() => {
     const normalizedQuery = query.trim().toLowerCase();
@@ -39,20 +35,24 @@ export default function Header({ mode, onModeChange }: HeaderProps) {
       return [];
     }
 
-    return recipeItems
-      .filter((item) => {
-        const haystack = [
-          item.name,
-          item.cat,
-          item.family ?? "",
-          ...(item.ingredients?.map((ingredient) => ingredient.name) ?? []),
-        ]
-          .join(" ")
-          .toLowerCase();
-        return haystack.includes(normalizedQuery);
-      })
-      .slice(0, 12);
-  }, [query, recipeItems]);
+    const matchedItems = searchableItems.filter((item) => {
+      const haystack = [
+        item.name,
+        item.cat,
+        item.family ?? "",
+        ...(item.ingredients?.map((ingredient) => ingredient.name) ?? []),
+        ...(item.prices?.map((price) => `${price.label} ${price.p}`) ?? []),
+        item.comment ?? "",
+        item.funFact ?? "",
+      ]
+        .join(" ")
+        .toLowerCase();
+
+      return haystack.includes(normalizedQuery);
+    });
+
+    return matchedItems.slice(0, 12);
+  }, [query, searchableItems]);
 
   function openSearch(): void {
     setQuery("");
@@ -65,6 +65,11 @@ export default function Header({ mode, onModeChange }: HeaderProps) {
   }
 
   function handleSelectItem(item: MenuItem): void {
+    if (!Array.isArray(item.ingredients) || item.ingredients.length === 0) {
+      closeSearch();
+      return;
+    }
+
     setSelectedItem(item);
     closeSearch();
   }
@@ -148,7 +153,17 @@ export default function Header({ mode, onModeChange }: HeaderProps) {
                     onClick={() => handleSelectItem(item)}
                   >
                     <div className="search-result-main">
-                      <span className="search-result-name">{item.name}</span>
+                      <div className="search-result-heading">
+                        <span className="search-result-name">{item.name}</span>
+                        {item.prices?.length ? (
+                          <span
+                            className="search-result-price"
+                            style={{ color: "#E0AE6B", fontWeight: 700 }}
+                          >
+                            {item.prices.map((price) => `${price.label}: ${price.p}€`).join(" • ")}
+                          </span>
+                        ) : null}
+                      </div>
                       <span className="search-result-cat">{item.cat}</span>
                     </div>
                     <div className="search-result-ingredients">
@@ -169,7 +184,7 @@ export default function Header({ mode, onModeChange }: HeaderProps) {
                   </button>
                 ))
               ) : query.trim().length >= 3 ? (
-                <div className="search-empty">No hay cócteles con receta para esta búsqueda.</div>
+                <div className="search-empty">No hay resultados para esta búsqueda.</div>
               ) : null}
             </div>
           </div>
