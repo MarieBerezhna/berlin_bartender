@@ -326,7 +326,7 @@ const OLD_FASHIONED: MenuItem[] = [
     family: "Old Fashioned",
     ingredients: [
       { name: "Whisky", qty: 2, measure: Measure.Oz },
-      { name: "Azúcar líquido", qty: 1.5, measure: Measure.Uds },
+      { name: "Azúcar líquido", qty: 1.5, measure: Measure.Oz },
       { name: "Angostura Bitters", qty: 2, measure: Measure.Dashes },
     ],
     garnish: ["Twist de naranja"],
@@ -390,7 +390,7 @@ const MARTINIS: MenuItem[] = [
       { name: "Ron blanco", qty: 3, measure: Measure.Oz },
       { name: "Vermut seco", qty: 1.5, measure: Measure.Oz },
       { name: "Triple Sec", qty: 1, measure: Measure.Oz },
-      { name: "Granadina", qty: 1, measure: Measure.Uds },
+      { name: "Granadina", qty: 1, measure: Measure.Oz },
     ],
     garnish: ["Twist de naranja"],
     method: "Removido, Colado",

@@ -30,6 +30,11 @@ function formatIngredientDose(qty?: number, measure?: Measure): string | null {
   if (qty == null) return null;
   const numeric = Number(qty);
   if (Number.isNaN(numeric)) return null;
+
+  if (measure === Measure.Top) {
+    return "top";
+  }
+
   return measure ? `${numeric} ${measure}` : `${numeric}`;
 }
 
