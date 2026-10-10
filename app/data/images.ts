@@ -21,7 +21,6 @@ const IMAGES: Record<string, string> = {
   "Barceló Añejo": "./ron/barcelo_anejo.webp",
   "Barceló Imperial": "./ron/barcelo_imperial.webp",
   "Ron oscuro": "./ron/barcelo_anejo.webp",
-  "Ron blanco": "./ron/diplomatico_planas.webp",
   "Ron jamaicano": "./ingredientes/alcohol/ron_jamaicano.webp",
   "Zacapa Centenario 23": "./ron/zacapa23.webp",
   Gin: "./gin/gin.webp",
