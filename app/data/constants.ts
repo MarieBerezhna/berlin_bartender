@@ -166,10 +166,6 @@ export const ITEM_DESCRIPTIONS: Record<string, string> = {
     "Tequila blanco 100% de agave azul, fresco y equilibrado, con notas cítricas, pimienta y agave cocido. Ideal para Margaritas, Palomas y otros cócteles donde el tequila es el protagonista.",
   "Mezcal Union":
     "Mezcal artesanal de agave Espadín y Cirial, con un ahumado suave y notas cítricas, herbales y ligeramente dulces. Perfecto para tomar solo o en cócteles.",
-  "Don Julio Reposado":
-    "Tequila reposado 100% de agave azul, suave y equilibrado, con notas de vainilla, caramelo, cítricos y especias. Ideal solo o en cócteles premium.",
-  "Don Julio Silver":
-    "Tequila 100% de agave azul, sin añejamiento, que destaca por su perfil fresco y limpio. Presenta notas de agave cocido, cítricos y un ligero toque de pimienta, con un final suave.",
   Mezcal:
     "Mezcal Santo Gusano es un mezcal artesanal mexicano elaborado principalmente con agave Espadín. Presenta un perfil equilibrado, con un ahumado suave, notas de agave cocido, cítricos, hierbas y un toque mineral.",
   // Whisky
@@ -229,8 +225,6 @@ export const ITEM_DESCRIPTIONS: Record<string, string> = {
     "Ron premium dominicano elaborado con caña de azúcar de origen local y envejecido en barricas de roble. Destaca por su perfil elegante y complejo, con notas de vainilla, caramelo, frutas secas, cacao y especias dulces.",
   "Zacapa Centenario 23":
     "Ron guatemalteco premium envejecido mediante un sistema de solera. Ofrece un perfil complejo y sedoso, con notas de vainilla, caramelo, cacao, frutas pasas y especias, acompañadas de un elegante toque de roble.",
-  "Diplomático Planas":
-    "un ron venezolano blanco premium, suave y cremoso, con notas de vainilla, coco, frutas tropicales y un toque de especias. Perfecto para tomar solo, con hielo o en cócteles.",
   // LICORES
   Amaretto:
     "Licor italiano dulce con notas de almendra, caramelo y vainilla. Ideal solo, con hielo o en cócteles y postres.",
@@ -270,7 +264,6 @@ export const MENU_SPIRIT_HINTS = new Set([
   "Tequila",
   "Tequila blanco",
   "Tequila reposado",
-  "Tequila Don Julio",
   "Gin",
   "Gin Tanqueray",
   "Vodka",
@@ -281,7 +274,6 @@ export const MENU_SPIRIT_HINTS = new Set([
   "Ron oscuro",
   "Ron jamaicano",
   "Bumbu",
-  "Diplomático Planas",
   "Jack Daniels Fire",
   "Jack Daniels Triple Mash",
   "Monkey Shoulder",
@@ -295,7 +287,6 @@ export const INGR_GROUP: Record<string, string> = {
   Tequila: "spirit",
   "Tequila blanco": "spirit",
   "Tequila reposado": "spirit",
-  "Tequila Don Julio": "spirit",
   Gin: "spirit",
   "Gin Tanqueray": "spirit",
   Vodka: "spirit",
@@ -306,7 +297,6 @@ export const INGR_GROUP: Record<string, string> = {
   "Ron oscuro": "spirit",
   "Ron jamaicano": "spirit",
   Bumbu: "spirit",
-  "Diplomático Planas": "spirit",
   "Jack Daniels Fire": "spirit",
   "Jack Daniels Triple Mash": "spirit",
   "Monkey Shoulder": "spirit",
@@ -507,7 +497,6 @@ export const ITEM_ORIGINS: Record<string, string> = {
   "Barceló Añejo": "República Dominicana",
   "Barceló Imperial": "República Dominicana",
   "Zacapa Centenario 23": "Guatemala",
-  "Diplomático Planas": "Venezuela",
   "Jack Daniels Fire": "Estados Unidos",
   "Jack Daniels Triple Mash": "Estados Unidos",
   "Monkey Shoulder": "Escocia",
@@ -528,8 +517,6 @@ export const ITEM_ORIGINS: Record<string, string> = {
   "Larios Rose": "España",
   Tequila: "México",
   "Mezcal Union": "México",
-  "Don Julio Reposado": "México",
-  "Don Julio Silver": "México",
   Bushmills: "Irlanda",
   "Bulleit Frontier Bourbon": "Estados Unidos",
   "Jack Daniels": "Estados Unidos",

@@ -268,14 +268,6 @@ const RON: MenuItem[] = [
   },
   {
     cat: "Ron",
-    name: "Diplomático Planas",
-    prices: [
-      { label: "combinado", p: 10 },
-      { label: "chupito", p: 6 },
-    ],
-  },
-  {
-    cat: "Ron",
     name: "Zacapa Centenario 23",
     prices: [
       { label: "combinado", p: 16 },
@@ -396,22 +388,6 @@ const TEQUILA: MenuItem[] = [
     prices: [
       { label: "combinado", p: 12 },
       { label: "chupito", p: 5 },
-    ],
-  },
-  {
-    cat: "Tequila",
-    name: "Don Julio Silver",
-    prices: [
-      { label: "combinado", p: 18 },
-      { label: "chupito", p: 10 },
-    ],
-  },
-  {
-    cat: "Tequila",
-    name: "Don Julio Reposado",
-    prices: [
-      { label: "combinado", p: 18 },
-      { label: "chupito", p: 10 },
     ],
   },
 ];

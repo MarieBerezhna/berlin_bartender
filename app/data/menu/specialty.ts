@@ -413,7 +413,7 @@ const SPICY_TIMES: MenuItem[] = [
 
     ingredients: [
       {
-        name: "Tequila Don Julio",
+        name: "Tequila",
         qty: 2,
         measure: Measure.Oz,
       },
