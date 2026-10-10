@@ -512,10 +512,12 @@ export const ITEM_ORIGINS: Record<string, string> = {
   Fords: "Reino Unido",
   "Larios 12": "España",
   Roku: "Japón",
+  Toki: "Japón",
   "Hendrick's": "Escocia",
   "Tanqueray Nº Ten": "Reino Unido",
   "Larios Rose": "España",
   Tequila: "México",
+  "Rooster Rojo White": "México",
   "Mezcal Union": "México",
   Bushmills: "Irlanda",
   "Bulleit Frontier Bourbon": "Estados Unidos",
@@ -525,6 +527,14 @@ export const ITEM_ORIGINS: Record<string, string> = {
   "Johnnie Walker Black Label 12Y": "Escocia",
   "Johnnie Walker Red Label": "Escocia",
   "Tullamore Dew": "Irlanda",
+
+  /// OTROS
+  "Agua de Valencia": "España",
+  Sangría: "España",
+  "Tinto de verano": "España",
+  Michelada: "México",
+  "Michelada Berlín": "México",
+  "Michelada Tequila": "México",
 };
 
 export function getOrigin(name: string): string | undefined {
