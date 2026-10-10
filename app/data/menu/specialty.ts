@@ -542,7 +542,7 @@ const HARD_TIMES: MenuItem[] = [
 
     ingredients: [
       {
-        name: "Gin Mare",
+        name: "Gin",
         qty: 1.5,
         measure: Measure.Oz,
       },

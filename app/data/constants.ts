@@ -190,8 +190,8 @@ export const ITEM_DESCRIPTIONS: Record<string, string> = {
   Toki: "Suntory Toki es un whisky japonés blended de estilo ligero y elegante. Destaca por sus notas de manzana verde, miel, vainilla y un sutil toque especiado, con un final fresco y delicado.",
   "Johnnie Walker Black Label 12Y":
     "Blended Scotch whisky de 12 años, suave y complejo, con notas de vainilla, frutas maduras, roble, especias y un sutil ahumado. Ideal solo o con hielo.",
-  Tomatin:
-    "Single malt de las Highlands, suave y afrutado, con notas de vainilla, miel, cítricos y manzana. Ideal solo o con unas gotas de agua.",
+  // Tomatin:
+  //   "Single malt de las Highlands, suave y afrutado, con notas de vainilla, miel, cítricos y manzana. Ideal solo o con unas gotas de agua.",
   Macallan:
     "single malt escocés envejecido en barricas de roble americano y europeo previamente envinadas con jerez. Presenta un perfil rico y elegante, con notas de vainilla, caramelo, frutas secas, cítricos y especias dulces. Perfecto para disfrutar solo o con hielo.",
   // Bourbon
@@ -206,8 +206,6 @@ export const ITEM_DESCRIPTIONS: Record<string, string> = {
     "Destilado sin alcohol con notas de enebro, cítricos y botánicos herbales. Ideal para un Gin & Tonic 0.0% o cócteles sin alcohol.",
   Fords:
     "Fords Gin es una ginebra London Dry creada específicamente para coctelería, elaborada con una mezcla de nueve botánicos. Presenta un perfil equilibrado, con predominio de enebro, notas cítricas, florales y especiadas, lo que la hace especialmente versátil.",
-  "Gin Mare":
-    "Gin Mare es una ginebra mediterránea elaborada con botánicos como aceituna arbequina, romero, albahaca y tomillo, además de enebro y cítricos. Su perfil es fresco, aromático y herbáceo, con un marcado carácter mediterráneo.",
   "Larios 12":
     "Ginebra premium española destilada con una selección de doce botánicos, entre ellos cítricos mediterráneos, enebro y flor de azahar. Ofrece un perfil fresco, suave y muy aromático, con un marcado carácter cítrico.",
   Roku: "Ginebra japonesa elaborada con seis botánicos tradicionales de Japón, como flor y hoja de sakura, té sencha, té gyokuro, pimienta sansho y yuzu, además de botánicos clásicos. Presenta un perfil equilibrado, fresco y delicadamente floral.",
@@ -275,7 +273,6 @@ export const MENU_SPIRIT_HINTS = new Set([
   "Tequila Don Julio",
   "Gin",
   "Gin Tanqueray",
-  "Gin Mare",
   "Vodka",
   "Moskovskaya",
   "Vodka Smirnoff Tamarindo",
@@ -301,7 +298,6 @@ export const INGR_GROUP: Record<string, string> = {
   "Tequila Don Julio": "spirit",
   Gin: "spirit",
   "Gin Tanqueray": "spirit",
-  "Gin Mare": "spirit",
   Vodka: "spirit",
   Moskovskaya: "spirit",
   "Vodka Smirnoff Tamarindo": "spirit",
@@ -529,7 +525,6 @@ export const ITEM_ORIGINS: Record<string, string> = {
   "Tanqueray London Dry": "Reino Unido",
   "Tanqueray 0.0": "Reino Unido",
   Fords: "Reino Unido",
-  "Gin Mare": "España",
   "Larios 12": "España",
   Roku: "Japón",
   "Hendrick's": "Escocia",

@@ -357,15 +357,15 @@ const WHISKY: MenuItem[] = [
       { label: "chupito", p: 5 },
     ],
   },
-  {
-    cat: "Whisky",
-    name: "Tomatin",
-    prices: [
-      { label: "solo", p: 12 },
-      { label: "doble", p: 20 },
-      { label: "chupito", p: 6 },
-    ],
-  },
+  // {
+  //   cat: "Whisky",
+  //   name: "Tomatin",
+  //   prices: [
+  //     { label: "solo", p: 12 },
+  //     { label: "doble", p: 20 },
+  //     { label: "chupito", p: 6 },
+  //   ],
+  // },
   { cat: "Whisky", name: "Macallan", prices: [{ label: "copa", p: 16 }] },
 ];
 
@@ -373,7 +373,6 @@ const GIN: MenuItem[] = [
   { cat: "Gin", name: "Tanqueray London Dry", prices: [{ label: "combinado", p: 9.5 }] },
   { cat: "Gin", name: "Tanqueray Nº Ten", prices: [{ label: "combinado", p: 14 }] },
   { cat: "Gin", name: "Tanqueray 0.0", prices: [{ label: "combinado", p: 10 }] },
-  { cat: "Gin", name: "Gin Mare", prices: [{ label: "combinado", p: 12 }] },
   { cat: "Gin", name: "Fords", prices: [{ label: "combinado", p: 12 }] },
   { cat: "Gin", name: "Larios 12", prices: [{ label: "combinado", p: 12 }] },
   { cat: "Gin", name: "Larios Rose", prices: [{ label: "combinado", p: 10 }] },
