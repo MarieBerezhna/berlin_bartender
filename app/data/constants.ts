@@ -480,11 +480,7 @@ export const ITEM_ORIGINS: Record<string, string> = {
   Aperol: "Italia",
   Campari: "Italia",
   Cynar: "Italia",
-  // Destilados
-  Tequila: "México",
-  "Mezcal Union": "México",
-  "Don Julio Reposado": "México",
-  "Don Julio Silver": "México",
+
   // Vinos
   "Ladrón de Lunas Blanco": "España",
   "Ovejita Tinto": "España",
@@ -530,6 +526,18 @@ export const ITEM_ORIGINS: Record<string, string> = {
   "Hendrick's": "Escocia",
   "Tanqueray Nº Ten": "Reino Unido",
   "Larios Rose": "España",
+  Tequila: "México",
+  "Mezcal Union": "México",
+  "Don Julio Reposado": "México",
+  "Don Julio Silver": "México",
+  Bushmills: "Irlanda",
+  "Bulleit Frontier Bourbon": "Estados Unidos",
+  "Jack Daniels": "Estados Unidos",
+  "Jack Daniels Old Nº7": "Estados Unidos",
+  "Johny Walker": "Escocia",
+  "Johnnie Walker Black Label 12Y": "Escocia",
+  "Johnnie Walker Red Label": "Escocia",
+  "Tullamore Dew": "Irlanda",
 };
 
 export function getOrigin(name: string): string | undefined {
