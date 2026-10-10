@@ -236,8 +236,6 @@ export const ITEM_DESCRIPTIONS: Record<string, string> = {
     "Licor alemán elaborado con una maceración de 56 hierbas, raíces, frutas y especias. Presenta un perfil intenso y equilibrado, con notas herbales, cítricas, especiadas y un ligero toque amargo.",
   "Licor de arroz":
     "Licor suave y dulce con notas de arroz, vainilla y un toque cremoso. Ideal como digestivo o para acompañar postres.",
-  Limoncello:
-    "Licor italiano elaborado mediante la maceración de pieles de limón en alcohol. Destaca por su intenso aroma cítrico, su sabor dulce y fresco, y un final vibrante.",
   "Jack Fire":
     "Jack Daniel's Tennessee Fire es un licor elaborado a partir de Jack Daniel's Old No. 7 y licor de canela. Combina el carácter suave del Tennessee whiskey con un intenso sabor a canela y un final cálido y especiado.",
   Cynar:
@@ -523,10 +521,14 @@ export const ITEM_ORIGINS: Record<string, string> = {
   "Bulleit Frontier Bourbon": "Estados Unidos",
   "Jack Daniels": "Estados Unidos",
   "Jack Daniels Old Nº7": "Estados Unidos",
+  "Jack Fire": "Estados Unidos",
   "Johny Walker": "Escocia",
   "Johnnie Walker Black Label 12Y": "Escocia",
   "Johnnie Walker Red Label": "Escocia",
   "Tullamore Dew": "Irlanda",
+  Macallan: "Escocia",
+  Cazalla: "España",
+  Jägermeister: "Alemania",
 
   /// OTROS
   "Agua de Valencia": "España",

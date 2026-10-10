@@ -49,7 +49,6 @@ const IMAGES: Record<string, string> = {
   Cazalla: "./liqueurs/cazalla.webp",
   Baileys: "./liqueurs/baileys.webp",
   Amaretto: "./liqueurs/amaretto.webp",
-  Limoncello: "./liqueurs/limoncello.webp",
   "Licor Galliano": "./ingredientes/alcohol/licor_galliano.webp",
   "Licor Bols Blue Curaçao": "./ingredientes/alcohol/bols_bluecuracao.webp",
   "Licor Bols Butterscotch": "./ingredientes/alcohol/bols_butterscotch.webp",

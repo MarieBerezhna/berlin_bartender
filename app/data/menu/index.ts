@@ -447,14 +447,6 @@ const LICORES: MenuItem[] = [
   },
   {
     cat: "Licores",
-    name: "Limoncello",
-    prices: [
-      { label: "copa", p: 6 },
-      { label: "chupito", p: 3 },
-    ],
-  },
-  {
-    cat: "Licores",
     name: "Cazalla",
     prices: [
       { label: "copa", p: 6 },
